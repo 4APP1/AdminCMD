@@ -1,0 +1,5 @@
+main: com.admincmd.bukkit.BukkitPlugin
+name: ${project.artifactId}
+version: ${project.version} (BUILD ${git.build.time})
+authors: [Balor, TheJeterLP, jkmalan, BossLetsPlays]
+description: This plugin implements the commands necessary to most server
