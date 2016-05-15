@@ -16,12 +16,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 */
-package com.admincmd.api.command;
+package com.admincmd.api.util.message;
 
-import com.admincmd.api.util.message.Color;
-import com.admincmd.api.util.message.Message;
-
-public class CommandResult {
+public class Message {
 
     public static class Builder {
 
@@ -36,27 +33,37 @@ public class CommandResult {
             return this;
         }
 
-        public Builder addColor(Color color) {
-            message.append(color);
+        public Builder addColor(Color code) {
+            message.append(code);
             return this;
         }
 
-        public CommandResult build() {
-            return new CommandResult(message.toString());
+        public Builder newLine() {
+            message.append("\n");
+            return this;
+        }
+
+        public Message build() {
+            return new Message(message.toString());
         }
 
     }
 
-    public static final CommandResult SUCCESS = new CommandResult(null);
+    public static Builder builder() {
+        return new Builder();
+    }
 
-    private final String message;
+    private String message;
 
-    private CommandResult(String message) {
+    private Message(String message) {
         this.message = message;
     }
 
-    public String getMessage() {
+    @Override
+    public String toString() {
         return message;
     }
+
+
 
 }

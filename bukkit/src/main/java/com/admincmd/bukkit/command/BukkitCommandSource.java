@@ -16,22 +16,27 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 */
-package com.admincmd.api.event.command;
+package com.admincmd.bukkit.command;
 
 import com.admincmd.api.command.CommandSource;
-import com.admincmd.api.event.Cancellable;
-import com.admincmd.api.event.Event;
+import org.bukkit.command.CommandSender;
 
-public interface CommandProcessEvent extends Event, Cancellable {
+public class BukkitCommandSource implements CommandSource {
 
-    public CommandSource getSource();
+    private CommandSender sender;
 
-    public String getCommand();
+    public BukkitCommandSource(CommandSender sender) {
+        this.sender = sender;
+    }
 
-    public void setCommand(String command);
+    @Override
+    public boolean hasPermission(String permission) {
+        return sender.hasPermission(permission);
+    }
 
-    public String getArguments();
-
-    public void setArguments(String arguments);
+    @Override
+    public void sendMessage(String message) {
+        sender.sendMessage(message);
+    }
 
 }

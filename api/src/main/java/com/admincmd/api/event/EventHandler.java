@@ -16,22 +16,14 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 */
-package com.admincmd.api.event.command;
+package com.admincmd.api.event;
 
-import com.admincmd.api.command.CommandSource;
-import com.admincmd.api.event.Cancellable;
-import com.admincmd.api.event.Event;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-public interface CommandProcessEvent extends Event, Cancellable {
-
-    public CommandSource getSource();
-
-    public String getCommand();
-
-    public void setCommand(String command);
-
-    public String getArguments();
-
-    public void setArguments(String arguments);
-
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
+public @interface EventHandler {
 }

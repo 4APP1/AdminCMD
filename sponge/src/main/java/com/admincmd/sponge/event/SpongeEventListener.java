@@ -16,33 +16,31 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 */
-package com.admincmd.sponge;
+package com.admincmd.sponge.event;
 
-import com.admincmd.api.command.Command;
-import com.admincmd.api.event.Event;
-import com.admincmd.core.ACRegistry;
+import com.admincmd.api.AdminCMD;
+import com.admincmd.api.event.command.CommandProcessEvent;
+import com.admincmd.sponge.SpongePlugin;
+import com.admincmd.sponge.event.command.SpongeCommandProcessEvent;
+import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.command.SendCommandEvent;
 
-public class SpongeRegistry extends ACRegistry {
+public class SpongeEventListener extends SpongeListener {
 
     private SpongePlugin plugin;
+    private SpongeEventManager manager;
 
-    public SpongeRegistry(SpongePlugin plugin) {
+    public SpongeEventListener(SpongePlugin plugin, SpongeEventManager manager) {
+        super(plugin, manager);
         this.plugin = plugin;
+        this.manager = manager;
     }
 
-    @Override
-    public void registerCommand(Command command) {
-        plugin.getCommandManager().registerCommand(command);
-    }
-
-    @Override
-    public void unregisterCommand(Command command) {
-        plugin.getCommandManager().unregisterCommand(command);
-    }
-
-    @Override
-    public void registerEvent(Class<? extends Event> event) {
-        plugin.getEventManager().registerEvent(event);
+    @Listener
+    public void onCommandProcess(SendCommandEvent event) {
+        if (manager.isEventRegistered(CommandProcessEvent.class)) {
+            AdminCMD.getEventManager().callEvent(new SpongeCommandProcessEvent(event));
+        }
     }
 
 }

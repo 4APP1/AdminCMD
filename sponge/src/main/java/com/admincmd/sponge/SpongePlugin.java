@@ -22,6 +22,8 @@ import com.admincmd.api.Plugin;
 import com.admincmd.api.Registry;
 import com.admincmd.api.Server;
 import com.admincmd.core.SimpleCore;
+import com.admincmd.sponge.command.SpongeCommandManager;
+import com.admincmd.sponge.event.SpongeEventManager;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.game.state.GameStartingServerEvent;
 import org.spongepowered.api.event.game.state.GameStoppingServerEvent;
@@ -34,10 +36,16 @@ public class SpongePlugin implements Plugin {
     private SpongeServer server;
     private SpongeRegistry registry;
 
+    private SpongeCommandManager commandManager;
+    private SpongeEventManager eventManager;
+
     @Listener
     public void onEnable(GameStartingServerEvent event) {
         server = new SpongeServer(this);
         registry = new SpongeRegistry(this);
+
+        commandManager = new SpongeCommandManager(this);
+        eventManager = new SpongeEventManager(this);
 
         SimpleCore.enable(this);
     }
@@ -61,6 +69,14 @@ public class SpongePlugin implements Plugin {
     @Override
     public File getPluginFolder() {
         return null;
+    }
+
+    public SpongeCommandManager getCommandManager() {
+        return commandManager;
+    }
+
+    public SpongeEventManager getEventManager() {
+        return eventManager;
     }
 
 }

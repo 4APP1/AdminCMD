@@ -18,5 +18,21 @@
 */
 package com.admincmd.sponge.event;
 
+import com.admincmd.sponge.SpongePlugin;
+import org.spongepowered.api.Sponge;
+
 public class SpongeListener {
+
+    private SpongePlugin plugin;
+    private SpongeEventManager manager;
+
+    public SpongeListener(SpongePlugin plugin, SpongeEventManager manager) {
+        this.plugin = plugin;
+        this.manager = manager;
+    }
+
+    public void register() {
+        Sponge.getEventManager().registerListeners(plugin, this);
+    }
+
 }

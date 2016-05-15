@@ -18,5 +18,47 @@
 */
 package com.admincmd.sponge.event;
 
+import com.admincmd.api.event.Event;
+import com.admincmd.sponge.SpongePlugin;
+
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
+
 public class SpongeEventManager {
+
+    private SpongePlugin plugin;
+
+    private List<Class<? extends Event>> eventList = new ArrayList<>();
+
+    public SpongeEventManager(SpongePlugin plugin) {
+        this.plugin = plugin;
+    }
+
+    public void registerSpongeListener(Class<? extends SpongeListener> clazz) {
+        SpongeListener listener = null;
+        try {
+            listener = clazz.getDeclaredConstructor(SpongePlugin.class, SpongeEventManager.class).newInstance(plugin, this);
+            listener.register();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void registerEvent(Class<? extends Event> event) {
+        if (!eventList.contains(event)) {
+            eventList.add(event);
+        }
+    }
+
+    public boolean isEventRegistered(Class<? extends Event> event) {
+        return eventList.contains(event);
+    }
+
 }

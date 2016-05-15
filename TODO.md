@@ -7,7 +7,9 @@ Overall
 
 API
 ------
-
+- CommandManager (100%)
+- EventManager (100%)
+  - Event implementations (0%)
 
 Core
 ------
@@ -15,8 +17,12 @@ Core
 
 Bukkit
 ------
-
+- CommandManager (100%)
+- EventManager (100%)
+  - Event implementations (0%)
 
 Sponge
 ------
-
+- CommandManager (100%)
+- EventManager (100%)
+  - Event implementations (0%)

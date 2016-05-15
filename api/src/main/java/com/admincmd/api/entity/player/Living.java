@@ -16,22 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 */
-package com.admincmd.api.event.command;
+package com.admincmd.api.entity.player;
 
-import com.admincmd.api.command.CommandSource;
-import com.admincmd.api.event.Cancellable;
-import com.admincmd.api.event.Event;
-
-public interface CommandProcessEvent extends Event, Cancellable {
-
-    public CommandSource getSource();
-
-    public String getCommand();
-
-    public void setCommand(String command);
-
-    public String getArguments();
-
-    public void setArguments(String arguments);
-
+public interface Living extends Entity {
 }

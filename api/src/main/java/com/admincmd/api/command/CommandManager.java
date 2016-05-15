@@ -19,13 +19,103 @@
 package com.admincmd.api.command;
 
 import com.admincmd.api.Core;
+import com.admincmd.api.Identifiable;
+import com.admincmd.api.command.parsing.Arguments;
+import com.admincmd.api.util.message.Messager;
+
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class CommandManager {
 
     private Core core;
 
+    private final Map<Identifiable, List<Command>> commandMap = new HashMap<>();
+
     public CommandManager(Core core) {
         this.core = core;
+    }
+
+    public void registerClass(Class<?> clazz, Identifiable identifiable) {
+        if (identifiable == null || clazz == null) {
+            return;
+        }
+
+        if (!commandMap.containsKey(identifiable)) {
+            commandMap.put(identifiable, new ArrayList<>());
+        }
+
+        List<Command> commands = commandMap.get(identifiable);
+        for (Method m : clazz.getDeclaredMethods()) {
+            if (m.isAnnotationPresent(CommandHandler.class)) {
+                CommandHandler handler = m.getAnnotation(CommandHandler.class);
+
+                String aliases = handler.aliases();
+                String permission = handler.permission();
+                String description = handler.description();
+                String help = handler.help();
+                String usage = handler.usage();
+                Command command = new Command(aliases, permission, description, help, usage, m);
+
+                if (!commands.contains(command)) {
+                    core.getRegistry().registerCommand(command);
+                    commands.add(command);
+                }
+            }
+        }
+
+        commandMap.put(identifiable, commands);
+    }
+
+    public void registerCommand(Command command, Identifiable identifiable) {
+        if (identifiable == null || command == null) {
+            return;
+        }
+
+        if (!commandMap.containsKey(identifiable)) {
+            commandMap.put(identifiable, new ArrayList<>());
+        }
+
+        List<Command> commands = commandMap.get(identifiable);
+        if (!commands.contains(command)) {
+            core.getRegistry().registerCommand(command);
+            commands.add(command);
+        }
+
+        commandMap.put(identifiable, commands);
+    }
+
+    public void unregisterAll(Identifiable identifiable) {
+        if (identifiable == null) {
+            return;
+        }
+
+        if (commandMap.containsKey(identifiable)) {
+            List<Command> commands = commandMap.get(identifiable);
+            for (Command c : commands) {
+                core.getRegistry().unregisterCommand(c);
+            }
+
+            commandMap.remove(identifiable);
+        }
+    }
+
+    public void callCommand(Command command, CommandSource source, Arguments args) {
+        CommandResult result = null;
+
+        if (!source.hasPermission(command.getPermission())) {
+
+        } else {
+            // TODO Check help argument
+            result = command.execute(source, args);
+        }
+
+        if (result != null && result.getMessage() != null) {
+            Messager.sendMessage(result.getMessage(), source);
+        }
     }
 
 }

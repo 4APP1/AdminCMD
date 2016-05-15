@@ -18,5 +18,51 @@
 */
 package com.admincmd.sponge.event.command;
 
-public class SpongeCommandProcessEvent {
+import com.admincmd.api.command.CommandSource;
+import com.admincmd.api.event.command.CommandProcessEvent;
+import org.spongepowered.api.event.command.SendCommandEvent;
+
+public class SpongeCommandProcessEvent implements CommandProcessEvent {
+
+    private SendCommandEvent event;
+
+    public SpongeCommandProcessEvent(SendCommandEvent event) {
+        this.event = event;
+    }
+
+    @Override
+    public CommandSource getSource() {
+        return null;
+    }
+
+    @Override
+    public String getCommand() {
+        return event.getCommand();
+    }
+
+    @Override
+    public void setCommand(String command) {
+        event.setCommand(command);
+    }
+
+    @Override
+    public String getArguments() {
+        return event.getArguments();
+    }
+
+    @Override
+    public void setArguments(String arguments) {
+        event.setArguments(arguments);
+    }
+
+    @Override
+    public boolean isCancelled() {
+        return event.isCancelled();
+    }
+
+    @Override
+    public void setCancelled(boolean cancelled) {
+        event.setCancelled(cancelled);
+    }
+
 }

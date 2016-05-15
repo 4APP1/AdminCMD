@@ -16,33 +16,39 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 */
-package com.admincmd.sponge;
+package com.admincmd.sponge.command;
 
 import com.admincmd.api.command.Command;
-import com.admincmd.api.event.Event;
-import com.admincmd.core.ACRegistry;
+import com.admincmd.sponge.SpongePlugin;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.command.CommandMapping;
 
-public class SpongeRegistry extends ACRegistry {
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+
+public class SpongeCommandManager {
 
     private SpongePlugin plugin;
 
-    public SpongeRegistry(SpongePlugin plugin) {
+    private Map<String, CommandMapping> commandMappings = new HashMap<>();
+
+    public SpongeCommandManager(SpongePlugin plugin) {
         this.plugin = plugin;
     }
 
-    @Override
     public void registerCommand(Command command) {
-        plugin.getCommandManager().registerCommand(command);
+        SpongeCommand cmd = new SpongeCommand(command);
+        Optional<CommandMapping> mapping = Sponge.getCommandManager().register(plugin, cmd, command.getAliasList());
+        if (mapping.isPresent()) {
+            commandMappings.put(command.getPrimaryAlias(), mapping.get());
+        }
     }
 
-    @Override
     public void unregisterCommand(Command command) {
-        plugin.getCommandManager().unregisterCommand(command);
-    }
-
-    @Override
-    public void registerEvent(Class<? extends Event> event) {
-        plugin.getEventManager().registerEvent(event);
+        if (commandMappings.containsKey(command.getPrimaryAlias())) {
+            Sponge.getCommandManager().removeMapping(commandMappings.get(command.getPrimaryAlias()));
+        }
     }
 
 }

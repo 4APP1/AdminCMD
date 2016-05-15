@@ -16,22 +16,28 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 */
-package com.admincmd.api.event.command;
+package com.admincmd.bukkit.entity.player;
 
-import com.admincmd.api.command.CommandSource;
-import com.admincmd.api.event.Cancellable;
-import com.admincmd.api.event.Event;
+import com.admincmd.core.entity.player.ACPlayer;
+import org.bukkit.entity.Player;
 
-public interface CommandProcessEvent extends Event, Cancellable {
+public class BukkitPlayer extends ACPlayer {
 
-    public CommandSource getSource();
+    private Player player;
 
-    public String getCommand();
+    public BukkitPlayer(Player player) {
+        super(player.getUniqueId());
+        this.player = player;
+    }
 
-    public void setCommand(String command);
+    @Override
+    public boolean hasPermission(String permission) {
+        return player.hasPermission(permission);
+    }
 
-    public String getArguments();
-
-    public void setArguments(String arguments);
+    @Override
+    public void sendMessage(String message) {
+        player.sendMessage(message);
+    }
 
 }

@@ -16,22 +16,26 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 */
-package com.admincmd.api.event.command;
+package com.admincmd.api.util.message;
 
 import com.admincmd.api.command.CommandSource;
-import com.admincmd.api.event.Cancellable;
-import com.admincmd.api.event.Event;
 
-public interface CommandProcessEvent extends Event, Cancellable {
+public class Messager {
 
-    public CommandSource getSource();
+    public static void sendMessage(String message, CommandSource source) {
+        source.sendMessage(getFormattedString(message));
+    }
 
-    public String getCommand();
+    public static void sendMessage(Message message, CommandSource source) {
+        sendMessage(message.toString(), source);
+    }
 
-    public void setCommand(String command);
+    public static String getFormattedString(String message) {
+        return message.replaceAll("&((?i)[0-9a-fk-or])", "§$1");
+    }
 
-    public String getArguments();
-
-    public void setArguments(String arguments);
+    public static String getStrippedString(String message) {
+        return message.replaceAll("§((?i)[0-9a-fk-or])", "");
+    }
 
 }

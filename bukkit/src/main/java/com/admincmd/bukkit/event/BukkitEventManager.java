@@ -18,5 +18,47 @@
 */
 package com.admincmd.bukkit.event;
 
+import com.admincmd.api.event.Event;
+import com.admincmd.bukkit.BukkitPlugin;
+
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
+
 public class BukkitEventManager {
+
+    private BukkitPlugin plugin;
+
+    private List<Class<? extends Event>> eventList = new ArrayList<>();
+
+    public BukkitEventManager(BukkitPlugin plugin) {
+        this.plugin = plugin;
+    }
+
+    public void registerBukkitListener(Class<? extends BukkitListener> clazz) {
+        BukkitListener listener = null;
+        try {
+            listener = clazz.getDeclaredConstructor(BukkitPlugin.class, BukkitEventManager.class).newInstance(plugin, this);
+            listener.register();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void registerEvent(Class<? extends Event> event) {
+        if (!eventList.contains(event)) {
+            eventList.add(event);
+        }
+    }
+
+    public boolean isEventRegistered(Class<? extends Event> event) {
+        return eventList.contains(event);
+    }
+
 }

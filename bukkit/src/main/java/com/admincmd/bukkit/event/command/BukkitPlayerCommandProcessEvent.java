@@ -18,5 +18,83 @@
 */
 package com.admincmd.bukkit.event.command;
 
-public class BukkitPlayerCommandProcessEvent {
+import com.admincmd.api.command.CommandSource;
+import com.admincmd.api.event.command.CommandProcessEvent;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+
+public class BukkitPlayerCommandProcessEvent implements CommandProcessEvent {
+
+    private PlayerCommandPreprocessEvent event;
+
+    public BukkitPlayerCommandProcessEvent(PlayerCommandPreprocessEvent event) {
+        this.event = event;
+    }
+
+    @Override
+    public CommandSource getSource() {
+        return null;
+    }
+
+    @Override
+    public String getCommand() {
+        return getCommand(event.getMessage());
+    }
+
+    @Override
+    public void setCommand(String command) {
+        event.setMessage(command + " " + getArguments());
+    }
+
+    @Override
+    public String getArguments() {
+        return getArguments(event.getMessage());
+    }
+
+    @Override
+    public void setArguments(String arguments) {
+        event.setMessage(getCommand() + " " + arguments);
+    }
+
+    @Override
+    public boolean isCancelled() {
+        return event.isCancelled();
+    }
+
+    @Override
+    public void setCancelled(boolean cancelled) {
+        event.setCancelled(cancelled);
+    }
+
+    private String getCommand(String message) {
+        String command = null;
+        if (message.startsWith("/")) {
+            command = message.replaceFirst("/", "");
+        }
+
+        if (command != null && command.indexOf(" ") != 0) {
+            int pos = command.indexOf(" ");
+            command = command.substring(0, pos);
+        } else {
+            command = null;
+        }
+
+        return command;
+    }
+
+    private String getArguments(String message) {
+        String arguments = message;
+        if (message.startsWith("/")) {
+            arguments = message.replaceFirst("/", "");
+        }
+
+        if (arguments != null && arguments.indexOf(" ") != 0) {
+            int pos = arguments.indexOf(" ");
+            arguments = arguments.substring(pos + 1);
+        } else {
+            arguments = null;
+        }
+
+        return arguments;
+    }
+
 }

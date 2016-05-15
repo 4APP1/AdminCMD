@@ -18,6 +18,8 @@
 */
 package com.admincmd.bukkit;
 
+import com.admincmd.api.command.Command;
+import com.admincmd.api.event.Event;
 import com.admincmd.core.ACRegistry;
 
 public class BukkitRegistry extends ACRegistry {
@@ -29,18 +31,18 @@ public class BukkitRegistry extends ACRegistry {
     }
 
     @Override
-    public void registerCommand() {
-
+    public void registerCommand(Command command) {
+        plugin.getCommandManager().registerCommand(command);
     }
 
     @Override
-    public void unregisterCommand() {
-
+    public void unregisterCommand(Command command) {
+        plugin.getCommandManager().unregisterCommand(command);
     }
 
     @Override
-    public void registerEvent() {
-
+    public void registerEvent(Class<? extends Event> event) {
+        plugin.getEventManager().registerEvent(event);
     }
 
 }

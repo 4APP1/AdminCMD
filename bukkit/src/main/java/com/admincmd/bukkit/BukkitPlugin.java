@@ -21,6 +21,8 @@ package com.admincmd.bukkit;
 import com.admincmd.api.Plugin;
 import com.admincmd.api.Registry;
 import com.admincmd.api.Server;
+import com.admincmd.bukkit.command.BukkitCommandManager;
+import com.admincmd.bukkit.event.BukkitEventManager;
 import com.admincmd.core.SimpleCore;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -31,10 +33,16 @@ public class BukkitPlugin extends JavaPlugin implements Plugin {
     private BukkitServer server;
     private BukkitRegistry registry;
 
+    private BukkitCommandManager commandManager;
+    private BukkitEventManager eventManager;
+
     @Override
     public void onEnable() {
         server = new BukkitServer(this);
         registry = new BukkitRegistry(this);
+
+        commandManager = new BukkitCommandManager(this);
+        eventManager = new BukkitEventManager(this);
 
         SimpleCore.enable(this);
     }
@@ -58,6 +66,14 @@ public class BukkitPlugin extends JavaPlugin implements Plugin {
     @Override
     public File getPluginFolder() {
         return null;
+    }
+
+    public BukkitCommandManager getCommandManager() {
+        return commandManager;
+    }
+
+    public BukkitEventManager getEventManager() {
+        return eventManager;
     }
 
 }

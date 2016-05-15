@@ -18,12 +18,15 @@
 */
 package com.admincmd.api;
 
+import com.admincmd.api.command.Command;
+import com.admincmd.api.event.Event;
+
 public interface Registry {
 
-    public void registerCommand();
+    public void registerCommand(Command command);
 
-    public void unregisterCommand();
+    public void unregisterCommand(Command command);
 
-    public void registerEvent();
+    public void registerEvent(Class<? extends Event> event);
 
 }

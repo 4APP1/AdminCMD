@@ -19,4 +19,9 @@
 package com.admincmd.api.command;
 
 public interface CommandSource {
+
+    public boolean hasPermission(String permission);
+
+    public void sendMessage(String message);
+
 }

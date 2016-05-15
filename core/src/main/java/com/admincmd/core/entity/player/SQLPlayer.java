@@ -16,22 +16,14 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 */
-package com.admincmd.api.event.command;
+package com.admincmd.core.entity.player;
 
-import com.admincmd.api.command.CommandSource;
-import com.admincmd.api.event.Cancellable;
-import com.admincmd.api.event.Event;
+import java.util.UUID;
 
-public interface CommandProcessEvent extends Event, Cancellable {
+public class SQLPlayer {
 
-    public CommandSource getSource();
+    public SQLPlayer(UUID uuid) {
 
-    public String getCommand();
-
-    public void setCommand(String command);
-
-    public String getArguments();
-
-    public void setArguments(String arguments);
+    }
 
 }
