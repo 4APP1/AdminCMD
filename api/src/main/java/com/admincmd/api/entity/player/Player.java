@@ -19,6 +19,7 @@
 package com.admincmd.api.entity.player;
 
 import com.admincmd.api.command.CommandSource;
+import com.admincmd.api.entity.Living;
 
 public interface Player extends Living, CommandSource {
 }

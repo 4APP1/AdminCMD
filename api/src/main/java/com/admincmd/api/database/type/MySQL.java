@@ -16,16 +16,34 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 */
-package com.admincmd.core.entity.player;
+package com.admincmd.api.database.type;
 
-import com.admincmd.api.entity.player.Player;
+import com.admincmd.api.database.Database;
 
-import java.util.UUID;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
-public abstract class ACPlayer extends SQLPlayer implements Player {
+public class MySQL extends Database {
 
-    public ACPlayer(UUID uuid, String name) {
-        super(uuid, name);
+    private final String host;
+    private final int port;
+    private final String name;
+    private final String user;
+    private final String pass;
+
+    public MySQL(String host, int port, String name, String user, String pass) {
+        super(Database.Type.MYSQL);
+
+        this.host = host;
+        this.port = port;
+        this.name = name;
+        this.user = user;
+        this.pass = pass;
+    }
+
+    @Override
+    public void connect() throws SQLException {
+        setConnection(DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + name, user, pass));
     }
 
 }

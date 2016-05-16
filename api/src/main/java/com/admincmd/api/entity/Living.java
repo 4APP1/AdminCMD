@@ -16,16 +16,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 */
-package com.admincmd.core.entity.player;
+package com.admincmd.api.entity;
 
-import com.admincmd.api.entity.player.Player;
+import com.admincmd.api.entity.Entity;
 
-import java.util.UUID;
-
-public abstract class ACPlayer extends SQLPlayer implements Player {
-
-    public ACPlayer(UUID uuid, String name) {
-        super(uuid, name);
-    }
-
+public interface Living extends Entity {
 }

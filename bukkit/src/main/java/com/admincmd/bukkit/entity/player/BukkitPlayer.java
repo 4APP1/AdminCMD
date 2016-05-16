@@ -26,7 +26,7 @@ public class BukkitPlayer extends ACPlayer {
     private Player player;
 
     public BukkitPlayer(Player player) {
-        super(player.getUniqueId());
+        super(player.getUniqueId(), player.getName());
         this.player = player;
     }
 

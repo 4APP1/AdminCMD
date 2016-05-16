@@ -16,16 +16,27 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 */
-package com.admincmd.core.entity.player;
+package com.admincmd.api.database.type;
 
-import com.admincmd.api.entity.player.Player;
+import com.admincmd.api.database.Database;
 
-import java.util.UUID;
+import java.io.File;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
-public abstract class ACPlayer extends SQLPlayer implements Player {
+public class SQLite extends Database {
 
-    public ACPlayer(UUID uuid, String name) {
-        super(uuid, name);
+    private final File file;
+
+    public SQLite(File file) {
+        super(Type.SQLITE);
+
+        this.file = file;
+    }
+
+    @Override
+    public void connect() throws SQLException {
+        setConnection(DriverManager.getConnection("jdbc:sqlite://" + file.getAbsolutePath()));
     }
 
 }

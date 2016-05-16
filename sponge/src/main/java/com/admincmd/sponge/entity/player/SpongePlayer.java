@@ -27,7 +27,7 @@ public class SpongePlayer extends ACPlayer {
     private Player player;
 
     public SpongePlayer(Player player) {
-        super(player.getUniqueId());
+        super(player.getUniqueId(), player.getName());
         this.player = player;
     }
 

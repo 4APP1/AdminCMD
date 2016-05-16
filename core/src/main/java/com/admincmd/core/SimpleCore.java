@@ -21,6 +21,7 @@ package com.admincmd.core;
 import com.admincmd.api.*;
 import com.admincmd.api.command.CommandManager;
 import com.admincmd.api.event.EventManager;
+import com.admincmd.core.database.DatabaseManager;
 
 import java.io.File;
 
@@ -36,6 +37,8 @@ public class SimpleCore implements Core {
     private final CommandManager command;
     private final EventManager event;
 
+    private final DatabaseManager databaseManager;
+
     private SimpleCore(Plugin plugin) {
         this.plugin = plugin;
         this.server = plugin.getPluginServer();
@@ -44,6 +47,8 @@ public class SimpleCore implements Core {
 
         this.command = new CommandManager(this);
         this.event = new EventManager(this);
+
+        this.databaseManager = new DatabaseManager(this);
     }
 
     public static void enable(Plugin plugin) {
@@ -61,6 +66,10 @@ public class SimpleCore implements Core {
         if (INSTANCE != null) {
 
         }
+    }
+
+    public static SimpleCore getCore() {
+        return INSTANCE;
     }
 
     @Override
@@ -86,6 +95,10 @@ public class SimpleCore implements Core {
     @Override
     public EventManager getEventManager() {
         return event;
+    }
+
+    public static DatabaseManager getDatabaseManager() {
+        return getCore().databaseManager;
     }
 
 }

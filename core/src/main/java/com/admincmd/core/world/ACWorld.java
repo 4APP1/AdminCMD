@@ -16,7 +16,16 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 */
-package com.admincmd.api.entity.player;
+package com.admincmd.core.world;
 
-public interface Entity {
+import com.admincmd.api.world.World;
+
+import java.util.UUID;
+
+public class ACWorld extends SQLWorld implements World {
+
+    public ACWorld(UUID uuid, String name) {
+        super(uuid, name);
+    }
+
 }
