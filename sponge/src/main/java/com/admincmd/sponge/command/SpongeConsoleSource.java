@@ -16,28 +16,27 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 */
-package com.admincmd.api.world;
+package com.admincmd.sponge.command;
 
-public interface World {
+import org.spongepowered.api.command.source.ConsoleSource;
+import org.spongepowered.api.text.Text;
 
-    public abstract boolean isRaining();
+public class SpongeConsoleSource implements com.admincmd.api.command.source.ConsoleSource {
 
-    public abstract void setRaining(boolean raining);
+    private ConsoleSource source;
 
-    public abstract boolean isThundering();
+    public SpongeConsoleSource(ConsoleSource source) {
+        this.source = source;
+    }
 
-    public abstract void setThundering(boolean thundering);
+    @Override
+    public boolean hasPermission(String permission) {
+        return source.hasPermission(permission);
+    }
 
-    public abstract int getWeatherDuration();
-
-    public abstract void setWeatherDuration(int seconds);
-
-    public abstract long getTime();
-
-    public abstract void setTime(long time);
-
-    public abstract Location getSpawnLocation();
-
-    public abstract void setSpawnLocation(Location location);
-
+    @Override
+    public void sendMessage(String message) {
+        Text text = Text.of(message);
+        source.sendMessage(text);
+    }
 }

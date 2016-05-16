@@ -18,9 +18,6 @@
 */
 package com.admincmd.api.command;
 
-import com.admincmd.api.util.message.Color;
-import com.admincmd.api.util.message.Message;
-
 public class CommandResult {
 
     public static class Builder {
@@ -36,7 +33,7 @@ public class CommandResult {
             return this;
         }
 
-        public Builder addColor(Color color) {
+        public Builder addColor(String color) {
             message.append(color);
             return this;
         }
@@ -47,7 +44,13 @@ public class CommandResult {
 
     }
 
+    public static Builder builder() {
+        return new Builder();
+    }
+
     public static final CommandResult SUCCESS = new CommandResult(null);
+    public static final CommandResult FAILURE = new CommandResult("Failed to execute command!");
+    public static final CommandResult NO_PERMISSIONS = new CommandResult("You do not have permission to do this!");
 
     private final String message;
 

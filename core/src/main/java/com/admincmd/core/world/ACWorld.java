@@ -18,14 +18,53 @@
 */
 package com.admincmd.core.world;
 
+import com.admincmd.api.AdminCMD;
 import com.admincmd.api.world.World;
+import com.admincmd.core.util.tasks.TimeReset;
+import com.admincmd.core.util.tasks.WeatherReset;
 
 import java.util.UUID;
 
-public class ACWorld extends SQLWorld implements World {
+public abstract class ACWorld extends SQLWorld implements World {
 
     public ACWorld(UUID uuid, String name) {
         super(uuid, name);
+
+        AdminCMD.getServer().scheduleSyncRepeatingTask(new WeatherReset(this), 20 * 3, 20 * 3);
+        AdminCMD.getServer().scheduleSyncRepeatingTask(new TimeReset(this), 20 * 3, 20 * 3);
+    }
+
+    public String getWeather() {
+        if (isRaining() && isThundering()) {
+            return "STORM";
+        } else if (isRaining() && !isThundering()) {
+            return "RAIN";
+        } else {
+            return "CLEAR";
+        }
+    }
+
+    public void setWeather(String weather) {
+        if (weather.equalsIgnoreCase("STORM")) {
+            setRaining(true);
+            setThundering(true);
+        } else if (weather.equalsIgnoreCase("RAIN")) {
+            setRaining(true);
+            setThundering(false);
+        } else if (weather.equalsIgnoreCase("CLEAR")) {
+            setRaining(false);
+            setThundering(false);
+        }
+    }
+
+    public void setWeatherPaused(boolean paused) {
+        this.weatherPaused = paused;
+        weatherPausedMoment = getWeather();
+    }
+
+    public void setTimePaused(boolean paused) {
+        this.timePaused = paused;
+        timePausedMoment = getTime();
     }
 
 }

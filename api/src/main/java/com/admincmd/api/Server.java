@@ -18,5 +18,30 @@
 */
 package com.admincmd.api;
 
+import com.admincmd.api.entity.player.Player;
+import com.admincmd.api.world.World;
+
+import java.util.Collection;
+import java.util.UUID;
+
 public interface Server {
+
+    public Collection<Player> getOnlinePlayers();
+
+    public Player getPlayer(UUID uuid);
+
+    public Player getPlayer(String name);
+
+    public Collection<World> getWorlds();
+
+    public World getWorld(UUID uuid);
+
+    public World getWorld(String name);
+
+    public void runSyncTask(Runnable task);
+
+    public void scheduleSyncRepeatingTask(Runnable task, long delay, long interval);
+
+    public void runAsyncTask(Runnable task);
+
 }

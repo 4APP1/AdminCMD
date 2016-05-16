@@ -18,6 +18,10 @@
 */
 package com.admincmd.api.command.parsing;
 
+import com.admincmd.api.AdminCMD;
+import com.admincmd.api.entity.player.Player;
+import com.admincmd.api.world.World;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -35,7 +39,7 @@ public class Arguments {
     public Arguments(String[] args, int start) {
         for (int i = start; i < args.length; i++) {
             String arg = args[i];
-            if (arg.length() == 1 && arg.matches("-[a-zA-Z]")) {
+            if (arg.length() > 1 && arg.matches("-[a-zA-Z]")) {
                 String character = arg.replaceFirst("-", "").toLowerCase();
                 String value = "";
                 if ((i + 1) < args.length) {
@@ -48,6 +52,14 @@ public class Arguments {
         }
     }
 
+    public int argsSize() {
+        return arguments.size();
+    }
+
+    public int flagsSize() {
+        return flags.size();
+    }
+
     public String get(int index) {
         return arguments.get(index);
     }
@@ -58,6 +70,14 @@ public class Arguments {
 
     public double getDouble(int index) throws NumberFormatException {
         return Double.parseDouble(arguments.get(index));
+    }
+
+    public Player getPlayer(int index) {
+        return AdminCMD.getServer().getPlayer(arguments.get(index));
+    }
+
+    public World getWorld(int index) {
+        return AdminCMD.getServer().getWorld(arguments.get(index));
     }
 
     public boolean hasFlag(String flag) {

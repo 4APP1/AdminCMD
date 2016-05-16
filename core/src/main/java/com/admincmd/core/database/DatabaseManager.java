@@ -18,11 +18,11 @@
 */
 package com.admincmd.core.database;
 
-import com.admincmd.api.AdminCMD;
 import com.admincmd.api.Core;
 import com.admincmd.api.database.Database;
 import com.admincmd.api.database.type.MySQL;
 import com.admincmd.api.database.type.SQLite;
+import com.admincmd.core.SimpleCore;
 import com.admincmd.core.configuration.Config;
 
 import java.io.File;
@@ -41,7 +41,7 @@ public class DatabaseManager {
             database = new MySQL(Config.DB_MYSQL_HOST.getString(), Config.DB_MYSQL_PORT.getInteger(),
                     Config.DB_MYSQL_NAME.getString(), Config.DB_MYSQL_USER.getString(), Config.DB_MYSQL_PASS.getString());
         } else {
-            database = new SQLite(new File(AdminCMD.getDataFolder(), "admincmd.db"));
+            database = new SQLite(new File(SimpleCore.getCore().getDataFolder(), "admincmd.db"));
         }
 
         buildTables();
@@ -98,6 +98,7 @@ public class DatabaseManager {
                     + "`nickname` varchar(64) DEFAULT 'none'"
                     + ");";
             WORLD_TABLE = "CREATE TABLE IF NOT EXISTS `ac_worlds` ("
+                    + "`id` INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + "`uuid` varchar(64) PRIMARY KEY NOT NULL,"
                     + "`name` varchar(64) NOT NULL,"
                     + "`spawnLoc` varchar(64) NOT NULL,"

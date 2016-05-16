@@ -107,7 +107,7 @@ public class CommandManager {
         CommandResult result = null;
 
         if (!source.hasPermission(command.getPermission())) {
-
+            result = CommandResult.NO_PERMISSIONS;
         } else {
             // TODO Check help argument
             result = command.execute(source, args);

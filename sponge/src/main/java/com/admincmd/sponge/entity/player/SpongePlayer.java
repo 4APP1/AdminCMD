@@ -18,6 +18,8 @@
 */
 package com.admincmd.sponge.entity.player;
 
+import com.admincmd.api.AdminCMD;
+import com.admincmd.api.world.World;
 import com.admincmd.core.entity.player.ACPlayer;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
@@ -42,4 +44,8 @@ public class SpongePlayer extends ACPlayer {
         player.sendMessage(text);
     }
 
+    @Override
+    public World getWorld() {
+        return AdminCMD.getServer().getWorld(player.getWorld().getUniqueId());
+    }
 }

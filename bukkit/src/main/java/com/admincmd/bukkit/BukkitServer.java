@@ -18,7 +18,20 @@
 */
 package com.admincmd.bukkit;
 
+import com.admincmd.api.entity.player.Player;
+import com.admincmd.api.world.World;
+import com.admincmd.bukkit.entity.player.BukkitPlayer;
+import com.admincmd.bukkit.world.BukkitWorld;
 import com.admincmd.core.ACServer;
+import com.admincmd.core.SimpleCore;
+import com.admincmd.core.entity.player.ACPlayer;
+import com.admincmd.core.world.ACWorld;
+import org.bukkit.Bukkit;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.UUID;
 
 public class BukkitServer extends ACServer {
 
@@ -26,6 +39,116 @@ public class BukkitServer extends ACServer {
 
     public BukkitServer(BukkitPlugin plugin) {
         this.plugin = plugin;
+    }
+
+    public void initialize() {
+        database = SimpleCore.getDatabaseManager().getDatabase();
+
+        preparePlayers();
+        prepareWorlds();
+    }
+
+    @Override
+    public Collection<Player> getOnlinePlayers() {
+        List<Player> list = new ArrayList<>();
+        for (org.bukkit.entity.Player p : Bukkit.getServer().getOnlinePlayers()) {
+            if (p != null) {
+                Player player = super.getPlayer(p.getUniqueId());
+                if (player == null) {
+                    player = new BukkitPlayer(p);
+                    insertPlayer(p.getUniqueId(), (ACPlayer) player);
+                }
+                list.add(player);
+            }
+        }
+        return list;
+    }
+
+    @Override
+    public Player getPlayer(UUID uuid) {
+        Player p = null;
+        org.bukkit.entity.Player player = Bukkit.getServer().getPlayer(uuid);
+        if (player != null) {
+            p = super.getPlayer(uuid);
+            if (p == null) {
+                p = new BukkitPlayer(player);
+                insertPlayer(player.getUniqueId(), (ACPlayer) p);
+            }
+        }
+        return p;
+    }
+
+    @Override
+    public Player getPlayer(String name) {
+        Player p = null;
+        org.bukkit.entity.Player player = Bukkit.getServer().getPlayer(name);
+        if (player != null) {
+            p = super.getPlayer(player.getUniqueId());
+            if (p == null) {
+                p = new BukkitPlayer(player);
+                insertPlayer(player.getUniqueId(), (ACPlayer) p);
+            }
+        }
+        return p;
+    }
+
+    @Override
+    public Collection<World> getWorlds() {
+        List<World> list = new ArrayList<>();
+        for (org.bukkit.World w : Bukkit.getServer().getWorlds()) {
+            if (w != null) {
+                World world = super.getWorld(w.getUID());
+                if (world == null) {
+                    world = new BukkitWorld(w);
+                    insertWorld(w.getUID(), (ACWorld) world);
+                }
+                list.add(world);
+            }
+        }
+        return list;
+    }
+
+    @Override
+    public World getWorld(UUID uuid) {
+        World w  = null;
+        org.bukkit.World world = Bukkit.getServer().getWorld(uuid);
+        if (world != null) {
+            w = super.getWorld(world.getUID());
+            if (w == null) {
+                w = new BukkitWorld(world);
+                insertWorld(world.getUID(), (ACWorld) w);
+            }
+        }
+        return w;
+    }
+
+    @Override
+    public World getWorld(String name) {
+        World w  = null;
+        org.bukkit.World world = Bukkit.getServer().getWorld(name);
+        if (world != null) {
+            w = super.getWorld(world.getUID());
+            if (w == null) {
+                w = new BukkitWorld(world);
+                insertWorld(world.getUID(), (ACWorld) w);
+            }
+        }
+        return w;
+    }
+
+    @Override
+    public void runSyncTask(Runnable task) {
+        Bukkit.getServer().getScheduler().runTask(plugin, task);
+    }
+
+    @Override
+    public void scheduleSyncRepeatingTask(Runnable task, long delay, long interval) {
+        Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, task, delay, interval);
+    }
+
+    @Override
+    public void runAsyncTask(Runnable task) {
+        Bukkit.getServer().getScheduler().runTaskAsynchronously(plugin, task);
     }
 
 }

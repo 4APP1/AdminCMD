@@ -20,9 +20,12 @@ package com.admincmd.bukkit.command;
 
 import com.admincmd.api.AdminCMD;
 import com.admincmd.api.command.parsing.Arguments;
+import com.admincmd.bukkit.entity.player.BukkitPlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.entity.Player;
 
 public class BukkitCommand extends Command implements CommandExecutor {
 
@@ -40,7 +43,14 @@ public class BukkitCommand extends Command implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        com.admincmd.api.command.CommandSource source = new BukkitCommandSource(sender);
+        com.admincmd.api.command.CommandSource source;
+        if (sender instanceof Player) {
+            source = AdminCMD.getServer().getPlayer(((Player) sender).getUniqueId());
+        } else if (sender instanceof ConsoleCommandSender) {
+            source = new BukkitConsoleSource(((ConsoleCommandSender) sender));
+        } else {
+            source = new BukkitCommandSource(sender);
+        }
         Arguments arguments = new Arguments(args);
 
         AdminCMD.getCommandManager().callCommand(command, source, arguments);

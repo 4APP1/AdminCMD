@@ -11,6 +11,42 @@
 
     <artifactId>bukkit</artifactId>
 
+    <build>
+        <defaultGoal>clean install</defaultGoal>
+        <finalName>AdminCMD-Bukkit</finalName>
+
+        <plugins>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>2.1</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <minimizeJar>false</minimizeJar>
+                            <artifactSet>
+                                <includes>
+                                    <include>com.admincmd:api</include>
+                                    <include>com.admincmd:core</include>
+                                    <include>com.admincmd:bukkit</include>
+                                    <include>org.xerial:sqlite-jdbc</include>
+                                    <include>org.yaml:snakeyaml</include>
+                                    <include>mysql:mysql-connector-java</include>
+                                </includes>
+                            </artifactSet>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
+
     <repositories>
         <repository>
             <id>spigot-repo</id>

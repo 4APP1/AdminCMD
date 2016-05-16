@@ -16,28 +16,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 */
-package com.admincmd.api.world;
+package com.admincmd.api.command.source;
 
-public interface World {
+import com.admincmd.api.command.CommandSource;
 
-    public abstract boolean isRaining();
-
-    public abstract void setRaining(boolean raining);
-
-    public abstract boolean isThundering();
-
-    public abstract void setThundering(boolean thundering);
-
-    public abstract int getWeatherDuration();
-
-    public abstract void setWeatherDuration(int seconds);
-
-    public abstract long getTime();
-
-    public abstract void setTime(long time);
-
-    public abstract Location getSpawnLocation();
-
-    public abstract void setSpawnLocation(Location location);
-
+public interface ConsoleSource extends CommandSource {
 }

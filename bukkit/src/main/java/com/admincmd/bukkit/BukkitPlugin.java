@@ -24,6 +24,9 @@ import com.admincmd.api.Server;
 import com.admincmd.bukkit.command.BukkitCommandManager;
 import com.admincmd.bukkit.event.BukkitEventManager;
 import com.admincmd.core.SimpleCore;
+import com.admincmd.core.configuration.Config;
+import com.admincmd.core.configuration.Locale;
+import com.admincmd.core.database.DatabaseManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -32,6 +35,7 @@ public class BukkitPlugin extends JavaPlugin implements Plugin {
 
     private BukkitServer server;
     private BukkitRegistry registry;
+    private File folder;
 
     private BukkitCommandManager commandManager;
     private BukkitEventManager eventManager;
@@ -40,6 +44,7 @@ public class BukkitPlugin extends JavaPlugin implements Plugin {
     public void onEnable() {
         server = new BukkitServer(this);
         registry = new BukkitRegistry(this);
+        folder = this.getDataFolder();
 
         commandManager = new BukkitCommandManager(this);
         eventManager = new BukkitEventManager(this);
@@ -65,7 +70,7 @@ public class BukkitPlugin extends JavaPlugin implements Plugin {
 
     @Override
     public File getPluginFolder() {
-        return null;
+        return folder;
     }
 
     public BukkitCommandManager getCommandManager() {

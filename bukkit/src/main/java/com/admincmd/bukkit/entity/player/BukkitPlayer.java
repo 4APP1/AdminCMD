@@ -18,6 +18,8 @@
 */
 package com.admincmd.bukkit.entity.player;
 
+import com.admincmd.api.AdminCMD;
+import com.admincmd.api.world.World;
 import com.admincmd.core.entity.player.ACPlayer;
 import org.bukkit.entity.Player;
 
@@ -40,4 +42,8 @@ public class BukkitPlayer extends ACPlayer {
         player.sendMessage(message);
     }
 
+    @Override
+    public World getWorld() {
+        return AdminCMD.getServer().getWorld(player.getWorld().getUID());
+    }
 }

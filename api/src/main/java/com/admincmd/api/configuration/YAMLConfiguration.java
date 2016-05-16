@@ -183,7 +183,6 @@ public class YAMLConfiguration extends Configuration {
                 loadFromString(data);
             } else {
                 file.createNewFile();
-                root = new LinkedHashMap<>();
             }
         }
     }

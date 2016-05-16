@@ -18,6 +18,10 @@
 */
 package com.admincmd.api.command.parsing;
 
+import com.admincmd.api.AdminCMD;
+import com.admincmd.api.entity.player.Player;
+import com.admincmd.api.world.World;
+
 public class Flag {
 
     private String flag;
@@ -46,6 +50,14 @@ public class Flag {
 
     public double getDouble() throws NumberFormatException {
         return Double.parseDouble(value);
+    }
+
+    public Player getPlayer() {
+        return AdminCMD.getServer().getPlayer(value);
+    }
+
+    public World getWorld() {
+        return AdminCMD.getServer().getWorld(value);
     }
 
 }

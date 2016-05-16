@@ -16,28 +16,23 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 */
-package com.admincmd.api.world;
+package com.admincmd.bukkit.entity;
 
-public interface World {
+import com.admincmd.api.AdminCMD;
+import com.admincmd.api.world.World;
+import org.bukkit.entity.Entity;
 
-    public abstract boolean isRaining();
+public class BukkitEntity implements com.admincmd.api.entity.Entity {
 
-    public abstract void setRaining(boolean raining);
+    private Entity entity;
 
-    public abstract boolean isThundering();
+    public BukkitEntity(Entity entity) {
+        this.entity = entity;
+    }
 
-    public abstract void setThundering(boolean thundering);
-
-    public abstract int getWeatherDuration();
-
-    public abstract void setWeatherDuration(int seconds);
-
-    public abstract long getTime();
-
-    public abstract void setTime(long time);
-
-    public abstract Location getSpawnLocation();
-
-    public abstract void setSpawnLocation(Location location);
+    @Override
+    public World getWorld() {
+        return AdminCMD.getServer().getWorld(entity.getWorld().getUID());
+    }
 
 }

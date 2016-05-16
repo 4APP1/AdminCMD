@@ -30,7 +30,7 @@ import org.spongepowered.api.event.game.state.GameStoppingServerEvent;
 
 import java.io.File;
 
-@org.spongepowered.api.plugin.Plugin(id = "")
+@org.spongepowered.api.plugin.Plugin(id = "admincmd", name = "AdminCMD")
 public class SpongePlugin implements Plugin {
 
     private SpongeServer server;

@@ -67,7 +67,7 @@ public class SQLWorld {
                 // TODO Set information
                 this.id = id;
             } else {
-
+                createWorld();
             }
             database.closeResultSet(rs);
             database.closeStatement(ps);

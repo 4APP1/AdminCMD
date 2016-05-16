@@ -25,6 +25,8 @@ import org.spongepowered.api.command.CommandCallable;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.command.source.ConsoleSource;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 
 import java.util.Collections;
@@ -41,7 +43,14 @@ public class SpongeCommand implements CommandCallable {
 
     @Override
     public CommandResult process(CommandSource sender, String args) throws CommandException {
-        com.admincmd.api.command.CommandSource source = new SpongeCommandSource(sender);
+        com.admincmd.api.command.CommandSource source;
+        if (sender instanceof Player) {
+            source = AdminCMD.getServer().getPlayer(((Player) sender).getUniqueId());
+        } else if (sender instanceof ConsoleSource) {
+            source = new SpongeConsoleSource(((ConsoleSource) sender));
+        } else {
+            source = new SpongeCommandSource(sender);
+        }
         Arguments arguments = new Arguments(args.split(" "));
 
         AdminCMD.getCommandManager().callCommand(command, source, arguments);
