@@ -18,15 +18,15 @@
 */
 package com.admincmd.sponge.event;
 
-import com.admincmd.sponge.SpongePlugin;
+import com.admincmd.sponge.SpongeModule;
 import org.spongepowered.api.Sponge;
 
 public class SpongeListener {
 
-    private SpongePlugin plugin;
+    private SpongeModule plugin;
     private SpongeEventManager manager;
 
-    public SpongeListener(SpongePlugin plugin, SpongeEventManager manager) {
+    public SpongeListener(SpongeModule plugin, SpongeEventManager manager) {
         this.plugin = plugin;
         this.manager = manager;
     }

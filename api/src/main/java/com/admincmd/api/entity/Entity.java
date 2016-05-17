@@ -18,10 +18,13 @@
 */
 package com.admincmd.api.entity;
 
+import com.admincmd.api.world.Location;
 import com.admincmd.api.world.World;
 
 public interface Entity {
 
     public World getWorld();
+
+    public Location getLocation();
 
 }

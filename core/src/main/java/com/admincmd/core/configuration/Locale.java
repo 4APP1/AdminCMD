@@ -20,7 +20,7 @@ package com.admincmd.core.configuration;
 
 import com.admincmd.api.AdminCMD;
 import com.admincmd.api.configuration.YAMLConfiguration;
-import com.admincmd.core.SimpleCore;
+import com.admincmd.api.util.logger.DebugLogger;
 
 import java.io.File;
 import java.io.IOException;
@@ -58,13 +58,13 @@ public enum Locale {
             try {
                 config.save();
             } catch (IOException e) {
-                // TODO ACLogger message
+                DebugLogger.severe("Config could not be saved: " + file.getName(), e);
             }
             reload(false);
         }
     }
 
-    private static final File file = new File(SimpleCore.getCore().getDataFolder(), "locales" + File.separator + Config.LOCALES_LANGUAGE.getString() + ".yml");
+    private static final File file = new File(AdminCMD.getDataFolder(), "locales" + File.separator + Config.LOCALES_LANGUAGE.getString() + ".yml");
     private static final YAMLConfiguration config = new YAMLConfiguration(file);
 
     public static void load() {
@@ -80,7 +80,7 @@ public enum Locale {
         try {
             config.save();
         } catch (IOException e) {
-            // TODO ACLogger message
+            DebugLogger.severe("Config could not be saved: " + file.getName(), e);
         }
     }
 
@@ -89,7 +89,7 @@ public enum Locale {
             try {
                 config.load();
             } catch (IOException e) {
-                // TODO ACLogger message
+                DebugLogger.severe("Config could not be loaded: " + file.getName(), e);
             }
             return;
         }

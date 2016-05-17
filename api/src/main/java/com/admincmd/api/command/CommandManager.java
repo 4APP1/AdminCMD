@@ -18,7 +18,6 @@
 */
 package com.admincmd.api.command;
 
-import com.admincmd.api.Core;
 import com.admincmd.api.Identifiable;
 import com.admincmd.api.command.parsing.Arguments;
 import com.admincmd.api.util.message.Messager;
@@ -29,14 +28,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CommandManager {
-
-    private Core core;
+public abstract class CommandManager {
 
     private final Map<Identifiable, List<Command>> commandMap = new HashMap<>();
 
-    public CommandManager(Core core) {
-        this.core = core;
+    public CommandManager() {
+
     }
 
     public void registerClass(Class<?> clazz, Identifiable identifiable) {
@@ -61,7 +58,7 @@ public class CommandManager {
                 Command command = new Command(aliases, permission, description, help, usage, m);
 
                 if (!commands.contains(command)) {
-                    core.getRegistry().registerCommand(command);
+                    registerPluginCommand(command);
                     commands.add(command);
                 }
             }
@@ -81,7 +78,7 @@ public class CommandManager {
 
         List<Command> commands = commandMap.get(identifiable);
         if (!commands.contains(command)) {
-            core.getRegistry().registerCommand(command);
+            registerPluginCommand(command);
             commands.add(command);
         }
 
@@ -96,12 +93,16 @@ public class CommandManager {
         if (commandMap.containsKey(identifiable)) {
             List<Command> commands = commandMap.get(identifiable);
             for (Command c : commands) {
-                core.getRegistry().unregisterCommand(c);
+                unregisterPluginCommand(c);
             }
 
             commandMap.remove(identifiable);
         }
     }
+
+    public abstract void registerPluginCommand(Command command);
+
+    public abstract void unregisterPluginCommand(Command command);
 
     public void callCommand(Command command, CommandSource source, Arguments args) {
         CommandResult result = null;

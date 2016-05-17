@@ -18,31 +18,14 @@
 */
 package com.admincmd.sponge;
 
-import com.admincmd.api.command.Command;
-import com.admincmd.api.event.Event;
-import com.admincmd.core.ACRegistry;
+import com.admincmd.api.Registry;
 
-public class SpongeRegistry extends ACRegistry {
+public class SpongeRegistry implements Registry {
 
-    private SpongePlugin plugin;
+    private SpongeModule plugin;
 
-    public SpongeRegistry(SpongePlugin plugin) {
+    public SpongeRegistry(SpongeModule plugin) {
         this.plugin = plugin;
-    }
-
-    @Override
-    public void registerCommand(Command command) {
-        plugin.getCommandManager().registerCommand(command);
-    }
-
-    @Override
-    public void unregisterCommand(Command command) {
-        plugin.getCommandManager().unregisterCommand(command);
-    }
-
-    @Override
-    public void registerEvent(Class<? extends Event> event) {
-        plugin.getEventManager().registerEvent(event);
     }
 
 }

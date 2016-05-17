@@ -18,6 +18,7 @@
 */
 package com.admincmd.api;
 
+import com.admincmd.api.addon.AddonManager;
 import com.admincmd.api.command.CommandManager;
 import com.admincmd.api.event.EventManager;
 
@@ -37,16 +38,16 @@ public class AdminCMD {
         return INSTANCE;
     }
 
+    public static File getDataFolder() {
+        return getCore().getDataFolder();
+    }
+
     public static Server getServer() {
         return getCore().getServer();
     }
 
     public static Registry getRegistry() {
         return getCore().getRegistry();
-    }
-
-    public static File getDataFolder() {
-        return getCore().getDataFolder();
     }
 
     public static CommandManager getCommandManager() {

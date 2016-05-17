@@ -19,7 +19,9 @@
 package com.admincmd.bukkit.command;
 
 import com.admincmd.api.command.Command;
-import com.admincmd.bukkit.BukkitPlugin;
+import com.admincmd.api.command.CommandManager;
+import com.admincmd.api.util.logger.DebugLogger;
+import com.admincmd.bukkit.BukkitModule;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandMap;
 
@@ -27,14 +29,14 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BukkitCommandManager {
+public class BukkitCommandManager extends CommandManager {
 
-    private BukkitPlugin plugin;
+    private BukkitModule plugin;
 
     private CommandMap commandMap;
     private Map<String, BukkitCommand> registeredCommands = new HashMap<>();
 
-    public BukkitCommandManager(BukkitPlugin plugin) {
+    public BukkitCommandManager(BukkitModule plugin) {
         this.plugin = plugin;
 
         CommandMap map = null;
@@ -43,34 +45,36 @@ public class BukkitCommandManager {
             f.setAccessible(true);
             map = (CommandMap) f.get(Bukkit.getServer());
         } catch (NoSuchFieldException e) {
-            // TODO ACLogger message
+            DebugLogger.severe("CommandMap could not be found", e);
         } catch (IllegalAccessException e) {
-            // TODO ACLogger message
+            DebugLogger.severe("CommandMap could not be access", e);
         }
         commandMap = map;
     }
 
-    public void registerCommand(Command command) {
+    @Override
+    public void registerPluginCommand(Command command) {
         if (commandMap.getCommand(command.getPrimaryAlias()) == null) {
             BukkitCommand cmd = new BukkitCommand(command);
             commandMap.register(plugin.getName().toLowerCase(), cmd);
             registeredCommands.put(command.getPrimaryAlias(), cmd);
         } else {
-            // TODO ACLogger message
+            DebugLogger.warn("Command is already registered: " + command.getPrimaryAlias() + "! Skipping it...");
         }
     }
 
-    public void unregisterCommand(Command command) {
+    @Override
+    public void unregisterPluginCommand(Command command) {
         if (commandMap.getCommand(command.getPrimaryAlias()) != null) {
             if (registeredCommands.containsKey(command.getPrimaryAlias())) {
                 BukkitCommand cmd = registeredCommands.get(command.getPrimaryAlias());
                 cmd.unregister(commandMap);
                 registeredCommands.remove(command.getPrimaryAlias());
             } else {
-                // TODO ACLogger message
+                DebugLogger.warn("Command is not recognized: " + command.getPrimaryAlias() + "! Skipping it...");
             }
         } else {
-            // TODO ACLogger message
+            DebugLogger.warn("Command is not registered: " + command.getPrimaryAlias() + "! Skipping it...");
         }
     }
 

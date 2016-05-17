@@ -19,6 +19,7 @@
 package com.admincmd.sponge.entity;
 
 import com.admincmd.api.AdminCMD;
+import com.admincmd.api.world.Location;
 import com.admincmd.api.world.World;
 import org.spongepowered.api.entity.Entity;
 
@@ -34,4 +35,12 @@ public class SpongeEntity implements com.admincmd.api.entity.Entity {
     public World getWorld() {
         return AdminCMD.getServer().getWorld(entity.getWorld().getUniqueId());
     }
+
+    @Override
+    public Location getLocation() {
+        World world = getWorld();
+        org.spongepowered.api.world.Location<org.spongepowered.api.world.World> loc = entity.getLocation();
+        return new Location(world, loc.getX(), loc.getY(), loc.getZ());
+    }
+
 }

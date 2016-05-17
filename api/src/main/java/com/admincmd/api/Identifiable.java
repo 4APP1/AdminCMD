@@ -19,4 +19,9 @@
 package com.admincmd.api;
 
 public interface Identifiable {
+
+    public String getModuleId();
+
+    public String getModuleName();
+
 }

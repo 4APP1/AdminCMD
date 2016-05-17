@@ -19,6 +19,7 @@
 package com.admincmd.api.command;
 
 import com.admincmd.api.command.parsing.Arguments;
+import com.admincmd.api.util.logger.DebugLogger;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -57,11 +58,11 @@ public class Command {
                 Object o = method.getDeclaringClass().newInstance();
                 result = (CommandResult) method.invoke(o, source, args);
             } catch (IllegalAccessException e) {
-                // TODO ACLogger message
+                DebugLogger.severe("Command failed to be accessed: " + getPrimaryAlias(), e);
             } catch (InstantiationException e) {
-                // TODO ACLogger message
+                DebugLogger.severe("Command failed to be instantiated: " + getPrimaryAlias(), e);
             } catch (InvocationTargetException e) {
-                // TODO ACLogger message
+                DebugLogger.severe("Command failed to be invoked: " + getPrimaryAlias(), e);
             }
         }
         return result;

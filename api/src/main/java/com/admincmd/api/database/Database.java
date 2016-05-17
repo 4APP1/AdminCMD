@@ -18,6 +18,8 @@
 */
 package com.admincmd.api.database;
 
+import com.admincmd.api.util.logger.DebugLogger;
+
 import java.sql.*;
 
 public abstract class Database {
@@ -50,16 +52,16 @@ public abstract class Database {
             if (o instanceof Driver) {
                 DriverManager.registerDriver((Driver) o);
             } else {
-                // TODO ACLogger message
+                DebugLogger.severe("Database driver is not a valid driver: " + type.getDriver());
             }
         } catch (ClassNotFoundException e) {
-            // TODO ACLogger message
+            DebugLogger.severe("Database driver could not be found: " + type.getDriver(), e);
         } catch (InstantiationException e) {
-            // TODO ACLogger message
+            DebugLogger.severe("Database driver could not be instantiated: " + type.getDriver(), e);
         } catch (IllegalAccessException e) {
-            // TODO ACLogger message
+            DebugLogger.severe("Database driver could not be accessed: " + type.getDriver(), e);
         } catch (SQLException e) {
-            // TODO ACLogger message
+            DebugLogger.severe("Database driver could not be registered: " + type.getDriver(), e);
         }
     }
 
@@ -101,8 +103,8 @@ public abstract class Database {
 
     public void executeStatement(String query) throws SQLException {
         Statement statement = getStatement();
-        statement.executeQuery(query);
-        statement.close();
+        statement.execute(query);
+        closeStatement(statement);
     }
 
     public PreparedStatement getPreparedStatement(String query) throws SQLException {
@@ -114,7 +116,7 @@ public abstract class Database {
             try {
                 statement.close();
             } catch (SQLException e) {
-                // TODO ACLogger message
+                DebugLogger.severe("Unable to close database statement", e);
             }
         }
     }
@@ -124,7 +126,7 @@ public abstract class Database {
             try {
                 resultSet.close();
             } catch (SQLException e) {
-                // TODO ACLogger message
+                DebugLogger.severe("Unable to close database resultset", e);
             }
         }
     }

@@ -18,12 +18,14 @@
 */
 package com.admincmd.sponge;
 
-import com.admincmd.api.Plugin;
-import com.admincmd.api.Registry;
-import com.admincmd.api.Server;
-import com.admincmd.core.SimpleCore;
+import com.admincmd.api.*;
+import com.admincmd.api.command.CommandManager;
+import com.admincmd.api.event.EventManager;
+import com.admincmd.core.ACPlugin;
 import com.admincmd.sponge.command.SpongeCommandManager;
 import com.admincmd.sponge.event.SpongeEventManager;
+import com.google.inject.Inject;
+import org.spongepowered.api.config.ConfigDir;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.game.state.GameStartingServerEvent;
 import org.spongepowered.api.event.game.state.GameStoppingServerEvent;
@@ -31,52 +33,48 @@ import org.spongepowered.api.event.game.state.GameStoppingServerEvent;
 import java.io.File;
 
 @org.spongepowered.api.plugin.Plugin(id = "admincmd", name = "AdminCMD")
-public class SpongePlugin implements Plugin {
+public class SpongeModule implements Identifiable {
 
-    private SpongeServer server;
-    private SpongeRegistry registry;
+    @Inject
+    @ConfigDir(sharedRoot = false)
+    private File folder;
+    private Server server;
+    private Registry registry;
+    private CommandManager commandManager;
+    private EventManager eventManager;
 
-    private SpongeCommandManager commandManager;
-    private SpongeEventManager eventManager;
+    private Core core;
 
     @Listener
     public void onEnable(GameStartingServerEvent event) {
+        folder.mkdirs();
+
         server = new SpongeServer(this);
         registry = new SpongeRegistry(this);
-
         commandManager = new SpongeCommandManager(this);
         eventManager = new SpongeEventManager(this);
 
-        SimpleCore.enable(this);
+        core = new SpongeCore(this, folder, server, registry, commandManager, eventManager);
+        AdminCMD.initialize(core);
+
+        ACPlugin.enable();
     }
 
     @Listener
     public void onDisable(GameStoppingServerEvent event) {
-        SimpleCore.disable();
+        ACPlugin.disable();
+
 
     }
 
     @Override
-    public Server getPluginServer() {
-        return server;
+    public String getModuleId() {
+        return "admincmd";
     }
 
     @Override
-    public Registry getPluginRegistry() {
-        return registry;
-    }
-
-    @Override
-    public File getPluginFolder() {
-        return null;
-    }
-
-    public SpongeCommandManager getCommandManager() {
-        return commandManager;
-    }
-
-    public SpongeEventManager getEventManager() {
-        return eventManager;
+    public String getModuleName() {
+        return "AdminCMD";
     }
 
 }

@@ -19,6 +19,7 @@
 package com.admincmd.sponge.entity.player;
 
 import com.admincmd.api.AdminCMD;
+import com.admincmd.api.world.Location;
 import com.admincmd.api.world.World;
 import com.admincmd.core.entity.player.ACPlayer;
 import org.spongepowered.api.entity.living.player.Player;
@@ -48,4 +49,12 @@ public class SpongePlayer extends ACPlayer {
     public World getWorld() {
         return AdminCMD.getServer().getWorld(player.getWorld().getUniqueId());
     }
+
+    @Override
+    public Location getLocation() {
+        World world = getWorld();
+        org.spongepowered.api.world.Location<org.spongepowered.api.world.World> loc = player.getLocation();
+        return new Location(world, loc.getX(), loc.getY(), loc.getZ());
+    }
+
 }

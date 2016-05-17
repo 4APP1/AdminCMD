@@ -19,6 +19,7 @@
 package com.admincmd.bukkit.entity;
 
 import com.admincmd.api.AdminCMD;
+import com.admincmd.api.world.Location;
 import com.admincmd.api.world.World;
 import org.bukkit.entity.Entity;
 
@@ -33,6 +34,13 @@ public class BukkitEntity implements com.admincmd.api.entity.Entity {
     @Override
     public World getWorld() {
         return AdminCMD.getServer().getWorld(entity.getWorld().getUID());
+    }
+
+    @Override
+    public Location getLocation() {
+        World world = getWorld();
+        org.bukkit.Location loc = entity.getLocation();
+        return new Location(world, loc.getX(), loc.getY(), loc.getZ());
     }
 
 }

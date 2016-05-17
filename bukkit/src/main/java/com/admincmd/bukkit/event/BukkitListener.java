@@ -18,15 +18,15 @@
 */
 package com.admincmd.bukkit.event;
 
-import com.admincmd.bukkit.BukkitPlugin;
+import com.admincmd.bukkit.BukkitModule;
 import org.bukkit.event.Listener;
 
 public class BukkitListener implements Listener {
 
-    private BukkitPlugin plugin;
+    private BukkitModule plugin;
     private BukkitEventManager manager;
 
-    public BukkitListener(BukkitPlugin plugin, BukkitEventManager manager) {
+    public BukkitListener(BukkitModule plugin, BukkitEventManager manager) {
         this.plugin = plugin;
         this.manager = manager;
     }

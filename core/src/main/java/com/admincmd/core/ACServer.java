@@ -21,6 +21,7 @@ package com.admincmd.core;
 import com.admincmd.api.Server;
 import com.admincmd.api.database.Database;
 import com.admincmd.api.entity.player.Player;
+import com.admincmd.api.util.logger.DebugLogger;
 import com.admincmd.api.world.World;
 import com.admincmd.core.entity.player.ACPlayer;
 import com.admincmd.core.entity.player.SQLPlayer;
@@ -36,8 +37,6 @@ import java.util.UUID;
 
 public abstract class ACServer implements Server {
 
-    protected Database database;
-
     private final Map<UUID, SQLPlayer> sqlPlayers = new HashMap<>();
     private final Map<UUID, SQLWorld> sqlWorlds = new HashMap<>();
 
@@ -45,12 +44,10 @@ public abstract class ACServer implements Server {
 
     }
 
-    public abstract void initialize();
-
-    protected void preparePlayers() {
+    protected void preparePlayers(Database database) {
         sqlPlayers.clear();
         try {
-            PreparedStatement ps = database.getPreparedStatement("SELECT * FROM 'ac_players'");
+            PreparedStatement ps = database.getPreparedStatement("SELECT * FROM `ac_players`;");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 UUID uuid = UUID.fromString(rs.getString("uuid"));
@@ -59,14 +56,14 @@ public abstract class ACServer implements Server {
                 sqlPlayers.put(uuid, player);
             }
         } catch (SQLException e) {
-            // TODO ACLogger message
+            DebugLogger.severe("Failed to load database players", e);
         }
     }
 
-    protected void prepareWorlds() {
+    protected void prepareWorlds(Database database) {
         sqlWorlds.clear();
         try {
-            PreparedStatement ps = database.getPreparedStatement("SELECT * FROM 'ac_worlds'");
+            PreparedStatement ps = database.getPreparedStatement("SELECT * FROM `ac_worlds`;");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 UUID uuid = UUID.fromString(rs.getString("uuid"));
@@ -75,7 +72,7 @@ public abstract class ACServer implements Server {
                 sqlWorlds.put(uuid, world);
             }
         } catch (SQLException e) {
-            // TODO ACLogger message
+            DebugLogger.severe("Failed to load database worlds", e);
         }
     }
 

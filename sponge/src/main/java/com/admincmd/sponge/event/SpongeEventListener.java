@@ -20,17 +20,17 @@ package com.admincmd.sponge.event;
 
 import com.admincmd.api.AdminCMD;
 import com.admincmd.api.event.command.CommandProcessEvent;
-import com.admincmd.sponge.SpongePlugin;
+import com.admincmd.sponge.SpongeModule;
 import com.admincmd.sponge.event.command.SpongeCommandProcessEvent;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.command.SendCommandEvent;
 
 public class SpongeEventListener extends SpongeListener {
 
-    private SpongePlugin plugin;
+    private SpongeModule plugin;
     private SpongeEventManager manager;
 
-    public SpongeEventListener(SpongePlugin plugin, SpongeEventManager manager) {
+    public SpongeEventListener(SpongeModule plugin, SpongeEventManager manager) {
         super(plugin, manager);
         this.plugin = plugin;
         this.manager = manager;

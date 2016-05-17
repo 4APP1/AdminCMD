@@ -19,7 +19,8 @@
 package com.admincmd.core.entity.player;
 
 import com.admincmd.api.database.Database;
-import com.admincmd.core.SimpleCore;
+import com.admincmd.api.util.logger.DebugLogger;
+import com.admincmd.core.ACPlugin;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -44,9 +45,9 @@ public class SQLPlayer {
         this.uuid = uuid;
         this.name = name;
 
-        database = SimpleCore.getDatabaseManager().getDatabase();
+        database = ACPlugin.getDatabaseManager().getDatabase();
         try {
-            PreparedStatement ps = database.getPreparedStatement("SELECT * FROM 'ac_players' WHERE 'uuid' = ?;");
+            PreparedStatement ps = database.getPreparedStatement("SELECT * FROM `ac_players` WHERE `uuid` = ?;");
             ps.setString(1, uuid.toString());
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -69,13 +70,13 @@ public class SQLPlayer {
             database.closeResultSet(rs);
             database.closeStatement(ps);
         } catch (SQLException e) {
-            // TODO ACLogger message
+            DebugLogger.severe("Database player could not be loaded: " + getUUID(), e);
         }
     }
 
     private void createPlayer() {
         try {
-            PreparedStatement ps = database.getPreparedStatement("INSERT INTO 'ac_players' ('uuid', 'name', 'hidden', 'fly', 'god', 'nickname') VALUES (?, ?, ?, ?, ?, ?);");
+            PreparedStatement ps = database.getPreparedStatement("INSERT INTO `ac_players` (`uuid`, `name`, `hidden`, `fly`, `god`, `nickname`) VALUES (?, ?, ?, ?, ?, ?);");
             ps.setString(1, uuid.toString());
             ps.setString(2, name);
             ps.setBoolean(3, this.hidden);
@@ -85,13 +86,13 @@ public class SQLPlayer {
             ps.executeUpdate();
             database.closeStatement(ps);
         } catch (SQLException e) {
-            // TODO ACLogger message
+            DebugLogger.severe("Database player could not be created: " + getUUID(), e);
         }
     }
 
     public void update() {
         try {
-            PreparedStatement ps = database.getPreparedStatement("UPDATE 'ac_players' SET 'hidden' = ?, 'fly' = ?, 'god' = ?, 'nickname' = ? WHERE 'id' = ?;");
+            PreparedStatement ps = database.getPreparedStatement("UPDATE `ac_players` SET `hidden` = ?, `fly` = ?, `god` = ?, `nickname` = ? WHERE `id` = ?;");
             ps.setBoolean(1, this.hidden);
             ps.setBoolean(2, this.fly);
             ps.setBoolean(3, this.god);
@@ -101,7 +102,7 @@ public class SQLPlayer {
             ps.executeUpdate();
             database.closeStatement(ps);
         } catch (SQLException e) {
-            // TODO ACLogger message
+            DebugLogger.severe("Database player could not be accessed: " + getUUID(), e);
         }
     }
 

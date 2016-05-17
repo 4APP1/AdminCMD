@@ -18,33 +18,39 @@
 */
 package com.admincmd.core.database;
 
-import com.admincmd.api.Core;
+import com.admincmd.api.AdminCMD;
 import com.admincmd.api.database.Database;
 import com.admincmd.api.database.type.MySQL;
 import com.admincmd.api.database.type.SQLite;
-import com.admincmd.core.SimpleCore;
+import com.admincmd.api.util.logger.DebugLogger;
+import com.admincmd.core.ACPlugin;
 import com.admincmd.core.configuration.Config;
 
 import java.io.File;
+import java.sql.ParameterMetaData;
 import java.sql.SQLException;
 
 public class DatabaseManager {
 
-    private Core core;
+    private ACPlugin plugin;
 
     private final Database database;
 
-    public DatabaseManager(Core core) {
-        this.core = core;
+    public DatabaseManager(ACPlugin plugin) {
+        this.plugin = plugin;
 
         if (Config.DB_USE.getString().equalsIgnoreCase("mysql")) {
             database = new MySQL(Config.DB_MYSQL_HOST.getString(), Config.DB_MYSQL_PORT.getInteger(),
                     Config.DB_MYSQL_NAME.getString(), Config.DB_MYSQL_USER.getString(), Config.DB_MYSQL_PASS.getString());
         } else {
-            database = new SQLite(new File(SimpleCore.getCore().getDataFolder(), "admincmd.db"));
+            database = new SQLite(new File(AdminCMD.getDataFolder(), "admincmd.db"));
         }
 
-        buildTables();
+        if (database.testConnection()) {
+            buildTables();
+        } else {
+            DebugLogger.severe("Unable to connect to the database");
+        }
     }
 
     public Database getDatabase() {
@@ -88,7 +94,7 @@ public class DatabaseManager {
                     + "`location` TEXT NOT NULL"
                     + ");";
         } else {
-            PLAYER_TABLE = "CREATE TABLE IF NOT EXISTS `ac_player` ("
+            PLAYER_TABLE = "CREATE TABLE IF NOT EXISTS `ac_players` ("
                     + "`id` INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + "`uuid` varchar(64) NOT NULL,"
                     + "`name` varchar(64) NOT NULL,"
@@ -99,7 +105,7 @@ public class DatabaseManager {
                     + ");";
             WORLD_TABLE = "CREATE TABLE IF NOT EXISTS `ac_worlds` ("
                     + "`id` INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    + "`uuid` varchar(64) PRIMARY KEY NOT NULL,"
+                    + "`uuid` varchar(64) NOT NULL,"
                     + "`name` varchar(64) NOT NULL,"
                     + "`spawnLoc` varchar(64) NOT NULL,"
                     + "`wPaused` BOOLEAN,"
@@ -127,7 +133,7 @@ public class DatabaseManager {
             database.executeStatement(HOMES_TABLE);
             database.executeStatement(WARPS_TABLE);
         } catch (SQLException e) {
-            // TODO ACLogger message
+            DebugLogger.severe("Failed to create database tables", e);
         }
     }
 

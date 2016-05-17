@@ -18,7 +18,5 @@
 */
 package com.admincmd.api.entity;
 
-import com.admincmd.api.entity.Entity;
-
 public interface Living extends Entity {
 }

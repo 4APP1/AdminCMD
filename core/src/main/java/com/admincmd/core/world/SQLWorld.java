@@ -19,7 +19,8 @@
 package com.admincmd.core.world;
 
 import com.admincmd.api.database.Database;
-import com.admincmd.core.SimpleCore;
+import com.admincmd.api.util.logger.DebugLogger;
+import com.admincmd.core.ACPlugin;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -45,9 +46,9 @@ public class SQLWorld {
         this.uuid = uuid;
         this.name = name;
 
-        database = SimpleCore.getDatabaseManager().getDatabase();
+        database = ACPlugin.getDatabaseManager().getDatabase();
         try {
-            PreparedStatement ps = database.getPreparedStatement("SELECT * FROM 'ac_worlds' WHERE 'uuid' = ?;");
+            PreparedStatement ps = database.getPreparedStatement("SELECT * FROM `ac_worlds` WHERE `uuid` = ?;");
             ps.setString(1, uuid.toString());
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -72,13 +73,13 @@ public class SQLWorld {
             database.closeResultSet(rs);
             database.closeStatement(ps);
         } catch (SQLException e) {
-            // TODO ACLogger message
+            DebugLogger.severe("Database world could not be loaded: " + uuid, e);
         }
     }
 
     private void createWorld() {
         try {
-            PreparedStatement ps = database.getPreparedStatement("INSERT INTO 'ac_worlds' ('uuid', 'name', 'spawnLoc', 'wPaused', 'wPMoment', 'tPaused', 'tPMoment') VALUES (?, ?, ?, ?, ?, ?, ?);");
+            PreparedStatement ps = database.getPreparedStatement("INSERT INTO `ac_worlds` (`uuid`, `name`, `spawnLoc`, `wPaused`, `wPMoment`, `tPaused`, `tPMoment`) VALUES (?, ?, ?, ?, ?, ?, ?);");
             ps.setString(1, uuid.toString());
             ps.setString(2, name);
             ps.setString(3, this.spawnLoc);
@@ -89,13 +90,13 @@ public class SQLWorld {
             ps.executeUpdate();
             database.closeStatement(ps);
         } catch (SQLException e) {
-            // TODO ACLogger message
+            DebugLogger.severe("Database world could not be created: " + uuid, e);
         }
     }
 
     public void update() {
         try {
-            PreparedStatement ps = database.getPreparedStatement("UPDATE 'ac_worlds' SET 'spawnLoc' = ?, 'wPaused' = ?, 'wPMoment' = ?, 'tPaused' = ?, 'tPMoment' = ? WHERE 'id' = ?;");
+            PreparedStatement ps = database.getPreparedStatement("UPDATE `ac_worlds` SET `spawnLoc` = ?, `wPaused` = ?, `wPMoment` = ?, `tPaused` = ?, `tPMoment` = ? WHERE `id` = ?;");
             ps.setString(1, this.spawnLoc);
             ps.setBoolean(2, this.weatherPaused);
             ps.setString(3, this.weatherPausedMoment);
@@ -106,7 +107,7 @@ public class SQLWorld {
             ps.executeUpdate();
             database.closeStatement(ps);
         } catch (SQLException e) {
-            // TODO ACLogger message
+            DebugLogger.severe("Database world could not be accessed: " + uuid, e);
         }
     }
 

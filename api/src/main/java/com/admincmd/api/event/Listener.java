@@ -18,6 +18,8 @@
 */
 package com.admincmd.api.event;
 
+import com.admincmd.api.util.logger.DebugLogger;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -42,11 +44,11 @@ public class Listener {
                 Object o = method.getDeclaringClass().newInstance();
                 method.invoke(o, event);
             } catch (IllegalAccessException e) {
-                // TODO ACLogger message
+                DebugLogger.severe("Listener failed to be accessed: " + clazz, e);
             } catch (InstantiationException e) {
-                // TODO ACLogger message
+                DebugLogger.severe("Listener failed to be instantiated: " + clazz, e);
             } catch (InvocationTargetException e) {
-                // TODO ACLogger message
+                DebugLogger.severe("Listener failed to be invoked: " + clazz, e);
             }
         }
     }

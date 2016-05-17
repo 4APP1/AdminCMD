@@ -27,14 +27,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class EventManager {
-
-    private Core core;
+public abstract class EventManager {
 
     private final Map<Identifiable, List<Listener>> listenerMap = new HashMap<>();
 
-    public EventManager(Core core) {
-        this.core = core;
+    public EventManager() {
+
     }
 
     public void registerClass(Class<?> clazz, Identifiable identifiable) {
@@ -55,7 +53,7 @@ public class EventManager {
 
                     Listener listener = new Listener(event, m);
                     if (!listeners.contains(listener)) {
-                        core.getRegistry().registerEvent(event);
+                        registerPluginEvent(event);
                         listeners.add(listener);
                     }
                 }
@@ -76,7 +74,7 @@ public class EventManager {
 
         List<Listener> listeners = listenerMap.get(identifiable);
         if (!listeners.contains(listener)) {
-            core.getRegistry().registerEvent(listener.getEvent());
+            registerPluginEvent(listener.getEvent());
             listeners.add(listener);
         }
     }
@@ -90,6 +88,8 @@ public class EventManager {
             listenerMap.remove(identifiable);
         }
     }
+
+    public abstract void registerPluginEvent(Class<? extends Event> event);
 
     public void callEvent(Event event) {
         for (Identifiable i : listenerMap.keySet()) {

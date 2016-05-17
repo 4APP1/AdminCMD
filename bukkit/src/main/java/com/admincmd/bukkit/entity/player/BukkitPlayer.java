@@ -19,6 +19,7 @@
 package com.admincmd.bukkit.entity.player;
 
 import com.admincmd.api.AdminCMD;
+import com.admincmd.api.world.Location;
 import com.admincmd.api.world.World;
 import com.admincmd.core.entity.player.ACPlayer;
 import org.bukkit.entity.Player;
@@ -46,4 +47,12 @@ public class BukkitPlayer extends ACPlayer {
     public World getWorld() {
         return AdminCMD.getServer().getWorld(player.getWorld().getUID());
     }
+
+    @Override
+    public Location getLocation() {
+        World world = getWorld();
+        org.bukkit.Location loc = player.getLocation();
+        return new Location(world, loc.getX(), loc.getY(), loc.getZ());
+    }
+
 }

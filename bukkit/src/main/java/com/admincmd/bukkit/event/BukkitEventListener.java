@@ -20,7 +20,7 @@ package com.admincmd.bukkit.event;
 
 import com.admincmd.api.AdminCMD;
 import com.admincmd.api.event.command.CommandProcessEvent;
-import com.admincmd.bukkit.BukkitPlugin;
+import com.admincmd.bukkit.BukkitModule;
 import com.admincmd.bukkit.event.command.BukkitPlayerCommandProcessEvent;
 import com.admincmd.bukkit.event.command.BukkitServerCommandProcessEvent;
 import org.bukkit.event.EventHandler;
@@ -29,10 +29,10 @@ import org.bukkit.event.server.ServerCommandEvent;
 
 public class BukkitEventListener extends BukkitListener {
 
-    private BukkitPlugin plugin;
+    private BukkitModule plugin;
     private BukkitEventManager manager;
 
-    public BukkitEventListener(BukkitPlugin plugin, BukkitEventManager manager) {
+    public BukkitEventListener(BukkitModule plugin, BukkitEventManager manager) {
         super(plugin, manager);
         this.plugin = plugin;
         this.manager = manager;
