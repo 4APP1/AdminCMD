@@ -23,29 +23,21 @@ import com.admincmd.api.world.World;
 import com.admincmd.bukkit.entity.player.BukkitPlayer;
 import com.admincmd.bukkit.world.BukkitWorld;
 import com.admincmd.core.ACServer;
-import com.admincmd.core.SimpleCore;
 import com.admincmd.core.entity.player.ACPlayer;
 import com.admincmd.core.world.ACWorld;
 import org.bukkit.Bukkit;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class BukkitServer extends ACServer {
 
-    private BukkitPlugin plugin;
+    private BukkitModule plugin;
 
-    public BukkitServer(BukkitPlugin plugin) {
+    // private Map<UUID, Player> players = new HashMap<>();
+    // private Map<UUID, World> worlds = new HashMap<>();
+
+    public BukkitServer(BukkitModule plugin) {
         this.plugin = plugin;
-    }
-
-    public void initialize() {
-        database = SimpleCore.getDatabaseManager().getDatabase();
-
-        preparePlayers();
-        prepareWorlds();
     }
 
     @Override
@@ -53,10 +45,10 @@ public class BukkitServer extends ACServer {
         List<Player> list = new ArrayList<>();
         for (org.bukkit.entity.Player p : Bukkit.getServer().getOnlinePlayers()) {
             if (p != null) {
-                Player player = super.getPlayer(p.getUniqueId());
+                Player player = super.getPlayer(p.getUniqueId()); // players.get(p.getUniqueId());
                 if (player == null) {
                     player = new BukkitPlayer(p);
-                    insertPlayer(p.getUniqueId(), (ACPlayer) player);
+                    insertPlayer(p.getUniqueId(), (ACPlayer) player); // players.put(p.getUniqueId(), player);
                 }
                 list.add(player);
             }
@@ -69,10 +61,10 @@ public class BukkitServer extends ACServer {
         Player p = null;
         org.bukkit.entity.Player player = Bukkit.getServer().getPlayer(uuid);
         if (player != null) {
-            p = super.getPlayer(uuid);
+            p = super.getPlayer(player.getUniqueId()); // players.get(player.getUniqueId());
             if (p == null) {
                 p = new BukkitPlayer(player);
-                insertPlayer(player.getUniqueId(), (ACPlayer) p);
+                insertPlayer(player.getUniqueId(), (ACPlayer) p); // players.put(player.getUniqueId(), p);
             }
         }
         return p;
@@ -83,10 +75,10 @@ public class BukkitServer extends ACServer {
         Player p = null;
         org.bukkit.entity.Player player = Bukkit.getServer().getPlayer(name);
         if (player != null) {
-            p = super.getPlayer(player.getUniqueId());
+            p = super.getPlayer(player.getUniqueId()); // players.get(player.getUniqueId());
             if (p == null) {
                 p = new BukkitPlayer(player);
-                insertPlayer(player.getUniqueId(), (ACPlayer) p);
+                insertPlayer(player.getUniqueId(), (ACPlayer) p); // players.put(player.getUniqueId(), p);
             }
         }
         return p;
@@ -97,10 +89,10 @@ public class BukkitServer extends ACServer {
         List<World> list = new ArrayList<>();
         for (org.bukkit.World w : Bukkit.getServer().getWorlds()) {
             if (w != null) {
-                World world = super.getWorld(w.getUID());
+                World world = super.getWorld(w.getUID()); // worlds.get(w.getUID());
                 if (world == null) {
                     world = new BukkitWorld(w);
-                    insertWorld(w.getUID(), (ACWorld) world);
+                    insertWorld(w.getUID(), (ACWorld) world); // worlds.put(w.getUID(), world);
                 }
                 list.add(world);
             }
@@ -113,10 +105,10 @@ public class BukkitServer extends ACServer {
         World w  = null;
         org.bukkit.World world = Bukkit.getServer().getWorld(uuid);
         if (world != null) {
-            w = super.getWorld(world.getUID());
+            w = super.getWorld(world.getUID()); // worlds.get(world.getUID());
             if (w == null) {
                 w = new BukkitWorld(world);
-                insertWorld(world.getUID(), (ACWorld) w);
+                insertWorld(world.getUID(), (ACWorld) w); // worlds.put(world.getUID(), w);
             }
         }
         return w;
@@ -127,10 +119,10 @@ public class BukkitServer extends ACServer {
         World w  = null;
         org.bukkit.World world = Bukkit.getServer().getWorld(name);
         if (world != null) {
-            w = super.getWorld(world.getUID());
+            w = super.getWorld(world.getUID()); // worlds.get(world.getUID());
             if (w == null) {
                 w = new BukkitWorld(world);
-                insertWorld(world.getUID(), (ACWorld) w);
+                insertWorld(world.getUID(), (ACWorld) w); // worlds.put(world.getUID(), w);
             }
         }
         return w;

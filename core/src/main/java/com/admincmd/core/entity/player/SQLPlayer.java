@@ -19,7 +19,7 @@
 package com.admincmd.core.entity.player;
 
 import com.admincmd.api.database.Database;
-import com.admincmd.core.SimpleCore;
+import com.admincmd.core.ACPlugin;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -44,7 +44,7 @@ public class SQLPlayer {
         this.uuid = uuid;
         this.name = name;
 
-        database = SimpleCore.getDatabaseManager().getDatabase();
+        database = ACPlugin.getDatabaseManager().getDatabase(); // TODO AdminCMD.getDatabaseManager()
         try {
             PreparedStatement ps = database.getPreparedStatement("SELECT * FROM 'ac_players' WHERE 'uuid' = ?;");
             ps.setString(1, uuid.toString());

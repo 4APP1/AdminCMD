@@ -18,67 +18,57 @@
 */
 package com.admincmd.bukkit;
 
-import com.admincmd.api.Plugin;
-import com.admincmd.api.Registry;
-import com.admincmd.api.Server;
+import com.admincmd.api.*;
+import com.admincmd.api.command.CommandManager;
+import com.admincmd.api.event.EventManager;
 import com.admincmd.bukkit.command.BukkitCommandManager;
 import com.admincmd.bukkit.event.BukkitEventManager;
-import com.admincmd.core.SimpleCore;
-import com.admincmd.core.configuration.Config;
-import com.admincmd.core.configuration.Locale;
-import com.admincmd.core.database.DatabaseManager;
+import com.admincmd.core.ACPlugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 
-public class BukkitPlugin extends JavaPlugin implements Plugin {
+public class BukkitModule extends JavaPlugin implements Identifiable {
 
-    private BukkitServer server;
-    private BukkitRegistry registry;
     private File folder;
+    private Server server;
+    private Registry registry;
+    private CommandManager commandManager;
+    private EventManager eventManager;
 
-    private BukkitCommandManager commandManager;
-    private BukkitEventManager eventManager;
+    private Core core;
 
     @Override
     public void onEnable() {
+        folder = this.getDataFolder();
+        folder.mkdirs();
+
         server = new BukkitServer(this);
         registry = new BukkitRegistry(this);
-        folder = this.getDataFolder();
-
         commandManager = new BukkitCommandManager(this);
         eventManager = new BukkitEventManager(this);
 
-        SimpleCore.enable(this);
+        core = new BukkitCore(this, folder, server, registry, commandManager, eventManager);
+        AdminCMD.initialize(core);
+
+        ACPlugin.enable();
     }
 
     @Override
     public void onDisable() {
-        SimpleCore.disable();
+        ACPlugin.disable();
+
 
     }
 
     @Override
-    public Server getPluginServer() {
-        return server;
+    public String getModuleId() {
+        return getDescription().getName();
     }
 
     @Override
-    public Registry getPluginRegistry() {
-        return registry;
-    }
-
-    @Override
-    public File getPluginFolder() {
-        return folder;
-    }
-
-    public BukkitCommandManager getCommandManager() {
-        return commandManager;
-    }
-
-    public BukkitEventManager getEventManager() {
-        return eventManager;
+    public String getModuleName() {
+        return getDescription().getFullName();
     }
 
 }

@@ -20,7 +20,6 @@ package com.admincmd.core.configuration;
 
 import com.admincmd.api.AdminCMD;
 import com.admincmd.api.configuration.YAMLConfiguration;
-import com.admincmd.core.SimpleCore;
 
 import java.io.File;
 import java.io.IOException;
@@ -64,7 +63,7 @@ public enum Locale {
         }
     }
 
-    private static final File file = new File(SimpleCore.getCore().getDataFolder(), "locales" + File.separator + Config.LOCALES_LANGUAGE.getString() + ".yml");
+    private static final File file = new File(AdminCMD.getDataFolder(), "locales" + File.separator + Config.LOCALES_LANGUAGE.getString() + ".yml");
     private static final YAMLConfiguration config = new YAMLConfiguration(file);
 
     public static void load() {

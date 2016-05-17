@@ -19,7 +19,8 @@
 package com.admincmd.sponge.command;
 
 import com.admincmd.api.command.Command;
-import com.admincmd.sponge.SpongePlugin;
+import com.admincmd.api.command.CommandManager;
+import com.admincmd.sponge.SpongeModule;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandMapping;
 
@@ -27,17 +28,18 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class SpongeCommandManager {
+public class SpongeCommandManager extends CommandManager {
 
-    private SpongePlugin plugin;
+    private SpongeModule plugin;
 
     private Map<String, CommandMapping> commandMappings = new HashMap<>();
 
-    public SpongeCommandManager(SpongePlugin plugin) {
+    public SpongeCommandManager(SpongeModule plugin) {
         this.plugin = plugin;
     }
 
-    public void registerCommand(Command command) {
+    @Override
+    public void registerPluginCommand(Command command) {
         SpongeCommand cmd = new SpongeCommand(command);
         Optional<CommandMapping> mapping = Sponge.getCommandManager().register(plugin, cmd, command.getAliasList());
         if (mapping.isPresent()) {
@@ -45,7 +47,8 @@ public class SpongeCommandManager {
         }
     }
 
-    public void unregisterCommand(Command command) {
+    @Override
+    public void unregisterPluginCommand(Command command) {
         if (commandMappings.containsKey(command.getPrimaryAlias())) {
             Sponge.getCommandManager().removeMapping(commandMappings.get(command.getPrimaryAlias()));
         }

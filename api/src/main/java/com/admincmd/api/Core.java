@@ -25,11 +25,11 @@ import java.io.File;
 
 public interface Core extends Identifiable {
 
+    public File getDataFolder();
+
     public Server getServer();
 
     public Registry getRegistry();
-
-    public File getDataFolder();
 
     public CommandManager getCommandManager();
 

@@ -18,8 +18,8 @@
 */
 package com.admincmd.core.configuration;
 
+import com.admincmd.api.AdminCMD;
 import com.admincmd.api.configuration.YAMLConfiguration;
-import com.admincmd.core.SimpleCore;
 
 import java.io.File;
 import java.io.IOException;
@@ -89,7 +89,7 @@ public enum Config {
         }
     }
 
-    private static final File file = new File(SimpleCore.getCore().getDataFolder(), "config.yml");
+    private static final File file = new File(AdminCMD.getDataFolder(), "config.yml");
     private static final YAMLConfiguration config = new YAMLConfiguration(file);
 
     public static void load() {

@@ -19,7 +19,8 @@
 package com.admincmd.bukkit.command;
 
 import com.admincmd.api.command.Command;
-import com.admincmd.bukkit.BukkitPlugin;
+import com.admincmd.api.command.CommandManager;
+import com.admincmd.bukkit.BukkitModule;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandMap;
 
@@ -27,14 +28,14 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BukkitCommandManager {
+public class BukkitCommandManager extends CommandManager {
 
-    private BukkitPlugin plugin;
+    private BukkitModule plugin;
 
     private CommandMap commandMap;
     private Map<String, BukkitCommand> registeredCommands = new HashMap<>();
 
-    public BukkitCommandManager(BukkitPlugin plugin) {
+    public BukkitCommandManager(BukkitModule plugin) {
         this.plugin = plugin;
 
         CommandMap map = null;
@@ -50,7 +51,8 @@ public class BukkitCommandManager {
         commandMap = map;
     }
 
-    public void registerCommand(Command command) {
+    @Override
+    public void registerPluginCommand(Command command) {
         if (commandMap.getCommand(command.getPrimaryAlias()) == null) {
             BukkitCommand cmd = new BukkitCommand(command);
             commandMap.register(plugin.getName().toLowerCase(), cmd);
@@ -60,7 +62,8 @@ public class BukkitCommandManager {
         }
     }
 
-    public void unregisterCommand(Command command) {
+    @Override
+    public void unregisterPluginCommand(Command command) {
         if (commandMap.getCommand(command.getPrimaryAlias()) != null) {
             if (registeredCommands.containsKey(command.getPrimaryAlias())) {
                 BukkitCommand cmd = registeredCommands.get(command.getPrimaryAlias());

@@ -1,4 +1,4 @@
-main: com.admincmd.bukkit.BukkitPlugin
+main: com.admincmd.bukkit.BukkitModule
 name: AdminCMD
 version: ${project.version} (BUILD ${git.build.time})
 authors: [Balor, TheJeterLP, jkmalan, BossLetsPlays]

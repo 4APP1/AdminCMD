@@ -36,8 +36,6 @@ import java.util.UUID;
 
 public abstract class ACServer implements Server {
 
-    protected Database database;
-
     private final Map<UUID, SQLPlayer> sqlPlayers = new HashMap<>();
     private final Map<UUID, SQLWorld> sqlWorlds = new HashMap<>();
 
@@ -45,9 +43,7 @@ public abstract class ACServer implements Server {
 
     }
 
-    public abstract void initialize();
-
-    protected void preparePlayers() {
+    protected void preparePlayers(Database database) {
         sqlPlayers.clear();
         try {
             PreparedStatement ps = database.getPreparedStatement("SELECT * FROM 'ac_players'");
@@ -63,7 +59,7 @@ public abstract class ACServer implements Server {
         }
     }
 
-    protected void prepareWorlds() {
+    protected void prepareWorlds(Database database) {
         sqlWorlds.clear();
         try {
             PreparedStatement ps = database.getPreparedStatement("SELECT * FROM 'ac_worlds'");
