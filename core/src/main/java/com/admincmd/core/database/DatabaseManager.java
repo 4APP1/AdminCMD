@@ -27,7 +27,6 @@ import com.admincmd.core.ACPlugin;
 import com.admincmd.core.configuration.Config;
 
 import java.io.File;
-import java.sql.ParameterMetaData;
 import java.sql.SQLException;
 
 public class DatabaseManager {
