@@ -19,128 +19,118 @@
 package com.admincmd.sponge;
 
 import com.admincmd.api.entity.player.Player;
+import com.admincmd.api.util.logger.DebugLogger;
 import com.admincmd.api.world.World;
-import com.admincmd.core.ACServer;
-import com.admincmd.core.entity.player.ACPlayer;
-import com.admincmd.core.world.ACWorld;
 import com.admincmd.sponge.entity.player.SpongePlayer;
 import com.admincmd.sponge.world.SpongeWorld;
+import org.spongepowered.api.Server;
 import org.spongepowered.api.Sponge;
 
 import java.util.*;
 
-public class SpongeServer extends ACServer {
+public class SpongeServer implements com.admincmd.api.Server {
 
-    private SpongeModule plugin;
+    private SpongeModule module;
+    private Server sponge;
 
-    // private Map<UUID, Player> players = new HashMap<>();
-    // private Map<UUID, World> worlds = new HashMap<>();
+    private Map<UUID, Player> players = new HashMap<>();
+    private Map<UUID, World> worlds = new HashMap<>();
 
-    public SpongeServer(SpongeModule plugin) {
-        this.plugin = plugin;
+    public SpongeServer(SpongeModule module) {
+        this.module = module;
+        this.sponge = Sponge.getServer();
     }
 
     @Override
     public Collection<Player> getOnlinePlayers() {
-        List<Player> list = new ArrayList<>();
-        for (org.spongepowered.api.entity.living.player.Player p : Sponge.getServer().getOnlinePlayers()) {
-            if (p != null) {
-                Player player = super.getPlayer(p.getUniqueId()); // players.get(p.getUniqueId());
-                if (player == null) {
-                    player = new SpongePlayer(p);
-                    insertPlayer(p.getUniqueId(), (ACPlayer) player); // players.put(p.getUniqueId(), player);
-                }
-                list.add(player);
+        players.clear();
+        for (org.spongepowered.api.entity.living.player.Player p : sponge.getOnlinePlayers()) {
+            if (!players.containsKey(p.getUniqueId())) {
+                players.put(p.getUniqueId(), new SpongePlayer(p));
             }
         }
-        return list;
+        return players.values();
     }
 
     @Override
     public Player getPlayer(UUID uuid) {
-        Player p = null;
-        Optional<org.spongepowered.api.entity.living.player.Player> player = Sponge.getServer().getPlayer(uuid);
-        if (player.isPresent()) {
-            p = super.getPlayer(player.get().getUniqueId()); // players.get(player.get().getUniqueId());
-            if (p == null) {
-                p = new SpongePlayer(player.get());
-                insertPlayer(player.get().getUniqueId(), (ACPlayer) p); // players.put(player.get().getUniqueId(), p);
+        Player player = null;
+        Optional<org.spongepowered.api.entity.living.player.Player> p = sponge.getPlayer(uuid);
+        if (p.isPresent()) {
+            if (!players.containsKey(p.get().getUniqueId())) {
+                players.put(p.get().getUniqueId(), new SpongePlayer(p.get()));
             }
+            player = players.get(p.get().getUniqueId());
         }
-        return p;
+        return player;
     }
 
     @Override
     public Player getPlayer(String name) {
-        Player p = null;
-        Optional<org.spongepowered.api.entity.living.player.Player> player = Sponge.getServer().getPlayer(name);
-        if (player.isPresent()) {
-            p = super.getPlayer(player.get().getUniqueId()); // players.get(player.get().getUniqueId());
-            if (p == null) {
-                p = new SpongePlayer(player.get());
-                insertPlayer(player.get().getUniqueId(), (ACPlayer) p); // players.put(player.get().getUniqueId(), p);
+        Player player = null;
+        Optional<org.spongepowered.api.entity.living.player.Player> p = sponge.getPlayer(name);
+        if (p.isPresent()) {
+            if (!players.containsKey(p.get().getUniqueId())) {
+                players.put(p.get().getUniqueId(), new SpongePlayer(p.get()));
             }
+            player = players.get(p.get().getUniqueId());
         }
-        return p;
+        return player;
     }
 
     @Override
     public Collection<World> getWorlds() {
-        List<World> list = new ArrayList<>();
-        for (org.spongepowered.api.world.World w : Sponge.getServer().getWorlds()) {
-            if (w != null) {
-                World world = super.getWorld(w.getUniqueId()); // worlds.get(w.getUniqueId());
-                if (world == null) {
-                    world = new SpongeWorld(w);
-                    insertWorld(w.getUniqueId(), (ACWorld) world); // worlds.put(w.getUniqueId(), world);
-                }
-                list.add(world);
+        worlds.clear();
+        for (org.spongepowered.api.world.World w : sponge.getWorlds()) {
+            if (!worlds.containsKey(w.getUniqueId())) {
+                worlds.put(w.getUniqueId(), new SpongeWorld(w));
             }
         }
-        return list;
+        return worlds.values();
     }
 
     @Override
     public World getWorld(UUID uuid) {
-        World w  = null;
-        Optional<org.spongepowered.api.world.World> world = Sponge.getServer().getWorld(uuid);
-        if (world.isPresent()) {
-            w = super.getWorld(world.get().getUniqueId()); // worlds.get(world.get().getUniqueId());
-            if (w == null) {
-                w = new SpongeWorld(world.get());
-                insertWorld(world.get().getUniqueId(), (ACWorld) w); // worlds.put(world.get().getUniqueId(), w);
+        World world = null;
+        Optional<org.spongepowered.api.world.World> w = sponge.getWorld(uuid);
+        if (w.isPresent()) {
+            if (!worlds.containsKey(w.get().getUniqueId())) {
+                worlds.put(w.get().getUniqueId(), new SpongeWorld(w.get()));
             }
+            world = worlds.get(w.get().getUniqueId());
         }
-        return w;
+        return world;
     }
 
     @Override
     public World getWorld(String name) {
-        World w  = null;
-        Optional<org.spongepowered.api.world.World> world = Sponge.getServer().getWorld(name);
-        if (world.isPresent()) {
-            w = super.getWorld(world.get().getUniqueId()); // worlds.get(world.get().getUniqueId());
-            if (w == null) {
-                w = new SpongeWorld(world.get());
-                insertWorld(world.get().getUniqueId(), (ACWorld) w); // worlds.put(world.get().getUniqueId(), w);
+        World world = null;
+        Optional<org.spongepowered.api.world.World> w = sponge.getWorld(name);
+        if (w.isPresent()) {
+            if (!worlds.containsKey(w.get().getUniqueId())) {
+                worlds.put(w.get().getUniqueId(), new SpongeWorld(w.get()));
             }
+            world = worlds.get(w.get().getUniqueId());
         }
-        return w;
+        return world;
     }
 
     @Override
     public void runSyncTask(Runnable task) {
-        Sponge.getScheduler().createTaskBuilder().execute(task).submit(plugin);
+        Sponge.getScheduler().createTaskBuilder().execute(task).submit(module);
+        DebugLogger.debug("Created new synchronous task " + task.getClass());
     }
 
     @Override
     public void scheduleSyncRepeatingTask(Runnable task, long delay, long interval) {
-        Sponge.getScheduler().createTaskBuilder().delayTicks(delay).intervalTicks(interval).execute(task).submit(plugin);
+        Sponge.getScheduler().createTaskBuilder().delayTicks(delay).intervalTicks(interval).execute(task).submit(module);
+        DebugLogger.debug("Created new repeating synchronous task " + task.getClass());
     }
 
     @Override
     public void runAsyncTask(Runnable task) {
-        Sponge.getScheduler().createTaskBuilder().async().execute(task).submit(plugin);
+        Sponge.getScheduler().createTaskBuilder().async().execute(task).submit(module);
+        DebugLogger.debug("Created new asynchronous task " + task.getClass());
     }
 
 }

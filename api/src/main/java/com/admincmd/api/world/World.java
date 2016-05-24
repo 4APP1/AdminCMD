@@ -18,26 +18,52 @@
 */
 package com.admincmd.api.world;
 
+import java.util.UUID;
+
 public interface World {
 
-    public abstract boolean isRaining();
+    public UUID getUUID();
 
-    public abstract void setRaining(boolean raining);
+    public String getName();
 
-    public abstract boolean isThundering();
+    public boolean isRaining();
 
-    public abstract void setThundering(boolean thundering);
+    public void setRaining(boolean raining);
 
-    public abstract int getWeatherDuration();
+    public boolean isThundering();
 
-    public abstract void setWeatherDuration(int seconds);
+    public void setThundering(boolean thundering);
 
-    public abstract long getTime();
+    public int getRainTime();
 
-    public abstract void setTime(long time);
+    public void setRainTime(int seconds);
 
-    public abstract Location getSpawnLocation();
+    public int getThunderTime();
 
-    public abstract void setSpawnLocation(Location location);
+    public void setThunderTime(int seconds);
+
+    public long getTime();
+
+    public void setTime(long time);
+
+    public Location getSpawnLocation();
+
+    public void setSpawnLocation(Location location);
+
+    public Weather getWeather();
+
+    public void setWeather(Weather weather);
+
+    public boolean isWeatherPaused();
+
+    public Weather getWeatherPaused();
+
+    public void setWeatherPaused(boolean paused);
+
+    public boolean isTimePaused();
+
+    public long getTimePaused();
+
+    public void setTimePaused(boolean paused);
 
 }

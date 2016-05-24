@@ -28,7 +28,7 @@ import java.util.List;
 
 public enum Config {
 
-    LOCALES_LANGUAGE("locales.language", "en_US", "The file containing all AdminCMD messages"),
+    LOCALE_LANGUAGE("locale.language", "en_US", "The file containing all AdminCMD messages"),
     DB_USE("database.use", "sqlite", "The database type to use (Options: sqlite, mysql)"),
     DB_MYSQL_HOST("database.mysql.host", "127.0.0.1", "The MySQL host address"),
     DB_MYSQL_PORT("database.mysql.port", 3306, "The MySQL host port"),
@@ -84,17 +84,21 @@ public enum Config {
             try {
                 config.save();
             } catch (IOException e) {
-                DebugLogger.severe("Config could not be saved: " + file.getName(), e);
+                DebugLogger.severe("Config could not be saved: config.yml", e);
             }
             reload(false);
         }
     }
 
-    private static final File file = new File(AdminCMD.getDataFolder(), "config.yml");
-    private static final YAMLConfiguration config = new YAMLConfiguration(file);
+    private static File folder;
+    private static YAMLConfiguration config;
 
-    public static void load() {
-        file.getParentFile().mkdirs();
+    public static void load(File dataFolder) {
+        folder = dataFolder;
+        if (config == null) {
+            folder.mkdirs();
+            config = new YAMLConfiguration(new File(dataFolder, "config.yml"));
+        }
         reload(false);
 
         String header = "";
@@ -109,7 +113,7 @@ public enum Config {
         try {
             config.save();
         } catch (IOException e) {
-            DebugLogger.severe("Config could not be saved: " + file.getName(), e);
+            DebugLogger.severe("Config could not be saved: config.yml", e);
         }
     }
 
@@ -118,11 +122,11 @@ public enum Config {
             try {
                 config.load();
             } catch (IOException e) {
-                DebugLogger.severe("Config could not be loaded: " + file.getName(), e);
+                DebugLogger.severe("Config could not be loaded: config.yml", e);
             }
             return;
         }
-        load();
+        load(folder);
     }
 
 }

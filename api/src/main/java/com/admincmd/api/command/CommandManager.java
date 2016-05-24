@@ -32,10 +32,6 @@ public abstract class CommandManager {
 
     private final Map<Identifiable, List<Command>> commandMap = new HashMap<>();
 
-    public CommandManager() {
-
-    }
-
     public void registerClass(Class<?> clazz, Identifiable identifiable) {
         if (identifiable == null || clazz == null) {
             return;

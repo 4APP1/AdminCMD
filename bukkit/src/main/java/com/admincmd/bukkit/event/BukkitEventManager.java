@@ -20,6 +20,7 @@ package com.admincmd.bukkit.event;
 
 import com.admincmd.api.event.Event;
 import com.admincmd.api.event.EventManager;
+import com.admincmd.api.util.logger.DebugLogger;
 import com.admincmd.bukkit.BukkitModule;
 
 import java.lang.reflect.InvocationTargetException;
@@ -28,27 +29,27 @@ import java.util.List;
 
 public class BukkitEventManager extends EventManager {
 
-    private BukkitModule plugin;
+    private BukkitModule module;
 
     private List<Class<? extends Event>> eventList = new ArrayList<>();
 
-    public BukkitEventManager(BukkitModule plugin) {
-        this.plugin = plugin;
+    public BukkitEventManager(BukkitModule module) {
+        this.module = module;
     }
 
     public void registerBukkitListener(Class<? extends BukkitListener> clazz) {
         BukkitListener listener = null;
         try {
-            listener = clazz.getDeclaredConstructor(BukkitModule.class, BukkitEventManager.class).newInstance(plugin, this);
+            listener = clazz.getDeclaredConstructor(BukkitModule.class, BukkitEventManager.class).newInstance(module, this);
             listener.register();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            DebugLogger.severe("Listener failed to be accessed: " + clazz.getName(), e);
+        } catch (InstantiationException e) {
+            DebugLogger.severe("Listener failed to be instantiated: " + clazz.getName(), e);
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            DebugLogger.severe("Listener failed to be invoked: " + clazz.getName(), e);
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+            DebugLogger.severe("Listener does not contain method: " + clazz.getName(), e);
         }
     }
 

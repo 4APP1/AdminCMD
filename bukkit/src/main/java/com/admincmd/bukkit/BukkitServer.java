@@ -19,128 +19,118 @@
 package com.admincmd.bukkit;
 
 import com.admincmd.api.entity.player.Player;
+import com.admincmd.api.util.logger.DebugLogger;
 import com.admincmd.api.world.World;
 import com.admincmd.bukkit.entity.player.BukkitPlayer;
 import com.admincmd.bukkit.world.BukkitWorld;
-import com.admincmd.core.ACServer;
-import com.admincmd.core.entity.player.ACPlayer;
-import com.admincmd.core.world.ACWorld;
 import org.bukkit.Bukkit;
+import org.bukkit.Server;
 
 import java.util.*;
 
-public class BukkitServer extends ACServer {
+public class BukkitServer implements com.admincmd.api.Server {
 
-    private BukkitModule plugin;
+    private BukkitModule module;
+    private Server bukkit;
 
-    // private Map<UUID, Player> players = new HashMap<>();
-    // private Map<UUID, World> worlds = new HashMap<>();
+    private Map<UUID, Player> players = new HashMap<>();
+    private Map<UUID, World> worlds = new HashMap<>();
 
-    public BukkitServer(BukkitModule plugin) {
-        this.plugin = plugin;
+    public BukkitServer(BukkitModule module) {
+        this.module = module;
+        this.bukkit = Bukkit.getServer();
     }
 
     @Override
     public Collection<Player> getOnlinePlayers() {
-        List<Player> list = new ArrayList<>();
-        for (org.bukkit.entity.Player p : Bukkit.getServer().getOnlinePlayers()) {
-            if (p != null) {
-                Player player = super.getPlayer(p.getUniqueId()); // players.get(p.getUniqueId());
-                if (player == null) {
-                    player = new BukkitPlayer(p);
-                    insertPlayer(p.getUniqueId(), (ACPlayer) player); // players.put(p.getUniqueId(), player);
-                }
-                list.add(player);
+        players.clear();
+        for (org.bukkit.entity.Player p : bukkit.getOnlinePlayers()) {
+            if (!players.containsKey(p.getUniqueId())) {
+                players.put(p.getUniqueId(), new BukkitPlayer(p));
             }
         }
-        return list;
+        return players.values();
     }
 
     @Override
     public Player getPlayer(UUID uuid) {
-        Player p = null;
-        org.bukkit.entity.Player player = Bukkit.getServer().getPlayer(uuid);
-        if (player != null) {
-            p = super.getPlayer(player.getUniqueId()); // players.get(player.getUniqueId());
-            if (p == null) {
-                p = new BukkitPlayer(player);
-                insertPlayer(player.getUniqueId(), (ACPlayer) p); // players.put(player.getUniqueId(), p);
+        Player player = null;
+        org.bukkit.entity.Player p = bukkit.getPlayer(uuid);
+        if (p != null) {
+            if (!players.containsKey(p.getUniqueId())) {
+                players.put(p.getUniqueId(), new BukkitPlayer(p));
             }
+            player = players.get(p.getUniqueId());
         }
-        return p;
+        return player;
     }
 
     @Override
     public Player getPlayer(String name) {
-        Player p = null;
-        org.bukkit.entity.Player player = Bukkit.getServer().getPlayer(name);
-        if (player != null) {
-            p = super.getPlayer(player.getUniqueId()); // players.get(player.getUniqueId());
-            if (p == null) {
-                p = new BukkitPlayer(player);
-                insertPlayer(player.getUniqueId(), (ACPlayer) p); // players.put(player.getUniqueId(), p);
+        Player player = null;
+        org.bukkit.entity.Player p = bukkit.getPlayer(name);
+        if (p != null) {
+            if (!players.containsKey(p.getUniqueId())) {
+                players.put(p.getUniqueId(), new BukkitPlayer(p));
             }
+            player = players.get(p.getUniqueId());
         }
-        return p;
+        return player;
     }
 
     @Override
     public Collection<World> getWorlds() {
-        List<World> list = new ArrayList<>();
-        for (org.bukkit.World w : Bukkit.getServer().getWorlds()) {
-            if (w != null) {
-                World world = super.getWorld(w.getUID()); // worlds.get(w.getUID());
-                if (world == null) {
-                    world = new BukkitWorld(w);
-                    insertWorld(w.getUID(), (ACWorld) world); // worlds.put(w.getUID(), world);
-                }
-                list.add(world);
+        worlds.clear();
+        for (org.bukkit.World w : bukkit.getWorlds()) {
+            if (!worlds.containsKey(w.getUID())) {
+                worlds.put(w.getUID(), new BukkitWorld(w));
             }
         }
-        return list;
+        return worlds.values();
     }
 
     @Override
     public World getWorld(UUID uuid) {
-        World w  = null;
-        org.bukkit.World world = Bukkit.getServer().getWorld(uuid);
-        if (world != null) {
-            w = super.getWorld(world.getUID()); // worlds.get(world.getUID());
-            if (w == null) {
-                w = new BukkitWorld(world);
-                insertWorld(world.getUID(), (ACWorld) w); // worlds.put(world.getUID(), w);
+        World world = null;
+        org.bukkit.World w = bukkit.getWorld(uuid);
+        if (w != null) {
+            if (!worlds.containsKey(w.getUID())) {
+                worlds.put(w.getUID(), new BukkitWorld(w));
             }
+            world = worlds.get(w.getUID());
         }
-        return w;
+        return world;
     }
 
     @Override
     public World getWorld(String name) {
-        World w  = null;
-        org.bukkit.World world = Bukkit.getServer().getWorld(name);
-        if (world != null) {
-            w = super.getWorld(world.getUID()); // worlds.get(world.getUID());
-            if (w == null) {
-                w = new BukkitWorld(world);
-                insertWorld(world.getUID(), (ACWorld) w); // worlds.put(world.getUID(), w);
+        World world = null;
+        org.bukkit.World w = bukkit.getWorld(name);
+        if (w != null) {
+            if (!worlds.containsKey(w.getUID())) {
+                worlds.put(w.getUID(), new BukkitWorld(w));
             }
+            world = worlds.get(w.getUID());
         }
-        return w;
+        return world;
     }
 
     @Override
     public void runSyncTask(Runnable task) {
-        Bukkit.getServer().getScheduler().runTask(plugin, task);
+        Bukkit.getServer().getScheduler().runTask(module, task);
+        DebugLogger.debug("Created new synchronous task " + task.getClass());
     }
 
     @Override
     public void scheduleSyncRepeatingTask(Runnable task, long delay, long interval) {
-        Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, task, delay, interval);
+        Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(module, task, delay, interval);
+        DebugLogger.debug("Created new repeating synchronous task " + task.getClass());
     }
 
     @Override
     public void runAsyncTask(Runnable task) {
-        Bukkit.getServer().getScheduler().runTaskAsynchronously(plugin, task);
+        Bukkit.getServer().getScheduler().runTaskAsynchronously(module, task);
+        DebugLogger.debug("Created new asynchronous task " + task.getClass());
     }
 
 }

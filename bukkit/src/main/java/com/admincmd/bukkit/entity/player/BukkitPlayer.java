@@ -19,18 +19,93 @@
 package com.admincmd.bukkit.entity.player;
 
 import com.admincmd.api.AdminCMD;
+import com.admincmd.api.database.Database;
+import com.admincmd.api.util.logger.DebugLogger;
 import com.admincmd.api.world.Location;
 import com.admincmd.api.world.World;
-import com.admincmd.core.entity.player.ACPlayer;
+import com.admincmd.bukkit.world.BukkitLocation;
 import org.bukkit.entity.Player;
 
-public class BukkitPlayer extends ACPlayer {
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.UUID;
 
-    private Player player;
+public class BukkitPlayer implements com.admincmd.api.entity.player.Player {
+
+    private final Player player;
+
+    private final Database database;
+
+    private boolean hidden = false;
+    private boolean fly = false;
+    private boolean god = false;
+    private String nickname = "";
+
+    private int id;
 
     public BukkitPlayer(Player player) {
-        super(player.getUniqueId(), player.getName());
         this.player = player;
+
+        database = AdminCMD.getDatabaseManager().getDatabase();
+        try {
+            PreparedStatement ps = database.getPreparedStatement("SELECT * FROM `ac_players` WHERE `uuid` = ?;");
+            ps.setString(1, player.getUniqueId().toString());
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                boolean hidden = rs.getBoolean("hidden");
+                boolean fly = rs.getBoolean("fly");
+                boolean god = rs.getBoolean("god");
+                String nickname = rs.getString("nickname");
+                // TODO Get information
+                int id = rs.getInt("id");
+
+                this.hidden = hidden;
+                this.fly = fly;
+                this.god = god;
+                this.nickname = nickname;
+                // TODO Set information
+                this.id = id;
+            } else {
+                createPlayer();
+            }
+            database.closeResultSet(rs);
+            database.closeStatement(ps);
+        } catch (SQLException e) {
+            DebugLogger.severe("Database player could not be loaded: " + getUUID(), e);
+        }
+    }
+
+    private void createPlayer() {
+        try {
+            PreparedStatement ps = database.getPreparedStatement("INSERT INTO `ac_players` (`uuid`, `name`, `hidden`, `fly`, `god`, `nickname`) VALUES (?, ?, ?, ?, ?, ?);");
+            ps.setString(1, player.getUniqueId().toString());
+            ps.setString(2, player.getName());
+            ps.setBoolean(3, this.hidden);
+            ps.setBoolean(4, this.fly);
+            ps.setBoolean(5, this.god);
+            ps.setString(6, this.nickname);
+            ps.executeUpdate();
+            database.closeStatement(ps);
+        } catch (SQLException e) {
+            DebugLogger.severe("Database player could not be created: " + getUUID(), e);
+        }
+    }
+
+    public void update() {
+        try {
+            PreparedStatement ps = database.getPreparedStatement("UPDATE `ac_players` SET `hidden` = ?, `fly` = ?, `god` = ?, `nickname` = ? WHERE `id` = ?;");
+            ps.setBoolean(1, this.hidden);
+            ps.setBoolean(2, this.fly);
+            ps.setBoolean(3, this.god);
+            ps.setString(4, this.nickname);
+            // TODO Set information
+            ps.setInt(4, this.id);
+            ps.executeUpdate();
+            database.closeStatement(ps);
+        } catch (SQLException e) {
+            DebugLogger.severe("Database player could not be accessed: " + getUUID(), e);
+        }
     }
 
     @Override
@@ -44,15 +119,23 @@ public class BukkitPlayer extends ACPlayer {
     }
 
     @Override
+    public UUID getUUID() {
+        return player.getUniqueId();
+    }
+
+    @Override
     public World getWorld() {
         return AdminCMD.getServer().getWorld(player.getWorld().getUID());
     }
 
     @Override
     public Location getLocation() {
-        World world = getWorld();
-        org.bukkit.Location loc = player.getLocation();
-        return new Location(world, loc.getX(), loc.getY(), loc.getZ());
+        return new BukkitLocation(player.getLocation());
+    }
+
+    @Override
+    public String getName() {
+        return player.getName();
     }
 
 }

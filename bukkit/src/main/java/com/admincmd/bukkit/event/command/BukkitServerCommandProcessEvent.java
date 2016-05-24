@@ -20,6 +20,9 @@ package com.admincmd.bukkit.event.command;
 
 import com.admincmd.api.command.CommandSource;
 import com.admincmd.api.event.command.CommandProcessEvent;
+import com.admincmd.bukkit.command.BukkitCommandSource;
+import com.admincmd.bukkit.command.BukkitConsoleSource;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.event.server.ServerCommandEvent;
 
 public class BukkitServerCommandProcessEvent implements CommandProcessEvent {
@@ -32,7 +35,14 @@ public class BukkitServerCommandProcessEvent implements CommandProcessEvent {
 
     @Override
     public CommandSource getSource() {
-        return null;
+        CommandSource source = null;
+        if (event.getSender() instanceof ConsoleCommandSender) {
+            ConsoleCommandSender console = (ConsoleCommandSender) event.getSender();
+            source = new BukkitConsoleSource(console);
+        } else {
+            source = new BukkitCommandSource(event.getSender());
+        }
+        return source;
     }
 
     @Override

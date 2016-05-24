@@ -20,6 +20,7 @@ package com.admincmd.sponge.event;
 
 import com.admincmd.api.event.Event;
 import com.admincmd.api.event.EventManager;
+import com.admincmd.api.util.logger.DebugLogger;
 import com.admincmd.sponge.SpongeModule;
 
 import java.lang.reflect.InvocationTargetException;
@@ -28,27 +29,27 @@ import java.util.List;
 
 public class SpongeEventManager extends EventManager {
 
-    private SpongeModule plugin;
+    private SpongeModule module;
 
     private List<Class<? extends Event>> eventList = new ArrayList<>();
 
-    public SpongeEventManager(SpongeModule plugin) {
-        this.plugin = plugin;
+    public SpongeEventManager(SpongeModule module) {
+        this.module = module;
     }
 
     public void registerSpongeListener(Class<? extends SpongeListener> clazz) {
         SpongeListener listener = null;
         try {
-            listener = clazz.getDeclaredConstructor(SpongeModule.class, SpongeEventManager.class).newInstance(plugin, this);
+            listener = clazz.getDeclaredConstructor(SpongeModule.class, SpongeEventManager.class).newInstance(module, this);
             listener.register();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            DebugLogger.severe("Listener failed to be accessed: " + clazz.getName(), e);
+        } catch (InstantiationException e) {
+            DebugLogger.severe("Listener failed to be instantiated: " + clazz.getName(), e);
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            DebugLogger.severe("Listener failed to be invoked: " + clazz.getName(), e);
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+            DebugLogger.severe("Listener does not contain method: " + clazz.getName(), e);
         }
     }
 

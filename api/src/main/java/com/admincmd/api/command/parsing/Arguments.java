@@ -43,7 +43,7 @@ public class Arguments {
                 String character = arg.replaceFirst("-", "").toLowerCase();
                 String value = "";
                 if ((i + 1) < args.length) {
-                    arg = args[++i];
+                    value = args[++i];
                 }
                 flags.put(character, new Flag(character, value));
             } else {

@@ -155,11 +155,7 @@ public class YAMLConfiguration extends Configuration {
         return getNodeMap(root, "");
     }
 
-    /**
-     * Loads configuration values and header from the default file
-     *
-     * @throws IOException
-     */
+    @Override
     public void load() throws IOException {
         load(file);
     }
@@ -205,11 +201,7 @@ public class YAMLConfiguration extends Configuration {
         }
     }
 
-    /**
-     * Saves configuration values and header to the default file
-     *
-     * @throws IOException
-     */
+    @Override
     public void save() throws IOException {
         save(file);
     }

@@ -18,6 +18,7 @@
 */
 package com.admincmd.bukkit.event.command;
 
+import com.admincmd.api.AdminCMD;
 import com.admincmd.api.command.CommandSource;
 import com.admincmd.api.event.command.CommandProcessEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
@@ -32,7 +33,7 @@ public class BukkitPlayerCommandProcessEvent implements CommandProcessEvent {
 
     @Override
     public CommandSource getSource() {
-        return null;
+        return AdminCMD.getServer().getPlayer(event.getPlayer().getUniqueId());
     }
 
     @Override

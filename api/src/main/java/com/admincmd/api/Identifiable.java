@@ -20,8 +20,10 @@ package com.admincmd.api;
 
 public interface Identifiable {
 
-    public String getModuleId();
+    public String getModId();
 
-    public String getModuleName();
+    public String getModName();
+
+    public String getModVersion();
 
 }

@@ -20,42 +20,50 @@ package com.admincmd.api;
 
 import com.admincmd.api.addon.AddonManager;
 import com.admincmd.api.command.CommandManager;
+import com.admincmd.api.database.DatabaseManager;
 import com.admincmd.api.event.EventManager;
-
-import java.io.File;
+import com.admincmd.api.file.FileManager;
 
 public class AdminCMD {
 
-    private static Core INSTANCE;
+    private static Module INSTANCE;
 
-    public static void initialize(Core core) {
+    public static void initialize(Module module) {
         if (INSTANCE == null) {
-            INSTANCE = core;
+            INSTANCE = module;
         }
     }
 
-    public static Core getCore() {
+    private static Module getModule() {
         return INSTANCE;
     }
 
-    public static File getDataFolder() {
-        return getCore().getDataFolder();
-    }
-
-    public static Server getServer() {
-        return getCore().getServer();
-    }
-
-    public static Registry getRegistry() {
-        return getCore().getRegistry();
+    public static AddonManager getAddonManager() {
+        return getModule().getAddonManager();
     }
 
     public static CommandManager getCommandManager() {
-        return getCore().getCommandManager();
+        return getModule().getCommandManager();
+    }
+
+    public static DatabaseManager getDatabaseManager() {
+        return getModule().getDatabaseManager();
     }
 
     public static EventManager getEventManager() {
-        return getCore().getEventManager();
+        return getModule().getEventManager();
+    }
+
+    public static FileManager getFileManager() {
+        return getModule().getFileManager();
+    }
+
+    public static Registry getRegistry() {
+        return getModule().getPluginRegistry();
+    }
+
+    public static Server getServer() {
+        return getModule().getPluginServer();
     }
 
 }

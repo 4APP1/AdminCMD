@@ -1,12 +1,12 @@
 package com.admincmd.core.util.tasks;
 
-import com.admincmd.core.world.ACWorld;
+import com.admincmd.api.world.World;
 
 public class TimeReset implements Runnable {
 
-    private final ACWorld world;
+    private final World world;
 
-    public TimeReset(ACWorld world) {
+    public TimeReset(World world) {
         this.world = world;
     }
 

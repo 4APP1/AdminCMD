@@ -18,31 +18,31 @@
 */
 package com.admincmd.core.database;
 
-import com.admincmd.api.AdminCMD;
 import com.admincmd.api.database.Database;
+import com.admincmd.api.database.DatabaseManager;
 import com.admincmd.api.database.type.MySQL;
 import com.admincmd.api.database.type.SQLite;
 import com.admincmd.api.util.logger.DebugLogger;
-import com.admincmd.core.ACPlugin;
+import com.admincmd.core.ACModule;
 import com.admincmd.core.configuration.Config;
 
 import java.io.File;
 import java.sql.SQLException;
 
-public class DatabaseManager {
+public class ACDatabaseManager implements DatabaseManager {
 
-    private ACPlugin plugin;
+    private final ACModule module;
 
     private final Database database;
 
-    public DatabaseManager(ACPlugin plugin) {
-        this.plugin = plugin;
+    public ACDatabaseManager(ACModule module) {
+        this.module = module;
 
         if (Config.DB_USE.getString().equalsIgnoreCase("mysql")) {
             database = new MySQL(Config.DB_MYSQL_HOST.getString(), Config.DB_MYSQL_PORT.getInteger(),
                     Config.DB_MYSQL_NAME.getString(), Config.DB_MYSQL_USER.getString(), Config.DB_MYSQL_PASS.getString());
         } else {
-            database = new SQLite(new File(AdminCMD.getDataFolder(), "admincmd.db"));
+            database = new SQLite(new File(module.getDataFolder(), "admincmd.db"));
         }
 
         if (database.testConnection()) {

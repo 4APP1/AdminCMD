@@ -13,6 +13,14 @@
         <module>sponge</module>
     </modules>
 
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <plugin.id>${project.artifactId}</plugin.id>
+        <plugin.name>${project.name}</plugin.name>
+        <plugin.version>${project.version}</plugin.version>
+    </properties>
+
     <build>
         <defaultGoal>clean install</defaultGoal>
         <finalName>${project.name}</finalName>
@@ -48,5 +56,13 @@
             </plugin>
         </plugins>
     </build>
+
+    <repositories>
+        <repository>
+            <id>central</id>
+            <name>Maven Central</name>
+            <url>http://repo1.maven.org/maven2/</url>
+        </repository>
+    </repositories>
 
 </project>

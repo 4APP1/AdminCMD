@@ -18,6 +18,8 @@
 */
 package com.admincmd.api.world;
 
+import com.admincmd.api.AdminCMD;
+
 public class Location {
 
     private World world;
@@ -55,6 +57,10 @@ public class Location {
         return x;
     }
 
+    public int getBlockX() {
+        return (int) x;
+    }
+
     public void setX(double x) {
         this.x = x;
     }
@@ -63,12 +69,20 @@ public class Location {
         return y;
     }
 
+    public int getBlockY() {
+        return (int) y;
+    }
+
     public void setY(double y) {
         this.y = y;
     }
 
     public double getZ() {
         return z;
+    }
+
+    public int getBlockZ() {
+        return (int) z;
     }
 
     public void setZ(double z) {
@@ -89,6 +103,23 @@ public class Location {
 
     public void setPitch(float pitch) {
         this.pitch = pitch;
+    }
+
+    public static String serialize(Location location) {
+        return location.world.getName() + ";" + location.x + ";" +
+                location.y + ";" + location.z + ";" +
+                location.yaw + ";" + location.pitch + ";";
+    }
+
+    public static Location deserialize(String string) {
+        String[] components = string.split(";");
+        World world = AdminCMD.getServer().getWorld(components[0]);
+        double x = Double.parseDouble(components[1]);
+        double y = Double.parseDouble(components[2]);
+        double z = Double.parseDouble(components[3]);
+        float yaw = Float.parseFloat(components[4]);
+        float pitch = Float.parseFloat(components[5]);
+        return new Location(world, x, y, z, yaw, pitch);
     }
 
 }

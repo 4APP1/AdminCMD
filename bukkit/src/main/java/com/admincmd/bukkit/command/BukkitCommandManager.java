@@ -31,13 +31,13 @@ import java.util.Map;
 
 public class BukkitCommandManager extends CommandManager {
 
-    private BukkitModule plugin;
+    private BukkitModule module;
 
     private CommandMap commandMap;
     private Map<String, BukkitCommand> registeredCommands = new HashMap<>();
 
-    public BukkitCommandManager(BukkitModule plugin) {
-        this.plugin = plugin;
+    public BukkitCommandManager(BukkitModule module) {
+        this.module = module;
 
         CommandMap map = null;
         try {
@@ -56,7 +56,7 @@ public class BukkitCommandManager extends CommandManager {
     public void registerPluginCommand(Command command) {
         if (commandMap.getCommand(command.getPrimaryAlias()) == null) {
             BukkitCommand cmd = new BukkitCommand(command);
-            commandMap.register(plugin.getName().toLowerCase(), cmd);
+            commandMap.register(module.getName().toLowerCase(), cmd);
             registeredCommands.put(command.getPrimaryAlias(), cmd);
         } else {
             DebugLogger.warn("Command is already registered: " + command.getPrimaryAlias() + "! Skipping it...");

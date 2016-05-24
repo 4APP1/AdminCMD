@@ -21,7 +21,11 @@ package com.admincmd.api.entity;
 import com.admincmd.api.world.Location;
 import com.admincmd.api.world.World;
 
+import java.util.UUID;
+
 public interface Entity {
+
+    public UUID getUUID();
 
     public World getWorld();
 

@@ -18,9 +18,17 @@
 */
 package com.admincmd.sponge.event.command;
 
-import com.admincmd.api.command.CommandSource;
+import com.admincmd.api.AdminCMD;
 import com.admincmd.api.event.command.CommandProcessEvent;
+import com.admincmd.sponge.command.SpongeCommandSource;
+import com.admincmd.sponge.command.SpongeConsoleSource;
+import com.admincmd.sponge.entity.player.SpongePlayer;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.command.source.ConsoleSource;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.command.SendCommandEvent;
+
+import java.util.Optional;
 
 public class SpongeCommandProcessEvent implements CommandProcessEvent {
 
@@ -31,8 +39,21 @@ public class SpongeCommandProcessEvent implements CommandProcessEvent {
     }
 
     @Override
-    public CommandSource getSource() {
-        return null;
+    public com.admincmd.api.command.CommandSource getSource() {
+        com.admincmd.api.command.CommandSource source = null;
+        Optional<CommandSource> sender = event.getCause().first(CommandSource.class);
+        if (sender.isPresent()) {
+            if (sender.get() instanceof Player) {
+                Player player = (Player) sender.get();
+                source = AdminCMD.getServer().getPlayer(player.getUniqueId());
+            } else if (sender.get() instanceof ConsoleSource) {
+                ConsoleSource console = (ConsoleSource) sender.get();
+                source = new SpongeConsoleSource(console);
+            } else {
+                source = new SpongeCommandSource(sender.get());
+            }
+        }
+        return source;
     }
 
     @Override

@@ -19,9 +19,13 @@
 package com.admincmd.sponge;
 
 import com.admincmd.api.*;
+import com.admincmd.api.addon.AddonManager;
 import com.admincmd.api.command.CommandManager;
+import com.admincmd.api.database.DatabaseManager;
 import com.admincmd.api.event.EventManager;
-import com.admincmd.core.ACPlugin;
+import com.admincmd.api.file.FileManager;
+import com.admincmd.core.ACModule;
+import com.admincmd.core.ACVersion;
 import com.admincmd.sponge.command.SpongeCommandManager;
 import com.admincmd.sponge.event.SpongeEventManager;
 import com.google.inject.Inject;
@@ -29,52 +33,78 @@ import org.spongepowered.api.config.ConfigDir;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.game.state.GameStartingServerEvent;
 import org.spongepowered.api.event.game.state.GameStoppingServerEvent;
+import org.spongepowered.api.plugin.Plugin;
 
 import java.io.File;
 
-@org.spongepowered.api.plugin.Plugin(id = "admincmd", name = "AdminCMD")
-public class SpongeModule implements Identifiable {
+@Plugin(id = ACVersion.PLUGIN_ID, name = ACVersion.PLUGIN_NAME, version = ACVersion.PLUGIN_VERSION)
+public class SpongeModule implements Module {
 
     @Inject
     @ConfigDir(sharedRoot = false)
-    private File folder;
-    private Server server;
-    private Registry registry;
+    private File dataFolder;
+
+    private ACModule coreModule;
     private CommandManager commandManager;
     private EventManager eventManager;
-
-    private Core core;
+    private Registry pluginRegistry;
+    private Server pluginServer;
 
     @Listener
     public void onEnable(GameStartingServerEvent event) {
-        folder.mkdirs();
+        dataFolder.mkdirs();
+        coreModule = new ACModule(getClass().getClassLoader(), dataFolder);
 
-        server = new SpongeServer(this);
-        registry = new SpongeRegistry(this);
         commandManager = new SpongeCommandManager(this);
         eventManager = new SpongeEventManager(this);
+        pluginRegistry = new SpongeRegistry(this);
+        pluginServer = new SpongeServer(this);
 
-        core = new SpongeCore(this, folder, server, registry, commandManager, eventManager);
-        AdminCMD.initialize(core);
+        AdminCMD.initialize(this);
 
-        ACPlugin.enable();
+        coreModule.onEnable();
     }
 
     @Listener
     public void onDisable(GameStoppingServerEvent event) {
-        ACPlugin.disable();
+        coreModule.onDisable();
 
 
     }
 
     @Override
-    public String getModuleId() {
-        return "admincmd";
+    public AddonManager getAddonManager() {
+        return coreModule.getAddonManager();
     }
 
     @Override
-    public String getModuleName() {
-        return "AdminCMD";
+    public CommandManager getCommandManager() {
+        return commandManager;
+    }
+
+    @Override
+    public DatabaseManager getDatabaseManager() {
+        return coreModule.getDatabaseManager();
+    }
+
+    @Override
+    public EventManager getEventManager() {
+        return eventManager;
+    }
+
+    @Override
+    public FileManager getFileManager() {
+        return coreModule.getFileManager();
+    }
+
+    @Override
+    public Registry getPluginRegistry() {
+        return pluginRegistry;
+    }
+
+    @Override
+    public Server getPluginServer() {
+        return pluginServer;
     }
 
 }

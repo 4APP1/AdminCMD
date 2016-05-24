@@ -18,5 +18,24 @@
 */
 package com.admincmd.api;
 
+import com.admincmd.api.block.BlockType;
+import com.admincmd.api.item.EnchantType;
+import com.admincmd.api.item.ItemType;
+
+import java.util.Collection;
+
 public interface Registry {
+
+    public ItemType getItemType(String id);
+
+    public Collection<ItemType> getItemTypes();
+
+    public BlockType getBlockType(String id);
+
+    public Collection<BlockType> getBlockTypes();
+
+    public EnchantType getEnchantType(String id);
+
+    public Collection<EnchantType> getEnchantTypes();
+
 }

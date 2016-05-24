@@ -18,7 +18,6 @@
 */
 package com.admincmd.api.event;
 
-import com.admincmd.api.Core;
 import com.admincmd.api.Identifiable;
 
 import java.lang.reflect.Method;
@@ -30,10 +29,6 @@ import java.util.Map;
 public abstract class EventManager {
 
     private final Map<Identifiable, List<Listener>> listenerMap = new HashMap<>();
-
-    public EventManager() {
-
-    }
 
     public void registerClass(Class<?> clazz, Identifiable identifiable) {
         if (identifiable == null || clazz == null) {

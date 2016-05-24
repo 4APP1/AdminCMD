@@ -23,12 +23,19 @@ import com.admincmd.api.world.Location;
 import com.admincmd.api.world.World;
 import org.spongepowered.api.entity.Entity;
 
+import java.util.UUID;
+
 public class SpongeEntity implements com.admincmd.api.entity.Entity {
 
     private Entity entity;
 
     public SpongeEntity(Entity entity) {
         this.entity = entity;
+    }
+
+    @Override
+    public UUID getUUID() {
+        return entity.getUniqueId();
     }
 
     @Override

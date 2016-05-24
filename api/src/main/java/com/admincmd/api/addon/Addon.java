@@ -20,56 +20,10 @@ package com.admincmd.api.addon;
 
 import com.admincmd.api.Identifiable;
 
-public class Addon implements Identifiable {
+public interface Addon extends Identifiable {
 
-    private String id;
-    private String name;
-    private String version;
+    public void onEnable();
 
-    private boolean enabled = false;
-
-    protected Addon(String id, String name, String version) {
-        this.id = id;
-        this.name = name;
-        this.version = version;
-    }
-
-    protected boolean isEnabled() {
-        return enabled;
-    }
-
-    protected void setEnabled(boolean enabled) {
-        if (this.enabled != enabled) {
-            this.enabled = enabled;
-
-            if (this.enabled) {
-                onEnable();
-            } else {
-                onDisable();
-            }
-        }
-    }
-
-    public void onEnable() {
-
-    }
-
-    public void onDisable() {
-
-    }
-
-    @Override
-    public String getModuleId() {
-        return id;
-    }
-
-    @Override
-    public String getModuleName() {
-        return name;
-    }
-
-    public String getModuleVersion() {
-        return version;
-    }
+    public void onDisable();
 
 }

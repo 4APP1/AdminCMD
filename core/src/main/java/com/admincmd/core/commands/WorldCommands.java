@@ -25,11 +25,8 @@ import com.admincmd.api.command.parsing.Arguments;
 import com.admincmd.api.command.source.ConsoleSource;
 import com.admincmd.api.entity.player.Player;
 import com.admincmd.api.util.message.Color;
+import com.admincmd.api.world.Weather;
 import com.admincmd.api.world.World;
-import com.admincmd.core.world.ACWorld;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class WorldCommands {
 
@@ -51,23 +48,17 @@ public class WorldCommands {
         }
 
         if (w != null) {
-            ACWorld world = (ACWorld) w;
-            List<String> weathers = Arrays.asList("clear", "rain", "storm", "pause", "unpause");
-            String weather = arguments.get(0).toLowerCase();
-            if (weather.equals(weathers.get(0))) {
-                world.setWeather(weathers.get(0));
-            } else if (weather.equals(weathers.get(1))) {
-                world.setWeather(weathers.get(1));
-            } else if (weather.equals(weathers.get(2))) {
-                world.setWeather(weathers.get(2));
-            } else if (weather.equals(weathers.get(3))) {
-                world.setWeatherPaused(true);
-            } else if (weather.equals(weathers.get(4))) {
-                world.setWeatherPaused(false);
+            String arg = arguments.get(0).toLowerCase();
+            if (Weather.get(arg) != null) {
+                w.setWeather(Weather.get(arg));
+            } else if (arg.equalsIgnoreCase("pause")) {
+                w.setWeatherPaused(true);
+            } else if (arg.equalsIgnoreCase("unpause")) {
+                w.setWeatherPaused(false);
             } else {
                 return CommandResult.builder().addColor(Color.RED).addText("Specified weather type does not exist!").build();
             }
-            return CommandResult.builder().addText("The weather has been changed to " + weather + "!").build();
+            return CommandResult.builder().addText("The weather has been changed to " + arg + "!").build();
         } else {
             return CommandResult.builder().addColor(Color.RED).addText("Specified world does not exist!").build();
         }

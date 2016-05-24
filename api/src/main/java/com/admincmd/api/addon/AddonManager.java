@@ -18,80 +18,18 @@
 */
 package com.admincmd.api.addon;
 
-import com.admincmd.api.AdminCMD;
-import com.admincmd.api.util.logger.DebugLogger;
-
-import java.io.File;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
-public abstract class AddonManager {
+public interface AddonManager {
 
-    private final Map<String, Addon> addons = new HashMap<>();
+    public void loadAddons();
 
-    public AddonManager() {
+    public void unloadAddons();
 
-    }
+    public Collection<Addon> getAddons();
 
-    public abstract void loadAddons();
+    public Addon getAddon(String name);
 
-    protected abstract Addon loadAddon(File file);
-
-    public void unloadAddons() {
-        if (addons.size() > 0) {
-            for (Addon a : getAddons()) {
-                unloadAddon(a);
-            }
-        }
-    }
-
-    protected void unloadAddon(Addon addon) {
-        if (addon != null) {
-            disableAddon(addon);
-
-            AdminCMD.getCommandManager().unregisterAll(addon);
-            AdminCMD.getEventManager().unregisterAll(addon);
-        }
-    }
-
-    public Collection<Addon> getAddons() {
-        return addons.values();
-    }
-
-    public Addon getAddon(String name) {
-        return addons.get(name.toLowerCase());
-    }
-
-    public boolean isAddonEnabled(String name) {
-        Addon addon = getAddon(name);
-        if (addon != null) {
-            return addon.isEnabled();
-        }
-        return false;
-    }
-
-    protected void enableAddon(Addon addon) {
-        if (!addon.isEnabled()) {
-            String name = addon.getModuleName().toLowerCase();
-
-            try {
-                addon.setEnabled(true);
-                addons.put(name, addon);
-            } catch (Exception e) {
-                DebugLogger.severe("Failed to enable the addon: " + addon.getModuleName());
-            }
-        }
-    }
-
-    protected void disableAddon(Addon addon) {
-        if (addon.isEnabled()) {
-            try {
-                addon.setEnabled(false);
-            } catch (Exception ex) {
-                DebugLogger.severe("Failed to disable the addon: " + addon.getModuleName());
-            }
-        }
-    }
+    public boolean isAddonEnabled(String name);
 
 }

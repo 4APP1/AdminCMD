@@ -58,17 +58,24 @@ public enum Locale {
             try {
                 config.save();
             } catch (IOException e) {
-                DebugLogger.severe("Config could not be saved: " + file.getName(), e);
+                DebugLogger.severe("Config could not be saved: " + Config.LOCALE_LANGUAGE.getString(), e);
             }
             reload(false);
         }
     }
 
-    private static final File file = new File(AdminCMD.getDataFolder(), "locales" + File.separator + Config.LOCALES_LANGUAGE.getString() + ".yml");
-    private static final YAMLConfiguration config = new YAMLConfiguration(file);
+    private static File folder;
+    private static YAMLConfiguration config;
 
-    public static void load() {
-        file.getParentFile().mkdirs();
+    public static void load(File dataFolder) {
+        if (folder == null) {
+            folder = new File(dataFolder, "locales");
+        }
+
+        if (config == null) {
+            folder.mkdirs();
+            config = new YAMLConfiguration(new File(folder, Config.LOCALE_LANGUAGE.getString() + ".yml"));
+        }
         reload(false);
 
         for (Locale l : values()) {
@@ -80,7 +87,7 @@ public enum Locale {
         try {
             config.save();
         } catch (IOException e) {
-            DebugLogger.severe("Config could not be saved: " + file.getName(), e);
+            DebugLogger.severe("Locale could not be saved: " + Config.LOCALE_LANGUAGE.getString(), e);
         }
     }
 
@@ -89,11 +96,11 @@ public enum Locale {
             try {
                 config.load();
             } catch (IOException e) {
-                DebugLogger.severe("Config could not be loaded: " + file.getName(), e);
+                DebugLogger.severe("Locale could not be loaded: " + Config.LOCALE_LANGUAGE.getString(), e);
             }
             return;
         }
-        load();
+        load(folder);
     }
 
 }

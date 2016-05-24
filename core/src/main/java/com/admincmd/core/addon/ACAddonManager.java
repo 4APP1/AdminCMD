@@ -22,28 +22,40 @@ import com.admincmd.api.AdminCMD;
 import com.admincmd.api.addon.Addon;
 import com.admincmd.api.addon.AddonManager;
 import com.admincmd.api.util.logger.DebugLogger;
-import com.admincmd.core.ACPlugin;
+import com.admincmd.core.ACModule;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.util.*;
 
-public class ACAddonManager extends AddonManager {
+public class ACAddonManager implements AddonManager {
 
-    private ACPlugin plugin;
+    private final ACModule module;
 
-    public ACAddonManager(ACPlugin plugin) {
-        this.plugin = plugin;
+    private final ACAddonClassLoader classLoader;
+
+    private final Map<String, Addon> loaded = new HashMap<>();
+    private final List<Addon> enabled = new ArrayList<>();
+
+    public ACAddonManager(ACModule module) {
+        this.module = module;
+        this.classLoader = new ACAddonClassLoader(module.getClassLoader());
     }
 
+    @Override
     public void loadAddons() {
-        File file = new File(AdminCMD.getDataFolder(), "addons");
+        File file = new File(module.getDataFolder(), "addons");
         file.mkdirs();
 
-        if (file.exists() && file.isDirectory() && file.listFiles() != null) {
-            for (File f : file.listFiles()) {
+        File[] files = file.listFiles();
+        if (file.exists() && file.isDirectory() && files != null) {
+            for (File f : files) {
                 if (!f.isDirectory() && f.getName().endsWith(".jar")) {
                     Addon addon = loadAddon(f);
                     if (addon != null) {
+                        String name = addon.getModName().toLowerCase();
+                        loaded.put(name, addon);
                         enableAddon(addon);
                     }
                 }
@@ -51,32 +63,71 @@ public class ACAddonManager extends AddonManager {
         }
     }
 
-    protected Addon loadAddon(File file) {
-        AddonClassLoader loader = null;
+    private Addon loadAddon(File file) {
         try {
-            loader = new AddonClassLoader(file, plugin.getClass().getClassLoader());
-        } catch (ClassNotFoundException e) {
-            DebugLogger.severe("Addon class could not be found in the jar: " + file.getName(), e);
+            classLoader.addFile(file);
         } catch (IOException e) {
-            DebugLogger.severe("Addon jar could not be found or accessed: " + file.getName(), e);
+            DebugLogger.severe("Addon file could not be added to the class loader: " + file.getName(), e);
+        } catch (ClassNotFoundException e) {
+            DebugLogger.severe("Addon classes could not be loaded: " + file.getName(), e);
         }
 
-        Class<? extends Addon> addonClazz = null;
-        if (loader != null) {
-            addonClazz = loader.getAddonClass();
-        }
+        Class<? extends Addon> clazz = classLoader.getAddonClass(file);
 
         Addon addon = null;
-        if (addonClazz != null) {
+        if (clazz != null) {
             try {
-                addon = addonClazz.newInstance();
+                addon = clazz.newInstance();
             } catch (InstantiationException e) {
-                DebugLogger.severe("Addon class could not be instantiated: " + addonClazz, e);
+                DebugLogger.severe("Addon class could not be instantiated: " + clazz, e);
             } catch (IllegalAccessException e) {
-                DebugLogger.severe("Addon class could not be accessed: " + addonClazz, e);
+                DebugLogger.severe("Addon class could not be accessed: " + clazz, e);
             }
         }
         return addon;
+    }
+
+    @Override
+    public void unloadAddons() {
+        if (loaded.size() > 0) {
+            for (Addon a : getAddons()) {
+                disableAddon(a);
+
+                AdminCMD.getCommandManager().unregisterAll(a);
+                AdminCMD.getEventManager().unregisterAll(a);
+            }
+        }
+    }
+
+    @Override
+    public Collection<Addon> getAddons() {
+        return loaded.values();
+    }
+
+    @Override
+    public Addon getAddon(String name) {
+        return loaded.get(name.toLowerCase());
+    }
+
+    @Override
+    public boolean isAddonEnabled(String name) {
+        return enabled.contains(getAddon(name));
+    }
+
+    private void enableAddon(Addon addon) {
+        String name = addon.getModName().toLowerCase();
+        if (loaded.containsKey(name) && !enabled.contains(addon)) {
+            addon.onEnable();
+            enabled.add(addon);
+        }
+    }
+
+    private void disableAddon(Addon addon) {
+        String name = addon.getModName().toLowerCase();
+        if (loaded.containsKey(name) && enabled.contains(addon)) {
+            addon.onDisable();
+            enabled.remove(addon);
+        }
     }
 
 }

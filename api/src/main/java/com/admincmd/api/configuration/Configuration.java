@@ -204,6 +204,15 @@ public class Configuration {
     }
 
     /**
+     * Loads the configuration values
+     *
+     * @throws IOException
+     */
+    public void load() throws IOException {
+
+    }
+
+    /**
      * Saves the configuration values
      *
      * @throws IOException

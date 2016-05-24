@@ -19,13 +19,80 @@
 package com.admincmd.bukkit;
 
 import com.admincmd.api.Registry;
+import com.admincmd.api.block.BlockType;
+import com.admincmd.api.item.EnchantType;
+import com.admincmd.api.item.ItemType;
+import com.admincmd.bukkit.block.BukkitBlockType;
+import com.admincmd.bukkit.item.BukkitEnchantType;
+import com.admincmd.bukkit.item.BukkitItemType;
+import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
+
+import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class BukkitRegistry implements Registry {
 
-    private BukkitModule plugin;
+    private BukkitModule module;
 
-    public BukkitRegistry(BukkitModule plugin) {
-        this.plugin = plugin;
+    private final Map<String, ItemType> itemTypes = new LinkedHashMap<>();
+    private final Map<String, BlockType> blockTypes = new LinkedHashMap<>();
+    private final Map<String, String> itemAliases = new LinkedHashMap<>();
+    private final Map<String, EnchantType> enchantTypes = new LinkedHashMap<>();
+    private final Map<String, String> enchantAliases = new LinkedHashMap<>();
+
+    public BukkitRegistry(BukkitModule module) {
+        this.module = module;
+
+        Material[] materials = Material.values();
+        for (Material material : materials) {
+            itemTypes.put(material.name(), new BukkitItemType(material));
+        }
+
+        for (Material material : materials) {
+            if (material.isBlock()) {
+                blockTypes.put(material.name(), new BukkitBlockType(material));
+            }
+        }
+
+        itemAliases.putAll(module.getFileManager().getItemAliases());
+
+        Enchantment[] enchants = Enchantment.values();
+        for (Enchantment enchant : enchants) {
+            enchantTypes.put(enchant.getName(), new BukkitEnchantType(enchant));
+        }
+
+        enchantAliases.putAll(module.getFileManager().getEnchantAliases());
     }
 
+    @Override
+    public ItemType getItemType(String id) {
+        return itemTypes.get(itemAliases.get(id));
+    }
+
+    @Override
+    public Collection<ItemType> getItemTypes() {
+        return itemTypes.values();
+    }
+
+    @Override
+    public BlockType getBlockType(String id) {
+        return blockTypes.get(itemAliases.get(id));
+    }
+
+    @Override
+    public Collection<BlockType> getBlockTypes() {
+        return blockTypes.values();
+    }
+
+    @Override
+    public EnchantType getEnchantType(String id) {
+        return enchantTypes.get(enchantAliases.get(id));
+    }
+
+    @Override
+    public Collection<EnchantType> getEnchantTypes() {
+        return enchantTypes.values();
+    }
 }
