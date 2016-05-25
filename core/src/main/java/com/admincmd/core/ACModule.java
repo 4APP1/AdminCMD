@@ -24,7 +24,7 @@ import com.admincmd.api.addon.AddonManager;
 import com.admincmd.api.database.DatabaseManager;
 import com.admincmd.api.file.FileManager;
 import com.admincmd.core.addon.ACAddonManager;
-import com.admincmd.core.commands.WorldCommands;
+import com.admincmd.core.commands.world.WorldCommands;
 import com.admincmd.core.database.ACDatabaseManager;
 import com.admincmd.core.file.ACFileManager;
 

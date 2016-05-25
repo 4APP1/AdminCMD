@@ -23,6 +23,7 @@ import com.admincmd.api.database.Database;
 import com.admincmd.api.util.logger.DebugLogger;
 import com.admincmd.api.world.Location;
 import com.admincmd.api.world.Weather;
+import org.bukkit.Bukkit;
 import org.bukkit.World;
 
 import java.sql.PreparedStatement;
@@ -242,4 +243,9 @@ public class BukkitWorld implements com.admincmd.api.world.World {
             tPMoment = getTime();
         }
     }
+
+    public static World toBukkitWorld(com.admincmd.api.world.World world) {
+        return Bukkit.getWorld(world.getUUID());
+    }
+
 }

@@ -21,7 +21,7 @@ package com.admincmd.bukkit.event.command;
 import com.admincmd.api.command.CommandSource;
 import com.admincmd.api.event.command.CommandProcessEvent;
 import com.admincmd.bukkit.command.BukkitCommandSource;
-import com.admincmd.bukkit.command.BukkitConsoleSource;
+import com.admincmd.bukkit.command.source.BukkitConsoleSource;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.event.server.ServerCommandEvent;
 

@@ -26,6 +26,7 @@ import com.admincmd.api.world.Weather;
 import com.admincmd.core.util.tasks.TimeReset;
 import com.admincmd.core.util.tasks.WeatherReset;
 import com.flowpowered.math.vector.Vector3i;
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.world.World;
 
 import java.sql.PreparedStatement;
@@ -249,4 +250,7 @@ public class SpongeWorld implements com.admincmd.api.world.World {
         }
     }
 
+    public static World toSpongeWorld(com.admincmd.api.world.World world) {
+        return Sponge.getServer().getWorld(world.getUUID()).get();
+    }
 }

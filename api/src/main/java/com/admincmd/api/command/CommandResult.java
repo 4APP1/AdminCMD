@@ -20,41 +20,13 @@ package com.admincmd.api.command;
 
 public class CommandResult {
 
-    public static class Builder {
-
-        private StringBuilder message;
-
-        public Builder() {
-            message = new StringBuilder();
-        }
-
-        public Builder addText(String text) {
-            message.append(text);
-            return this;
-        }
-
-        public Builder addColor(String color) {
-            message.append(color);
-            return this;
-        }
-
-        public CommandResult build() {
-            return new CommandResult(message.toString());
-        }
-
-    }
-
-    public static Builder builder() {
-        return new Builder();
-    }
-
     public static final CommandResult SUCCESS = new CommandResult(null);
     public static final CommandResult FAILURE = new CommandResult("Failed to execute command!");
     public static final CommandResult NO_PERMISSIONS = new CommandResult("You do not have permission to do this!");
 
     private final String message;
 
-    private CommandResult(String message) {
+    public CommandResult(String message) {
         this.message = message;
     }
 

@@ -21,6 +21,7 @@ package com.admincmd.sponge.entity;
 import com.admincmd.api.AdminCMD;
 import com.admincmd.api.world.Location;
 import com.admincmd.api.world.World;
+import com.admincmd.sponge.world.SpongeLocation;
 import org.spongepowered.api.entity.Entity;
 
 import java.util.UUID;
@@ -45,9 +46,19 @@ public class SpongeEntity implements com.admincmd.api.entity.Entity {
 
     @Override
     public Location getLocation() {
-        World world = getWorld();
-        org.spongepowered.api.world.Location<org.spongepowered.api.world.World> loc = entity.getLocation();
-        return new Location(world, loc.getX(), loc.getY(), loc.getZ());
+        return new SpongeLocation(entity.getLocation());
+    }
+
+    @Override
+    public void teleport(Location location) {
+        entity.setLocationAndRotation(SpongeLocation.toSpongeLocation(location),
+                SpongeLocation.toSpongeRotation(location));
+    }
+
+    @Override
+    public void teleport(com.admincmd.api.entity.Entity entity) {
+        this.entity.setLocationAndRotation(SpongeLocation.toSpongeLocation(entity.getLocation()),
+                SpongeLocation.toSpongeRotation(entity.getLocation()));
     }
 
 }

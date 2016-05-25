@@ -1,41 +1,31 @@
 /*
  * This file is part of AdminCMD
  * Copyright (C) 2015 AdminCMD Team
- * 
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 */
-package com.admincmd.bukkit.command;
+package com.admincmd.core.command.item;
 
-import com.admincmd.api.command.source.ConsoleSource;
-import org.bukkit.command.ConsoleCommandSender;
+import com.admincmd.api.command.CommandResult;
+import com.admincmd.api.command.CommandSource;
+import com.admincmd.api.command.parsing.Arguments;
 
-public class BukkitConsoleSource implements ConsoleSource {
+public class ItemCommands {
 
-    private ConsoleCommandSender source;
+    public CommandResult executeGive(CommandSource source, Arguments arguments) {
 
-    public BukkitConsoleSource(ConsoleCommandSender source) {
-        this.source = source;
-    }
-
-    @Override
-    public boolean hasPermission(String permission) {
-        return source.hasPermission(permission);
-    }
-
-    @Override
-    public void sendMessage(String message) {
-        source.sendMessage(message);
+        return CommandResult.FAILURE;
     }
 }

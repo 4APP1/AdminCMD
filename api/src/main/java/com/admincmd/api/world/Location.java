@@ -28,6 +28,7 @@ public class Location {
     private double z;
     private float yaw = 0;
     private float pitch = 0;
+    private float roll = 0;
 
     public Location(World world, double x, double y, double z) {
         this.world = world;
@@ -36,13 +37,14 @@ public class Location {
         this.z = z;
     }
 
-    public Location(World world, double x, double y, double z, float yaw, float pitch) {
+    public Location(World world, double x, double y, double z, float yaw, float pitch, float roll) {
         this.world = world;
         this.x = x;
         this.y = y;
         this.z = z;
         this.yaw = yaw;
         this.pitch = pitch;
+        this.roll = roll;
     }
 
     public World getWorld() {
@@ -105,10 +107,19 @@ public class Location {
         this.pitch = pitch;
     }
 
+    public float getRoll() {
+        return roll;
+    }
+
+    public void setRoll(float roll) {
+        this.roll = roll;
+    }
+
     public static String serialize(Location location) {
         return location.world.getName() + ";" + location.x + ";" +
                 location.y + ";" + location.z + ";" +
-                location.yaw + ";" + location.pitch + ";";
+                location.yaw + ";" + location.pitch + ";" +
+                location.roll + ";";
     }
 
     public static Location deserialize(String string) {
@@ -119,7 +130,8 @@ public class Location {
         double z = Double.parseDouble(components[3]);
         float yaw = Float.parseFloat(components[4]);
         float pitch = Float.parseFloat(components[5]);
-        return new Location(world, x, y, z, yaw, pitch);
+        float roll = Float.parseFloat(components[6]);
+        return new Location(world, x, y, z, yaw, pitch, roll);
     }
 
 }

@@ -37,6 +37,7 @@
                                     <include>org.xerial:sqlite-jdbc</include>
                                     <include>org.yaml:snakeyaml</include>
                                     <include>mysql:mysql-connector-java</include>
+                                    <include>net.sf.opencsv:opencsv</include>
                                 </includes>
                             </artifactSet>
                         </configuration>

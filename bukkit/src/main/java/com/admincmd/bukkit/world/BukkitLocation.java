@@ -19,7 +19,10 @@
 package com.admincmd.bukkit.world;
 
 import com.admincmd.api.AdminCMD;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.util.Vector;
 
 public class BukkitLocation extends com.admincmd.api.world.Location {
 
@@ -27,8 +30,15 @@ public class BukkitLocation extends com.admincmd.api.world.Location {
 
     public BukkitLocation(Location location) {
         super(AdminCMD.getServer().getWorld(location.getWorld().getUID()),
-                location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch());
+                location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch(), 0);
         this.location = location;
     }
 
+    public static Location toBukkitLocation(com.admincmd.api.world.Location location) {
+        return new Location(BukkitWorld.toBukkitWorld(location.getWorld()), location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch());
+    }
+
+    public static Vector toBukkitVector(com.admincmd.api.world.Location location) {
+        return new Vector(location.getYaw(), location.getPitch(), location.getRoll());
+    }
 }

@@ -49,4 +49,14 @@ public class BukkitEntity implements com.admincmd.api.entity.Entity {
         return new BukkitLocation(entity.getLocation());
     }
 
+    @Override
+    public void teleport(Location location) {
+        entity.teleport(BukkitLocation.toBukkitLocation(location));
+    }
+
+    @Override
+    public void teleport(com.admincmd.api.entity.Entity entity) {
+        this.entity.teleport(BukkitLocation.toBukkitLocation(entity.getLocation()));
+    }
+
 }

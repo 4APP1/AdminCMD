@@ -16,23 +16,26 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 */
-package com.admincmd.api.entity;
+package com.admincmd.bukkit.command.source;
 
-import com.admincmd.api.world.Location;
-import com.admincmd.api.world.World;
+import com.admincmd.api.command.source.ConsoleSource;
+import org.bukkit.command.ConsoleCommandSender;
 
-import java.util.UUID;
+public class BukkitConsoleSource implements ConsoleSource {
 
-public interface Entity {
+    private ConsoleCommandSender source;
 
-    public UUID getUUID();
+    public BukkitConsoleSource(ConsoleCommandSender source) {
+        this.source = source;
+    }
 
-    public World getWorld();
+    @Override
+    public boolean hasPermission(String permission) {
+        return source.hasPermission(permission);
+    }
 
-    public Location getLocation();
-
-    public void teleport(Location location);
-
-    public void teleport(Entity entity);
-
+    @Override
+    public void sendMessage(String message) {
+        source.sendMessage(message);
+    }
 }

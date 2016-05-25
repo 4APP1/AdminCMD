@@ -19,7 +19,9 @@
 package com.admincmd.sponge.world;
 
 import com.admincmd.api.AdminCMD;
+import com.flowpowered.math.vector.Vector3d;
 import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 
 public class SpongeLocation extends com.admincmd.api.world.Location {
 
@@ -29,6 +31,15 @@ public class SpongeLocation extends com.admincmd.api.world.Location {
         super(AdminCMD.getServer().getWorld(location.getExtent().getUniqueId()),
                 location.getX(), location.getY(), location.getZ());
         this.location = location;
+    }
+
+    public static Location<World> toSpongeLocation(com.admincmd.api.world.Location location) {
+        World world = SpongeWorld.toSpongeWorld(location.getWorld());
+        return new Location<World>(world, location.getX(), location.getY(), location.getZ());
+    }
+
+    public static Vector3d toSpongeRotation(com.admincmd.api.world.Location location) {
+        return new Vector3d(location.getYaw(), location.getPitch(), location.getRoll());
     }
 
 }

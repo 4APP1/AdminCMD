@@ -140,4 +140,16 @@ public class SpongePlayer implements com.admincmd.api.entity.player.Player {
         return player.getName();
     }
 
+    @Override
+    public void teleport(Location location) {
+        player.setLocationAndRotation(SpongeLocation.toSpongeLocation(location),
+                SpongeLocation.toSpongeRotation(location));
+    }
+
+    @Override
+    public void teleport(com.admincmd.api.entity.Entity entity) {
+        player.setLocationAndRotation(SpongeLocation.toSpongeLocation(entity.getLocation()),
+                SpongeLocation.toSpongeRotation(entity.getLocation()));
+    }
+
 }

@@ -20,7 +20,7 @@ package com.admincmd.bukkit.command;
 
 import com.admincmd.api.AdminCMD;
 import com.admincmd.api.command.parsing.Arguments;
-import com.admincmd.bukkit.entity.player.BukkitPlayer;
+import com.admincmd.bukkit.command.source.BukkitConsoleSource;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

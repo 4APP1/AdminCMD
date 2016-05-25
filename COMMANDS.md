@@ -2,11 +2,11 @@ Commands to implement
 --------
 
 World:
-- /ac_weather
-- /ac_time
+- ~~/ac_weather~~
+- ~~/ac_time~~
 - /ac_ptime
-- /ac_spawn
-- /ac_setspawn
+- ~~/ac_spawn~~
+- ~~/ac_setspawn~~
 
 Item:
 - /ac_item

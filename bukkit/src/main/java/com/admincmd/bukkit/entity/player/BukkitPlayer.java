@@ -138,4 +138,14 @@ public class BukkitPlayer implements com.admincmd.api.entity.player.Player {
         return player.getName();
     }
 
+    @Override
+    public void teleport(Location location) {
+        player.teleport(BukkitLocation.toBukkitLocation(location));
+    }
+
+    @Override
+    public void teleport(com.admincmd.api.entity.Entity entity) {
+        player.teleport(BukkitLocation.toBukkitLocation(entity.getLocation()));
+    }
+
 }
