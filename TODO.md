@@ -19,3 +19,5 @@ Commands
 * ~~/unmute~~ (jkmalan) (Currently a toggle of the mute command)
 * ~~/vanish~~ (jkmalan) (Currently combines Invisibility and Fakequit)
 * /whois
+* ~~/top~~ (TheJeterLP)
+* ~~/down~~ (TheJeterLP)

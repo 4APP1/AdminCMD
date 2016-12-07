@@ -54,7 +54,6 @@ public class PlayerCommands {
     private final HelpPage list = new HelpPage("who", "");
     private final HelpPage vanish = new HelpPage("vanish", "", "<-p player>");
     private final HelpPage mute = new HelpPage("mute", "", "<player>");
-    private final HelpPage unmute = new HelpPage("unmute", "", "<player>");
 
     @BaseCommand(command = "gamemode", sender = BaseCommand.Sender.CONSOLE, aliases = "gm")
     public CommandResult executeGamemodeConsole(CommandSender sender, CommandArgs args) {
@@ -73,30 +72,33 @@ public class PlayerCommands {
             }
 
             Player target = flag.getPlayer();
-            if (args.getLength() == 2) {
-                GameMode gm = target.getGameMode() == GameMode.SURVIVAL ? GameMode.CREATIVE : GameMode.SURVIVAL;
-                target.setGameMode(gm);
-                String msg = Locales.PLAYER_GAMEMODE_CHANGED.getString().replaceAll("%status%", gm.toString());
-                Messager.sendMessage(target, msg, Messager.MessageType.INFO);
+            switch (args.getLength()) {
+                case 2: {
+                    GameMode gm = target.getGameMode() == GameMode.SURVIVAL ? GameMode.CREATIVE : GameMode.SURVIVAL;
+                    target.setGameMode(gm);
+                    String msg = Locales.PLAYER_GAMEMODE_CHANGED.getString().replaceAll("%status%", gm.toString());
+                    Messager.sendMessage(target, msg, Messager.MessageType.INFO);
 
-                String msg2 = Locales.PLAYER_GAMEMODE_CHANGED_OTHER.getString().replaceAll("%player%", Utils.replacePlayerPlaceholders(target)).replaceAll("%status%", gm.toString());
-                Messager.sendMessage(sender, msg2, Messager.MessageType.INFO);
-                return CommandResult.SUCCESS;
-            } else if (args.getLength() == 3) {
-                if (!args.isInteger(2)) {
-                    return CommandResult.NOT_A_NUMBER;
+                    String msg2 = Locales.PLAYER_GAMEMODE_CHANGED_OTHER.getString().replaceAll("%player%", Utils.replacePlayerPlaceholders(target)).replaceAll("%status%", gm.toString());
+                    Messager.sendMessage(sender, msg2, Messager.MessageType.INFO);
+                    return CommandResult.SUCCESS;
                 }
-                int num = args.getInt(2);
-                GameMode gm = GameMode.getByValue(num);
-                target.setGameMode(gm);
-                String msg = Locales.PLAYER_GAMEMODE_CHANGED.getString().replaceAll("%status%", gm.toString());
-                Messager.sendMessage(target, msg, Messager.MessageType.INFO);
+                case 3: {
+                    if (!args.isInteger(2)) {
+                        return CommandResult.NOT_A_NUMBER;
+                    }
+                    int num = args.getInt(2);
+                    GameMode gm = GameMode.getByValue(num);
+                    target.setGameMode(gm);
+                    String msg = Locales.PLAYER_GAMEMODE_CHANGED.getString().replaceAll("%status%", gm.toString());
+                    Messager.sendMessage(target, msg, Messager.MessageType.INFO);
 
-                String msg2 = Locales.PLAYER_GAMEMODE_CHANGED_OTHER.getString().replaceAll("%player%", Utils.replacePlayerPlaceholders(target)).replaceAll("%status%", gm.toString());
-                Messager.sendMessage(sender, msg2, Messager.MessageType.INFO);
-                return CommandResult.SUCCESS;
-            } else {
-                return CommandResult.ERROR;
+                    String msg2 = Locales.PLAYER_GAMEMODE_CHANGED_OTHER.getString().replaceAll("%player%", Utils.replacePlayerPlaceholders(target)).replaceAll("%status%", gm.toString());
+                    Messager.sendMessage(sender, msg2, Messager.MessageType.INFO);
+                    return CommandResult.SUCCESS;
+                }
+                default:
+                    return CommandResult.ERROR;
             }
         }
         return CommandResult.ERROR;
@@ -125,30 +127,33 @@ public class PlayerCommands {
             }
 
             Player target = flag.getPlayer();
-            if (args.getLength() == 2) {
-                GameMode gm = target.getGameMode() == GameMode.SURVIVAL ? GameMode.CREATIVE : GameMode.SURVIVAL;
-                target.setGameMode(gm);
-                String msg = Locales.PLAYER_GAMEMODE_CHANGED.getString().replaceAll("%status%", gm.toString());
-                Messager.sendMessage(target, msg, Messager.MessageType.INFO);
+            switch (args.getLength()) {
+                case 2: {
+                    GameMode gm = target.getGameMode() == GameMode.SURVIVAL ? GameMode.CREATIVE : GameMode.SURVIVAL;
+                    target.setGameMode(gm);
+                    String msg = Locales.PLAYER_GAMEMODE_CHANGED.getString().replaceAll("%status%", gm.toString());
+                    Messager.sendMessage(target, msg, Messager.MessageType.INFO);
 
-                String msg2 = Locales.PLAYER_GAMEMODE_CHANGED_OTHER.getString().replaceAll("%player%", Utils.replacePlayerPlaceholders(target)).replaceAll("%status%", gm.toString());
-                Messager.sendMessage(sender, msg2, Messager.MessageType.INFO);
-                return CommandResult.SUCCESS;
-            } else if (args.getLength() == 3) {
-                if (!args.isInteger(2)) {
-                    return CommandResult.NOT_A_NUMBER;
+                    String msg2 = Locales.PLAYER_GAMEMODE_CHANGED_OTHER.getString().replaceAll("%player%", Utils.replacePlayerPlaceholders(target)).replaceAll("%status%", gm.toString());
+                    Messager.sendMessage(sender, msg2, Messager.MessageType.INFO);
+                    return CommandResult.SUCCESS;
                 }
-                int num = args.getInt(2);
-                GameMode gm = GameMode.getByValue(num);
-                target.setGameMode(gm);
-                String msg = Locales.PLAYER_GAMEMODE_CHANGED.getString().replaceAll("%status%", gm.toString());
-                Messager.sendMessage(target, msg, Messager.MessageType.INFO);
+                case 3: {
+                    if (!args.isInteger(2)) {
+                        return CommandResult.NOT_A_NUMBER;
+                    }
+                    int num = args.getInt(2);
+                    GameMode gm = GameMode.getByValue(num);
+                    target.setGameMode(gm);
+                    String msg = Locales.PLAYER_GAMEMODE_CHANGED.getString().replaceAll("%status%", gm.toString());
+                    Messager.sendMessage(target, msg, Messager.MessageType.INFO);
 
-                String msg2 = Locales.PLAYER_GAMEMODE_CHANGED_OTHER.getString().replaceAll("%player%", Utils.replacePlayerPlaceholders(target)).replaceAll("%status%", gm.toString());
-                Messager.sendMessage(sender, msg2, Messager.MessageType.INFO);
-                return CommandResult.SUCCESS;
-            } else {
-                return CommandResult.ERROR;
+                    String msg2 = Locales.PLAYER_GAMEMODE_CHANGED_OTHER.getString().replaceAll("%player%", Utils.replacePlayerPlaceholders(target)).replaceAll("%status%", gm.toString());
+                    Messager.sendMessage(sender, msg2, Messager.MessageType.INFO);
+                    return CommandResult.SUCCESS;
+                }
+                default:
+                    return CommandResult.ERROR;
             }
         } else {
             if (args.getLength() == 1) {

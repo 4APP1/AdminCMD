@@ -58,7 +58,11 @@ public enum CommandResult {
     /**
      * Tells the sender that the given mob cannot be spawned
      */
-    NOT_SPAWNABLE(Locales.COMMAND_MESSAGES_NOT_SPAWNABLE.getString());
+    NOT_SPAWNABLE(Locales.COMMAND_MESSAGES_NOT_SPAWNABLE.getString()),
+    /**
+     * Tells the sender that there is no free space for him to teleport to a location.
+     */
+    NO_SPACE(Locales.COMMAND_MESSAGES_NO_FREE_SPACE.getString()),;
 
     private final String msg;
 

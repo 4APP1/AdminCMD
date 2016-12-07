@@ -70,6 +70,11 @@ public class ACLogger {
         logger.log(Level.SEVERE, PREFIX + message, ex);
         printError(message, ex);
     }
+    
+    public static void severe(final Throwable ex) {
+        logger.log(Level.SEVERE, "", ex);
+        printError("", ex);
+    }
 
     /**
      * Logs debug messages to console

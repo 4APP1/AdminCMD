@@ -38,6 +38,7 @@ public enum Locales {
     COMMAND_MESSAGES_DISABLED("CommandMessages.Disabled", "disabled"),
     COMMAND_MESSAGES_NOT_A_MOB("CommandMessages.NotAMob", "This is not a mob!"),
     COMMAND_MESSAGES_NOT_SPAWNABLE("CommandMessages.NotSpawnable", "This mob is not spawnable!"),
+    COMMAND_MESSAGES_NO_FREE_SPACE("CommandMessages.NoSpace", "There is no space to teleport to the given location!"),
     HELP("Help.Help", "Help"),
     HELP_SERVER_ACRELOAD_1("Help.Server.Reload.1", "Reloads the whole server."),
     HELP_SERVER_ACRELOAD_2("Help.Server.Reload.2", "Reloads a single plugin."),
@@ -77,6 +78,10 @@ public enum Locales {
     HELP_TELEPORT_SETHOME_1("Help.Home.Sethome.1", "Creates a new home at your location with the given name"),
     HELP_TELEPORT_EDITHOME_1("Help.Home.Edithome.1", "Sets the location of the given home to your location"),
     HELP_TELEPORT_DELHOME_1("Help.Home.Delhome.1", "Deletes the given home"),
+    HELP_TELEPORT_DOWN_1("Help.Teleport.Down.1", "Teleports you to the next free space under you"),
+    HELP_TELEPORT_DOWN_2("Help.Teleport.Down.2", "Teleports the given Player to the next free space under him"),
+    HELP_TELEPORT_UP_1("Help.Teleport.Up.1", "Teleports you to the next free space above you"),
+    HELP_TELEPORT_UP_2("Help.Teleport.Up.2", "Teleports the given Player to the next free space above him"),
     HELP_WORLD_SUN_1("Help.World.Sun.1", "Sets the weather to sun in your current world."),
     HELP_WORLD_SUN_2("Help.World.Sun.2", "Sets the weather to sun in the given world"),
     HELP_WORLD_DAY_1("Help.World.Day.1", "Sets the time to daytime in your current world."),
@@ -137,7 +142,12 @@ public enum Locales {
     MAINTENANCE_TOGGLED("Maintenance.Toggled", "Maintenance is now %status%."),
     SPAWN_SET("Spawn.Set", "The spawnpoint has been set to your location."),
     SPAWN_TP("Spawn.Teleport.You", "Teleported to the spawnpoint."),
-    SPAWN_TP_OTHER("Spawn.Teleport.Other", "%player% was teleported to the spawnpoint.");
+    SPAWN_TP_OTHER("Spawn.Teleport.Other", "%player% was teleported to the spawnpoint."),
+    TELEPORT_DOWN("Teleport.Down.You", "Teleported down."),
+    TELEPORT_DOWN_OTHER("Teleport.Down.Other", "%player% got teleported down!"),
+    TELEPORT_UP("Teleport.Up.You", "Teleported up."),
+    TELEPORT_UP_OTHER("Teleport.Up.Other", "%player% got teleported up!"),
+    ;
 
     private Locales(String path, Object val) {
         this.path = path;
@@ -172,7 +182,7 @@ public enum Locales {
         try {
             cfg.save(f);
         } catch (IOException ex) {
-            ex.printStackTrace();
+            ACLogger.severe("Failed loading Locales file!", ex);
         }
     }
 
@@ -182,7 +192,7 @@ public enum Locales {
             try {
                 cfg.save(f);
             } catch (IOException ex) {
-                ex.printStackTrace();
+                ACLogger.severe(ex);
             }
             reload(false);
         }
