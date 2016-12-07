@@ -26,6 +26,7 @@ import com.admincmd.admincmd.commands.MobCommands;
 import com.admincmd.admincmd.commands.PlayerCommands;
 import com.admincmd.admincmd.commands.ServerCommands;
 import com.admincmd.admincmd.commands.SpawnCommands;
+import com.admincmd.admincmd.commands.TeleportCommands;
 import com.admincmd.admincmd.commands.WorldCommands;
 import com.admincmd.admincmd.utils.Config;
 import com.admincmd.admincmd.utils.Locales;
@@ -49,8 +50,6 @@ import com.admincmd.admincmd.utils.Vault;
 import com.admincmd.admincmd.world.WorldManager;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -151,6 +150,7 @@ public class Main extends JavaPlugin {
         manager.registerClass(MobCommands.class);
         manager.registerClass(SpawnCommands.class);
         manager.registerClass(MaintenanceCommands.class);
+        manager.registerClass(TeleportCommands.class);
     }
 
     private void registerEvents() {

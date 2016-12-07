@@ -60,7 +60,7 @@ public abstract class SQLPlayer {
                 this.id = id;
                 this.lastMsg = lastMsg;
             }
-            
+
             db.closeResultSet(rs);
             db.closeStatement(s);
         } catch (SQLException ex) {
@@ -147,8 +147,8 @@ public abstract class SQLPlayer {
             st.setBoolean(5, this.fly);
             st.setBoolean(6, this.muted);
             st.setString(7, this.nickname);
-            st.setInt(8, this.id);
-            st.setString(9, this.lastMsg);
+            st.setString(8, this.lastMsg);
+            st.setInt(9, this.id);
             st.executeUpdate();
             db.closeStatement(st);
         } catch (SQLException ex) {
