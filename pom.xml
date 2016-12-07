@@ -130,6 +130,32 @@
                     </reportPlugins>
                 </configuration>
             </plugin>  
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>2.3</version>
+                <configuration>
+                    <artifactSet>
+                        <includes>
+                            <include>de.TheJeterLP.Bukkit.Updater</include>
+                        </includes>
+                    </artifactSet>
+                    <relocations>
+                        <relocation>
+                            <pattern>de.thejeterlp.bukkit.updater</pattern>
+                            <shadedPattern>com.admincmd.admincmd.update</shadedPattern>
+                        </relocation>
+                    </relocations>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>  
         <pluginManagement>
             <plugins>               
@@ -184,7 +210,13 @@
             <groupId>net.milkbowl.vault</groupId>
             <artifactId>Vault</artifactId>
             <version>1.6.6</version>
-        </dependency>        
+        </dependency>  
+        <dependency>
+            <groupId>de.TheJeterLP.Bukkit</groupId>
+            <artifactId>Updater</artifactId>
+            <version>1.1.1</version>
+            <scope>compile</scope>
+        </dependency>      
     </dependencies>
     
     <repositories>
