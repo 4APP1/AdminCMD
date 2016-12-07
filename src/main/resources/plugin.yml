@@ -1,6 +1,6 @@
 main: com.admincmd.admincmd.Main
 name: ${project.artifactId}
 version: ${project.version} (BUILD ${git.build.time})
-authors: [Balor, TheJeterLP, JKMalan, BossLetsPlays]
+authors: [TheJeterLP, JKMalan, Balor]
 description: This plugin implements the basic commands for running a server.
 softdepend: [ProtocolLib, Vault, MultiVerse, Multiverse-Core, Multiworld]

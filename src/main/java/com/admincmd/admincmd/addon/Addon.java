@@ -75,6 +75,7 @@ public abstract class Addon extends JavaPlugin {
         try {
             Metrics m = new Metrics(this);
             m.start();
+            ACLogger.info("Enabled Metrics!");
         } catch (IOException ex) {
             ACLogger.severe("Could not enable Metrics!", ex);
         }
