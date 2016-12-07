@@ -22,6 +22,9 @@ import com.admincmd.admincmd.Main;
 import com.admincmd.admincmd.commandapi.CommandManager;
 import com.admincmd.admincmd.database.Database;
 import com.admincmd.admincmd.database.DatabaseFactory;
+import com.admincmd.admincmd.metrics.Metrics;
+import com.admincmd.admincmd.utils.ACLogger;
+import java.io.IOException;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public abstract class Addon extends JavaPlugin {
@@ -69,6 +72,13 @@ public abstract class Addon extends JavaPlugin {
     public void onEnable() {
         INSTANCE = this;
         cmdManager = new CommandManager(this);
+        try {
+            Metrics m = new Metrics(this);
+            m.start();
+        } catch (IOException ex) {
+            ACLogger.severe("Could not enable Metrics!", ex);
+        }
+
         enable();
     }
 
