@@ -39,6 +39,7 @@ import com.admincmd.admincmd.events.PlayerJoinListener;
 import com.admincmd.admincmd.events.SignListener;
 import com.admincmd.admincmd.events.WorldListener;
 import com.admincmd.admincmd.home.HomeManager;
+import com.admincmd.admincmd.metrics.Metrics;
 import com.admincmd.admincmd.player.PlayerManager;
 import com.admincmd.admincmd.spawn.SpawnManager;
 import com.admincmd.admincmd.update.Updater;
@@ -46,7 +47,10 @@ import com.admincmd.admincmd.utils.ACLogger;
 import com.admincmd.admincmd.utils.EventManager;
 import com.admincmd.admincmd.utils.Vault;
 import com.admincmd.admincmd.world.WorldManager;
+import java.io.IOException;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -91,6 +95,14 @@ public class Main extends JavaPlugin {
 
         new Updater(31318, "admincmd").search();
 
+        try {
+            Metrics metrics = new Metrics(this);
+            metrics.start();
+        } catch (IOException ex) {
+            ACLogger.severe("Could not enable Metrics!", ex);
+        }
+        
+        
         long timeTook = System.currentTimeMillis() - start;
         ACLogger.info("Plugin start took " + timeTook + " milliseconds");
     }
