@@ -32,14 +32,12 @@
     <ul style="text-align:left">
         <li><a href="https://github.com/Belphemur/">Belphemur</a></li>
         <li><a href="https://github.com/TheJeterLP/">TheJeterLP</a></li>
-        <li><a href="https://github.com/BossLetsPlays/">BossLetsPlays</a></li>
         <li><a href="https://github.com/jkmalan/">jkmalan</a></li>
     </ul>
 
     <h2>Thanks to</h2>
     <hr>
     <ul style="text-align:left">
-        <li> The whole <a href="https://github.com/RedThirdDivision">RedThirdDivision</a> for helping us out!</li>
         <li> <a href="https://github.com/Lathanael">Lathanael</a> for helping so much out on the Bukkit version!</li>
     </ul>
 </div>
