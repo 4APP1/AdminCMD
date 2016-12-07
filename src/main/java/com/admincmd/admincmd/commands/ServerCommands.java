@@ -34,7 +34,7 @@ public class ServerCommands {
 
     private final HelpPage reload = new HelpPage("acreload", "", "<plugin>");
 
-    @BaseCommand(command = "acreload", sender = BaseCommand.Sender.CONSOLE)
+    @BaseCommand(command = "acreload", sender = BaseCommand.Sender.CONSOLE, aliases = "reload")
     public CommandResult executeConsole(CommandSender sender, CommandArgs args) {
         if (reload.sendHelp(sender, args)) {
             return CommandResult.SUCCESS;

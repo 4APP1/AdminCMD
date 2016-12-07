@@ -19,11 +19,10 @@
 package com.admincmd.admincmd.commands;
 
 import com.admincmd.admincmd.commandapi.CommandHandler;
-import com.admincmd.admincmd.commandapi.HelpPage;
 
 @CommandHandler
 public class TeleportCommands {
 
-    private final HelpPage maintenance = new HelpPage("maintenance", "on", "off");
+    
     
 }
