@@ -48,7 +48,7 @@ public class BukkitCommand extends Command {
 
     @Override
     public List<String> getAliases() {
-        return Collections.unmodifiableList(aliases);
+        return aliases;
     }
 
 }
