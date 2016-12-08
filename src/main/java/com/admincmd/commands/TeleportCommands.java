@@ -128,12 +128,11 @@ public class TeleportCommands {
                 sender.sendMessage(msg);
                 return CommandResult.SUCCESS;
             }
-            
+
             Player target = args.getPlayer(0);
             BukkitPlayer t = PlayerManager.getPlayer(target);
             RequestManagerHere.sendRequest(s, t);
         }
-
         return CommandResult.SUCCESS;
     }
 
