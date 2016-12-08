@@ -24,6 +24,9 @@ import com.admincmd.commandapi.CommandArgs.Flag;
 import com.admincmd.commandapi.CommandHandler;
 import com.admincmd.commandapi.CommandResult;
 import com.admincmd.commandapi.HelpPage;
+import com.admincmd.player.BukkitPlayer;
+import com.admincmd.player.PlayerManager;
+import com.admincmd.teleport.RequestManager;
 import com.admincmd.utils.Locales;
 import com.admincmd.utils.Messager;
 import com.admincmd.utils.Utils;
@@ -37,6 +40,38 @@ public class TeleportCommands {
 
     private final HelpPage down = new HelpPage("down", "<-p player>");
     private final HelpPage top = new HelpPage("top", "<-p player>");
+    private final HelpPage tpa = new HelpPage("tpa", "[yes|no]", "<player>");
+
+    @BaseCommand(command = "tpa", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.teleport.requests.tpa")
+    public CommandResult executeTpa(Player sender, CommandArgs args) {
+        if (tpa.sendHelp(sender, args)) {
+            return CommandResult.SUCCESS;
+        }
+
+        if (args.getLength() != 1) {
+            return CommandResult.ERROR;
+        }
+
+        String arg = args.getString(0);
+
+        BukkitPlayer s = PlayerManager.getPlayer(sender);
+
+        if (arg.equalsIgnoreCase("yes")) {
+            RequestManager.acceptRequest(s);
+        } else if (arg.equalsIgnoreCase("no")) {
+            RequestManager.denyRequest(s);
+        } else {
+            if (!args.isPlayer(0)) {
+                return CommandResult.NOT_ONLINE;
+            }
+
+            Player target = args.getPlayer(0);
+            BukkitPlayer t = PlayerManager.getPlayer(target);
+            RequestManager.sendRequest(s, t);
+        }
+
+        return CommandResult.SUCCESS;
+    }
 
     @BaseCommand(command = "down", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.tp.down", aliases = "tpdown")
     public CommandResult executeDown(Player sender, CommandArgs args) {
