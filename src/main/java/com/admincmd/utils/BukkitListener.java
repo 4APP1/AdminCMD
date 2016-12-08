@@ -1,6 +1,6 @@
 /*
  * This file is part of AdminCMD
- * Copyright (C) 2016 AdminCMD Team
+ * Copyright (C) 2015 AdminCMD Team
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,3 +16,21 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
+package com.admincmd.utils;
+
+import com.admincmd.Main;
+import com.admincmd.addon.Addon;
+import org.bukkit.Bukkit;
+import org.bukkit.event.Listener;
+
+public class BukkitListener implements Listener {
+
+    public void register() {
+        Bukkit.getPluginManager().registerEvents(this, Main.getInstance());
+    }
+    
+    public void register(Addon a) {
+        a.getServer().getPluginManager().registerEvents(this, a);
+    }
+
+}

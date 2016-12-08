@@ -129,33 +129,34 @@
                         </plugin>
                     </reportPlugins>
                 </configuration>
-            </plugin>  
+            </plugin> 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>2.3</version>
-                <configuration>
-                    <artifactSet>
-                        <includes>
-                            <include>de.TheJeterLP.Bukkit.Updater</include>
-                        </includes>
-                    </artifactSet>
-                    <relocations>
-                        <relocation>
-                            <pattern>de.thejeterlp.bukkit.updater</pattern>
-                            <shadedPattern>com.admincmd.admincmd.update</shadedPattern>
-                        </relocation>
-                    </relocations>
-                </configuration>
+                <version>2.4.3</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
                         <goals>
                             <goal>shade</goal>
                         </goals>
+                        <configuration>
+                            <minimizeJar>true</minimizeJar>
+                            <artifactSet>
+                                <includes>
+                                    <include>de.TheJeterLP.Bukkit:Updater</include>                                    
+                                </includes>
+                            </artifactSet>
+                            <relocations>
+                                <relocation>
+                                    <pattern>de.thejeterlp.bukkit.updater</pattern>
+                                    <shadedPattern>com.admincmd.admincmd.update</shadedPattern>                                  
+                                </relocation>
+                            </relocations>
+                        </configuration>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin> 
         </plugins>  
         <pluginManagement>
             <plugins>               
@@ -199,7 +200,6 @@
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
             <version>1.10.2-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
         </dependency>  
         <dependency>
             <groupId>com.comphenix.protocol</groupId>

@@ -1,4 +1,4 @@
-main: com.admincmd.admincmd.Main
+main: com.admincmd.Main
 name: ${project.artifactId}
 version: ${project.version} (BUILD ${git.build.time})
 authors: [TheJeterLP, JKMalan, Balor]

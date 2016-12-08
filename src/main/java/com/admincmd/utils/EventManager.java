@@ -1,6 +1,6 @@
 /*
  * This file is part of AdminCMD
- * Copyright (C) 2016 AdminCMD Team
+ * Copyright (C) 2015 AdminCMD Team
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,3 +16,28 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
+package com.admincmd.utils;
+
+import com.admincmd.addon.Addon;
+
+public class EventManager {
+
+    public static void registerEvent(Class<? extends BukkitListener> clazz) {
+        try {
+            BukkitListener l = clazz.newInstance();
+            l.register();
+        } catch (Exception ex) {
+            ACLogger.severe("Error registering the listener", ex);
+        }
+    }
+
+    public static void registerEvent(Class<? extends BukkitListener> clazz, Addon a) {
+        try {
+            BukkitListener l = clazz.newInstance();
+            l.register(a);
+        } catch (Exception ex) {
+            ACLogger.severe("Error registering the listener", ex);
+        }
+    }
+
+}

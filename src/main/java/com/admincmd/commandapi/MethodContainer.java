@@ -1,6 +1,6 @@
 /*
  * This file is part of AdminCMD
- * Copyright (C) 2016 AdminCMD Team
+ * Copyright (C) 2015 AdminCMD Team
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,3 +16,31 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
+package com.admincmd.commandapi;
+
+import com.admincmd.commandapi.BaseCommand.Sender;
+import java.lang.reflect.Method;
+import java.util.Collection;
+import java.util.HashMap;
+
+public class MethodContainer {
+
+    private final HashMap<Sender, Method> methods;
+
+    protected MethodContainer(HashMap<Sender, Method> map) {
+        methods = map;
+    }
+
+    protected Method getMethod(Sender s) {
+        return methods.get(s);
+    }
+
+    protected Collection<Method> getMethods() {
+        return methods.values();
+    }
+
+    protected HashMap<Sender, Method> getMethodMap() {
+        return methods;
+    }
+
+}
