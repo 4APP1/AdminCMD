@@ -42,4 +42,8 @@ public class BukkitPlayer extends SQLPlayer {
         return Bukkit.getPlayer(getUuid());
     }
 
+    public boolean isOnline() {
+        return getPlayer() != null;
+    }
+
 }

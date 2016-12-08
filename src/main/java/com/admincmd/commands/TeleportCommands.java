@@ -24,6 +24,10 @@ import com.admincmd.commandapi.CommandArgs.Flag;
 import com.admincmd.commandapi.CommandHandler;
 import com.admincmd.commandapi.CommandResult;
 import com.admincmd.commandapi.HelpPage;
+import com.admincmd.player.BukkitPlayer;
+import com.admincmd.player.PlayerManager;
+import com.admincmd.teleport.RequestManagerHere;
+import com.admincmd.teleport.RequestManagerTo;
 import com.admincmd.utils.Locales;
 import com.admincmd.utils.Messager;
 import com.admincmd.utils.Utils;
@@ -37,6 +41,101 @@ public class TeleportCommands {
 
     private final HelpPage down = new HelpPage("down", "<-p player>");
     private final HelpPage top = new HelpPage("top", "<-p player>");
+    private final HelpPage tpa = new HelpPage("tpa", "[yes|no]", "<player>");
+    private final HelpPage tpahere = new HelpPage("tpahere", "[yes|no]", "<player>");
+
+    @BaseCommand(command = "tpa", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.teleport.requests.tpa")
+    public CommandResult executeTpa(Player sender, CommandArgs args) {
+        if (tpa.sendHelp(sender, args)) {
+            return CommandResult.SUCCESS;
+        }
+
+        if (args.getLength() != 1) {
+            return CommandResult.ERROR;
+        }
+
+        String arg = args.getString(0);
+
+        BukkitPlayer s = PlayerManager.getPlayer(sender);
+
+        if (arg.equalsIgnoreCase("yes")) {
+            if (!sender.hasPermission("admincmd.teleport.requests.tpa.accept")) {
+                String msg = Locales.COMMAND_MESSAGES_NO_PERMISSION.getString().replaceAll("%perm%", "admincmd.teleport.requests.tpa.accept");
+                sender.sendMessage(msg);
+                return CommandResult.SUCCESS;
+            }
+            RequestManagerTo.acceptRequest(s);
+        } else if (arg.equalsIgnoreCase("no")) {
+            if (!sender.hasPermission("admincmd.teleport.requests.tpa.deny")) {
+                String msg = Locales.COMMAND_MESSAGES_NO_PERMISSION.getString().replaceAll("%perm%", "admincmd.teleport.requests.tpa.deny");
+                sender.sendMessage(msg);
+                return CommandResult.SUCCESS;
+            }
+            RequestManagerTo.denyRequest(s);
+        } else {
+            if (!args.isPlayer(0)) {
+                return CommandResult.NOT_ONLINE;
+            }
+
+            if (!sender.hasPermission("admincmd.teleport.requests.tpa.send")) {
+                String msg = Locales.COMMAND_MESSAGES_NO_PERMISSION.getString().replaceAll("%perm%", "admincmd.teleport.requests.tpa.send");
+                sender.sendMessage(msg);
+                return CommandResult.SUCCESS;
+            }
+            Player target = args.getPlayer(0);
+            BukkitPlayer t = PlayerManager.getPlayer(target);
+            RequestManagerTo.sendRequest(s, t);
+        }
+
+        return CommandResult.SUCCESS;
+    }
+
+    @BaseCommand(command = "tpahere", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.teleport.requests.tpahere")
+    public CommandResult executeTpaHere(Player sender, CommandArgs args) {
+        if (tpahere.sendHelp(sender, args)) {
+            return CommandResult.SUCCESS;
+        }
+
+        if (args.getLength() != 1) {
+            return CommandResult.ERROR;
+        }
+
+        String arg = args.getString(0);
+
+        BukkitPlayer s = PlayerManager.getPlayer(sender);
+
+        if (arg.equalsIgnoreCase("yes")) {
+            if (!sender.hasPermission("admincmd.teleport.requests.tpahere.accept")) {
+                String msg = Locales.COMMAND_MESSAGES_NO_PERMISSION.getString().replaceAll("%perm%", "admincmd.teleport.requests.tpahere.accept");
+                sender.sendMessage(msg);
+                return CommandResult.SUCCESS;
+            }
+            RequestManagerHere.acceptRequest(s);
+        } else if (arg.equalsIgnoreCase("no")) {
+            if (!sender.hasPermission("admincmd.teleport.requests.tpahere.deny")) {
+                String msg = Locales.COMMAND_MESSAGES_NO_PERMISSION.getString().replaceAll("%perm%", "admincmd.teleport.requests.tpahere.deny");
+                sender.sendMessage(msg);
+                return CommandResult.SUCCESS;
+            }
+            RequestManagerHere.denyRequest(s);
+        } else {
+            if (!args.isPlayer(0)) {
+                return CommandResult.NOT_ONLINE;
+            }
+
+            if (!sender.hasPermission("admincmd.teleport.requests.tpahere.send")) {
+                String msg = Locales.COMMAND_MESSAGES_NO_PERMISSION.getString().replaceAll("%perm%", "admincmd.teleport.requests.tpahere.send");
+                sender.sendMessage(msg);
+                return CommandResult.SUCCESS;
+            }
+            
+            Player target = args.getPlayer(0);
+            BukkitPlayer t = PlayerManager.getPlayer(target);
+            RequestManagerHere.sendRequest(s, t);
+        }
+
+        return CommandResult.SUCCESS;
+    }
 
     @BaseCommand(command = "down", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.tp.down", aliases = "tpdown")
     public CommandResult executeDown(Player sender, CommandArgs args) {

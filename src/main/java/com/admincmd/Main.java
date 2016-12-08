@@ -91,7 +91,6 @@ public class Main extends JavaPlugin {
 
         AddonManager.loadAddons();
 
-
         new Updater(this, 31318, "admincmd").search();
 
         try {

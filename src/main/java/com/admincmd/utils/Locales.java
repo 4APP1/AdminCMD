@@ -82,6 +82,10 @@ public enum Locales {
     HELP_TELEPORT_DOWN_2("Help.Teleport.Down.2", "Teleports the given Player to the next free space under him"),
     HELP_TELEPORT_UP_1("Help.Teleport.Up.1", "Teleports you to the next free space above you"),
     HELP_TELEPORT_UP_2("Help.Teleport.Up.2", "Teleports the given Player to the next free space above him"),
+    HELP_TPREQUEST_TPA_1("Help.Teleport.Tpa.1", "Accept or deny a teleport request."),
+    HELP_TPREQUEST_TPA_2("Help.Teleport.Tpa.2", "Send a teleport request to the given player."),
+    HELP_TPREQUEST_TPAHERE_1("Help.Teleport.Tpahere.1", "Accept or deny a teleport request."),
+    HELP_TPREQUEST_TPAHERE_2("Help.Teleport.Tpahere.2", "Send a teleport request to the given player."),
     HELP_WORLD_SUN_1("Help.World.Sun.1", "Sets the weather to sun in your current world."),
     HELP_WORLD_SUN_2("Help.World.Sun.2", "Sets the weather to sun in the given world"),
     HELP_WORLD_DAY_1("Help.World.Day.1", "Sets the time to daytime in your current world."),
@@ -147,6 +151,17 @@ public enum Locales {
     TELEPORT_DOWN_OTHER("Teleport.Down.Other", "%player% got teleported down!"),
     TELEPORT_UP("Teleport.Up.You", "Teleported up."),
     TELEPORT_UP_OTHER("Teleport.Up.Other", "%player% got teleported up!"),
+    TELEPORT_TPA_ALREADY_HAS_REQUEST("Teleport.tpa.alreadyHasRequest", "%player% already has a request from another player! Wait 120 seconds or until he accepted it."),
+    TELEPORT_TPA_NO_REQUEST("Teleport.tpa.noRequest", "There is no request for you!"),
+    TELEPORT_TPA_SENT_TARGET("Teleport.tpa.sent.target.to", "%player% wants to teleport to your location. Type /tpa yes to accept it!"),
+    TELEPORT_TPAHERE_SENT_TARGET("Teleport.tpa.sent.target.here", "%player% wants to teleport you to his location. Type /tpahere yes to accept it!"),
+    TELEPORT_TPA_SENT_REQUESTER("Teleport.tpa.sent.requester", "A teleport request has been sent to %player%!"),
+    TELEPORT_TPA_ACCEPT_TARGET("Teleport.tpa.accept.target", "Teleporting %player% to your location!"),
+    TELEPORT_TPA_ACCEPT_REQUEST("Teleport.tpa.accept.requester", "Teleporting you to %player%!"),
+    TELEPORT_TPA_DENY_TARGET("Teleport.tpa.deny.target", "Denying teleport request from %player%!"),
+    TELEPORT_TPA_DENY_REQUEST("Teleport.tpa.deny.requester", "Your teleport request to %player% was denied!"),
+    TELEPORT_TPA_TIMEOUT_TARGET("Teleport.tpa.timeout.target", "Teleport request from %player% has timed out!"),
+    TELEPORT_TPA_TIMEOUT_REQUEST("Teleport.tpa.timeout.requester", "Your teleport request to %player% has timed out!"),
     ;
 
     private Locales(String path, Object val) {
