@@ -91,7 +91,8 @@ public class Main extends JavaPlugin {
 
         AddonManager.loadAddons();
 
-        new Updater(this, 31318, "admincmd").search();
+        Updater u = new Updater(this, 31318, "admincmd", "admincmd", "admincmd");
+        u.search();
 
         try {
             Metrics metrics = new Metrics(this);
@@ -99,8 +100,7 @@ public class Main extends JavaPlugin {
         } catch (IOException ex) {
             ACLogger.severe("Could not enable Metrics!", ex);
         }
-        
-        
+
         long timeTook = System.currentTimeMillis() - start;
         ACLogger.info("Plugin start took " + timeTook + " milliseconds");
     }
