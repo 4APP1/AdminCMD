@@ -65,6 +65,7 @@ import com.admincmd.events.PlayerDamageListener;
 import com.admincmd.events.PlayerDeathListener;
 import com.admincmd.events.PlayerJoinListener;
 import com.admincmd.events.SignListener;
+import com.admincmd.events.TeleportListener;
 import com.admincmd.events.WorldListener;
 import com.admincmd.home.HomeManager;
 import com.admincmd.metrics.Metrics;
@@ -223,6 +224,7 @@ public class Main extends JavaPlugin {
         EventManager.registerEvent(PlayerDeathListener.class);
         EventManager.registerEvent(SignListener.class);
         EventManager.registerEvent(ChatListener.class);
+        EventManager.registerEvent(TeleportListener.class);
     }
     
 }

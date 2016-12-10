@@ -20,6 +20,7 @@ package com.admincmd.commands.player;
 
 import com.admincmd.commandapi.BaseCommand;
 import com.admincmd.commandapi.CommandArgs;
+import com.admincmd.commandapi.CommandHandler;
 import com.admincmd.commandapi.CommandResult;
 import com.admincmd.commandapi.HelpPage;
 import com.admincmd.player.PlayerManager;
@@ -28,6 +29,7 @@ import com.admincmd.utils.Messager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+@CommandHandler
 public class ReplyCommand {
 
     private final HelpPage reply = new HelpPage("reply", "", "<message>");
