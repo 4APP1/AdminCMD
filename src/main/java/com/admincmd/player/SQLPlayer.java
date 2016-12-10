@@ -48,7 +48,6 @@ public abstract class SQLPlayer {
                 boolean muted = rs.getBoolean("muted");
                 String nickname = rs.getString("nickname");
                 int id = rs.getInt("ID");
-                String lastMsg = rs.getString("lastMsg");
 
                 this.god = god;
                 this.fly = fly;
@@ -58,7 +57,6 @@ public abstract class SQLPlayer {
                 this.muted = muted;
                 this.nickname = nickname;
                 this.id = id;
-                this.lastMsg = lastMsg;
             }
 
             db.closeResultSet(rs);
@@ -139,7 +137,7 @@ public abstract class SQLPlayer {
 
     public void update() {
         try {
-            PreparedStatement st = db.getPreparedStatement("UPDATE `ac_player` SET `god` = ?, `invisible` = ?, `commandwatcher` = ?, `spy` = ?, `fly` = ?, `muted` = ?, `nickname` = ?, 'lastMsg' = ? WHERE `id` = ?;");
+            PreparedStatement st = db.getPreparedStatement("UPDATE `ac_player` SET `god` = ?, `invisible` = ?, `commandwatcher` = ?, `spy` = ?, `fly` = ?, `muted` = ?, `nickname` = ? WHERE `id` = ?;");
             st.setBoolean(1, this.god);
             st.setBoolean(2, this.invisible);
             st.setBoolean(3, this.cmdwatcher);
@@ -147,8 +145,7 @@ public abstract class SQLPlayer {
             st.setBoolean(5, this.fly);
             st.setBoolean(6, this.muted);
             st.setString(7, this.nickname);
-            st.setString(8, this.lastMsg);
-            st.setInt(9, this.id);
+            st.setInt(8, this.id);
             st.executeUpdate();
             db.closeStatement(st);
         } catch (SQLException ex) {

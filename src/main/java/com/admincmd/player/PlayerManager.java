@@ -87,7 +87,7 @@ public class PlayerManager {
     public static void insert(Player p) {
 
         try {
-            PreparedStatement s = conn.getPreparedStatement("INSERT INTO `ac_player` (`uuid`, `god`, `invisible`, `commandwatcher`, `spy`, `fly`, `muted`, `nickname`, `lastMsg`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);");
+            PreparedStatement s = conn.getPreparedStatement("INSERT INTO `ac_player` (`uuid`, `god`, `invisible`, `commandwatcher`, `spy`, `fly`, `muted`, `nickname`) VALUES (?, ?, ?, ?, ?, ?, ?, ?);");
             s.setString(1, p.getUniqueId().toString());
             s.setBoolean(2, false);
             s.setBoolean(3, false);
@@ -96,7 +96,6 @@ public class PlayerManager {
             s.setBoolean(6, false);
             s.setBoolean(7, false);
             s.setString(8, p.getDisplayName());
-            s.setString(9, "none");
             s.executeUpdate();
             conn.closeStatement(s);
 

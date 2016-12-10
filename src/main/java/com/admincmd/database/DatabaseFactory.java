@@ -26,7 +26,7 @@ import java.sql.SQLException;
 
 public class DatabaseFactory {
 
-    private static Database db = null; 
+    private static Database db = null;
 
     public static void init() {
         if (Config.MYSQL_USE.getBoolean()) {
@@ -60,8 +60,7 @@ public class DatabaseFactory {
                         + "`spy` BOOLEAN,"
                         + "`fly` BOOLEAN,"
                         + "`muted` BOOLEAN,"
-                        + "`nickname` varchar(64) DEFAULT 'none',"
-                        + "`lastMsg` varchar(64) DEFAULT 'none'"
+                        + "`nickname` varchar(64) DEFAULT 'none'"
                         + ");";
                 HOME_TABLE = "CREATE TABLE IF NOT EXISTS `ac_homes` ("
                         + "`id` INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -72,7 +71,7 @@ public class DatabaseFactory {
                 SPAWN_TABLE = "CREATE TABLE IF NOT EXISTS `ac_spawn` ("
                         + "`location` TEXT NOT NULL"
                         + ");";
-                
+
                 WORLD_TABLE = "CREATE TABLE IF NOT EXISTS `ac_worlds` ("
                         + "`name` varchar(64) PRIMARY KEY NOT NULL,"
                         + "`paused` BOOLEAN NOT NULL,"
@@ -88,8 +87,7 @@ public class DatabaseFactory {
                         + "`spy` BOOLEAN,"
                         + "`fly` BOOLEAN,"
                         + "`muted` BOOLEAN,"
-                        + "`nickname` varchar(64) DEFAULT 'none',"
-                        + "`lastMsg` varchar(64) DEFAULT 'none'"
+                        + "`nickname` varchar(64) DEFAULT 'none'"
                         + ");";
                 HOME_TABLE = "CREATE TABLE IF NOT EXISTS `ac_homes` ("
                         + "`id` INTEGER PRIMARY KEY AUTO_INCREMENT,"
@@ -100,7 +98,7 @@ public class DatabaseFactory {
                 SPAWN_TABLE = "CREATE TABLE IF NOT EXISTS `ac_spawn` ("
                         + "`location` TEXT NOT NULL"
                         + ");";
-                
+
                 WORLD_TABLE = "CREATE TABLE IF NOT EXISTS `ac_worlds` ("
                         + "`name` varchar(64) PRIMARY KEY NOT NULL,"
                         + "`paused` BOOLEAN NOT NULL,"
