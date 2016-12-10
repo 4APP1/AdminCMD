@@ -16,11 +16,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package com.admincmd.commands;
+package com.admincmd.commands.spawn;
 
 import com.admincmd.commandapi.BaseCommand;
 import com.admincmd.commandapi.CommandArgs;
-import com.admincmd.commandapi.CommandArgs.Flag;
 import com.admincmd.commandapi.CommandHandler;
 import com.admincmd.commandapi.CommandResult;
 import com.admincmd.commandapi.HelpPage;
@@ -31,24 +30,9 @@ import com.admincmd.utils.Utils;
 import org.bukkit.entity.Player;
 
 @CommandHandler
-public class SpawnCommands {
+public class SpawnCommand {
 
-    private final HelpPage setspawn = new HelpPage("setspawn", "");
     private final HelpPage spawn = new HelpPage("spawn", "", "<-p player>");
-
-    @BaseCommand(command = "setspawn", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.spawn.setspawn")
-    public CommandResult executeSetspawn(Player sender, CommandArgs args) {
-        if (setspawn.sendHelp(sender, args)) {
-            return CommandResult.SUCCESS;
-        }
-
-        if (!args.isEmpty()) {
-            return CommandResult.ERROR;
-        }
-
-        SpawnManager.setSpawn(sender);
-        return Messager.sendMessage(sender, Locales.SPAWN_SET, Messager.MessageType.INFO);
-    }
 
     @BaseCommand(command = "spawn", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.spawn.spawn")
     public CommandResult executeSpawn(Player sender, CommandArgs args) {
@@ -68,7 +52,7 @@ public class SpawnCommands {
                 return CommandResult.NO_PERMISSION_OTHER;
             }
 
-            Flag f = args.getFlag("p");
+            CommandArgs.Flag f = args.getFlag("p");
             if (!f.isPlayer()) {
                 return CommandResult.NOT_ONLINE;
             }
