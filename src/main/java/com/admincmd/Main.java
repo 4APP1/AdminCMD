@@ -24,13 +24,16 @@ import com.admincmd.commands.maintenance.MaintenanceCommands;
 import com.admincmd.commands.PlayerCommands;
 import com.admincmd.commands.ServerCommands;
 import com.admincmd.commands.SpawnCommands;
-import com.admincmd.commands.TeleportCommands;
 import com.admincmd.commands.home.DelhomeCommand;
 import com.admincmd.commands.home.EdithomeCommand;
 import com.admincmd.commands.home.HomeCommand;
 import com.admincmd.commands.home.SethomeCommand;
 import com.admincmd.commands.mob.KillallCommand;
 import com.admincmd.commands.mob.SpawnmobCommand;
+import com.admincmd.commands.teleport.DownCommand;
+import com.admincmd.commands.teleport.TopCommand;
+import com.admincmd.commands.teleport.TpaCommand;
+import com.admincmd.commands.teleport.TpaHereCommand;
 import com.admincmd.commands.world.DayCommand;
 import com.admincmd.commands.world.NightCommand;
 import com.admincmd.commands.world.SunCommand;
@@ -172,7 +175,10 @@ public class Main extends JavaPlugin {
         manager.registerClass(SpawnmobCommand.class);
         manager.registerClass(SpawnCommands.class);
         manager.registerClass(MaintenanceCommands.class);
-        manager.registerClass(TeleportCommands.class);
+        manager.registerClass(DownCommand.class);
+        manager.registerClass(TopCommand.class);
+        manager.registerClass(TpaCommand.class);
+        manager.registerClass(TpaHereCommand.class);
     }
     
     private void registerEvents() {
