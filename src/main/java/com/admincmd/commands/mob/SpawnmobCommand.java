@@ -16,11 +16,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package com.admincmd.commands;
+package com.admincmd.commands.mob;
 
 import com.admincmd.commandapi.BaseCommand;
 import com.admincmd.commandapi.CommandArgs;
-import com.admincmd.commandapi.CommandArgs.Flag;
 import com.admincmd.commandapi.CommandHandler;
 import com.admincmd.commandapi.CommandResult;
 import com.admincmd.commandapi.HelpPage;
@@ -28,15 +27,12 @@ import com.admincmd.utils.Locales;
 import com.admincmd.utils.LocationSerialization;
 import com.admincmd.utils.Messager;
 import org.bukkit.World;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 @CommandHandler
-public class MobCommands {
+public class SpawnmobCommand {
 
-    private final HelpPage killall = new HelpPage("killall", "<-w world>");
     private final HelpPage spawnmob = new HelpPage("spawnmob", "mobtype amount");
 
     @BaseCommand(command = "spawnmob", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.mob.spawnmob")
@@ -68,46 +64,6 @@ public class MobCommands {
         }
 
         String msg = Locales.MOB_SPAWNED.getString().replaceAll("%num%", spawnmob + "");
-        return Messager.sendMessage(sender, msg, Messager.MessageType.INFO);
-    }
-
-    @BaseCommand(command = "killall", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.mob.killall")
-    public CommandResult executeKillall(Player sender, CommandArgs args) {
-        if (killall.sendHelp(sender, args)) {
-            return CommandResult.SUCCESS;
-        }
-
-        if (args.getLength() > 2) {
-            return CommandResult.ERROR;
-        }
-
-        World target = sender.getWorld();
-        if (args.hasFlag("w")) {
-            Flag f = args.getFlag("w");
-            if (!f.isWorld()) {
-                return CommandResult.NOT_A_WORLD;
-            }
-
-            if (!sender.hasPermission("admincmd.mob.kill.other")) {
-                return CommandResult.NO_PERMISSION_OTHER;
-            }
-
-            target = f.getWorld().getWorld();
-        }
-
-        int killed = 0;
-        for (Entity e : target.getEntities()) {
-            if (e instanceof LivingEntity) {
-                if (e instanceof Player) {
-                    continue;
-                }
-                LivingEntity l = (LivingEntity) e;
-                l.setHealth(0.0);
-                killed++;
-            }
-        }
-
-        String msg = Locales.MOB_KILLALL.getString().replaceAll("%num%", killed + "").replaceAll("%world%", target.getName());
         return Messager.sendMessage(sender, msg, Messager.MessageType.INFO);
     }
 

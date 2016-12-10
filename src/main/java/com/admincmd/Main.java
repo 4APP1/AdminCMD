@@ -20,8 +20,7 @@ package com.admincmd;
 
 import com.admincmd.addon.AddonManager;
 import com.admincmd.commandapi.CommandManager;
-import com.admincmd.commands.MaintenanceCommands;
-import com.admincmd.commands.MobCommands;
+import com.admincmd.commands.maintenance.MaintenanceCommands;
 import com.admincmd.commands.PlayerCommands;
 import com.admincmd.commands.ServerCommands;
 import com.admincmd.commands.SpawnCommands;
@@ -31,6 +30,8 @@ import com.admincmd.commands.home.DelhomeCommand;
 import com.admincmd.commands.home.EdithomeCommand;
 import com.admincmd.commands.home.HomeCommand;
 import com.admincmd.commands.home.SethomeCommand;
+import com.admincmd.commands.mob.KillallCommand;
+import com.admincmd.commands.mob.SpawnmobCommand;
 import com.admincmd.utils.Config;
 import com.admincmd.utils.Locales;
 import com.admincmd.database.DatabaseFactory;
@@ -128,7 +129,7 @@ public class Main extends JavaPlugin {
         try {
             DatabaseFactory.getDatabase().closeConnection();
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            ACLogger.severe(ex);
         }
         
         System.gc();
@@ -161,7 +162,8 @@ public class Main extends JavaPlugin {
         manager.registerClass(HomeCommand.class);
         manager.registerClass(SethomeCommand.class);
         manager.registerClass(WorldCommands.class);
-        manager.registerClass(MobCommands.class);
+        manager.registerClass(KillallCommand.class);
+        manager.registerClass(SpawnmobCommand.class);
         manager.registerClass(SpawnCommands.class);
         manager.registerClass(MaintenanceCommands.class);
         manager.registerClass(TeleportCommands.class);
