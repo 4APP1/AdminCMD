@@ -41,11 +41,11 @@ public class PlayerCommandListener extends BukkitListener {
             if (p.getId() == bpc.getId()) {
                 continue;
             }
-            
+
             String message = Locales.PLAYER_CW_RAN.getString();
             message = message.replaceAll("%player%", e.getPlayer().getDisplayName());
             message = message.replaceAll("%command%", e.getMessage());
-            
+
             Messager.sendMessage(bp, message, Messager.MessageType.INFO);
         }
     }

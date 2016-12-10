@@ -150,7 +150,7 @@
                             <relocations>
                                 <relocation>
                                     <pattern>de.thejeterlp.bukkit.updater</pattern>
-                                    <shadedPattern>com.admincmd.admincmd.update</shadedPattern>                                  
+                                    <shadedPattern>com.admincmd.update</shadedPattern>                                  
                                 </relocation>
                             </relocations>
                         </configuration>

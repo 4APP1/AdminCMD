@@ -18,7 +18,6 @@
  */
 package com.admincmd.commandapi;
 
-import java.util.Collections;
 import java.util.List;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

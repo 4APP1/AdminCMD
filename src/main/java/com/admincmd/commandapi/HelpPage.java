@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.bukkit.command.CommandSender;
 
-public class HelpPage {
+public final class HelpPage {
 
     private final List<CommandHelp> helpPages = new ArrayList<>();
     private final List<String> HELP_TEXT = new ArrayList<>();
@@ -88,14 +88,7 @@ public class HelpPage {
             }
         }
 
-        if (helpPages == null || helpPages.isEmpty()) {
-            return;
-        }
-        HELP_TEXT.add("§a------------------------§1" + Locales.HELP.getString() + "§a-------------------------");
-        for (CommandHelp ch : helpPages) {
-            HELP_TEXT.add("§6/" + ch.getText());
-        }
-        HELP_TEXT.add("§a-----------------------------------------------------");
+        prepare();
     }
 
     /**
