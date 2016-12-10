@@ -22,13 +22,15 @@ import com.admincmd.addon.AddonManager;
 import com.admincmd.commandapi.CommandManager;
 import com.admincmd.commands.maintenance.MaintenanceCommands;
 import com.admincmd.commands.PlayerCommands;
-import com.admincmd.commands.ServerCommands;
 import com.admincmd.commands.home.DelhomeCommand;
 import com.admincmd.commands.home.EdithomeCommand;
 import com.admincmd.commands.home.HomeCommand;
 import com.admincmd.commands.home.SethomeCommand;
 import com.admincmd.commands.mob.KillallCommand;
 import com.admincmd.commands.mob.SpawnmobCommand;
+import com.admincmd.commands.server.IpCommand;
+import com.admincmd.commands.server.ReloadCommand;
+import com.admincmd.commands.server.UuidCommand;
 import com.admincmd.commands.spawn.SetSpawnCommand;
 import com.admincmd.commands.spawn.SpawnCommand;
 import com.admincmd.commands.teleport.DownCommand;
@@ -162,7 +164,9 @@ public class Main extends JavaPlugin {
     }
     
     private void registerCommands() {
-        manager.registerClass(ServerCommands.class);
+        manager.registerClass(IpCommand.class);
+        manager.registerClass(ReloadCommand.class);
+        manager.registerClass(UuidCommand.class);
         manager.registerClass(PlayerCommands.class);
         manager.registerClass(DelhomeCommand.class);
         manager.registerClass(EdithomeCommand.class);
