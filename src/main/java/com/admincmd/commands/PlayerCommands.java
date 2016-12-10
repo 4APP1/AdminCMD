@@ -234,7 +234,7 @@ public class PlayerCommands {
         return CommandResult.ERROR;
     }
 
-    @BaseCommand(command = "fly", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.player.fly")
+    @BaseCommand(command = "fly", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.player.fly", aliases = "f")
     public CommandResult executeFly(Player sender, CommandArgs args) {
         if (fly.sendHelp(sender, args)) {
             return CommandResult.SUCCESS;
@@ -339,7 +339,7 @@ public class PlayerCommands {
 
         return CommandResult.ERROR;
     }
-   
+
     @BaseCommand(command = "openinv", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.player.openinv", aliases = "invsee,oi")
     public CommandResult executeOpenInv(Player sender, CommandArgs args) {
         if (openinv.sendHelp(sender, args)) {

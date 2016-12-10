@@ -63,7 +63,7 @@ public class ServerCommands {
         return Messager.sendMessage(sender, Locales.SERVER_RELOAD_SINGLE, Messager.MessageType.INFO);
     }
 
-    @BaseCommand(command = "acreload", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.server.reload")
+    @BaseCommand(command = "acreload", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.server.reload", aliases = "reload")
     public CommandResult executePlayer(CommandSender sender, CommandArgs args) {
         return executeConsole(sender, args);
     }
@@ -98,7 +98,7 @@ public class ServerCommands {
         if (ip.sendHelp(sender, args)) {
             return CommandResult.NO_PERMISSION_OTHER;
         }
-       
+
         if (args.hasFlag("p")) {
             Flag flag = args.getFlag("p");
             if (!flag.isPlayer()) {
