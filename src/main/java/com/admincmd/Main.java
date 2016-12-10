@@ -48,77 +48,86 @@ import com.admincmd.utils.EventManager;
 import com.admincmd.utils.Vault;
 import com.admincmd.world.WorldManager;
 import de.thejeterlp.bukkit.updater.Updater;
+import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Main extends JavaPlugin {
-
+    
     private static Main INSTANCE;
     private final CommandManager manager = new CommandManager(this);
-
+    
     @Override
     public void onEnable() {
         long start = System.currentTimeMillis();
-
+        
         INSTANCE = this;
-
+        
+        getDataFolder().mkdirs();
+        File f = new File(getDataFolder(), "admincmd.db");
+        if (f.exists()) {
+            //Old AdminCMD version found
+            ACLogger.warn("Old AdminCMD version was found! Renaming the AdminCMd folder to AdminCMD-Old!");
+            getDataFolder().renameTo(new File(getDataFolder().getParentFile(), "AdminCMD-Old"));
+        }
+        
         Config.load();
         Locales.load();
-
+        
         DatabaseFactory.init();
-
+        
         PlayerManager.init();
         SpawnManager.init();
         WorldManager.init();
         HomeManager.init();
-
+        
         registerCommands();
         registerEvents();
-
+        
         if (checkForProtocolLib()) {
             ACLogger.info("Hooked into ProtocolLib.");
             new PingListener().addPingResponsePacketListener();
         }
-
+        
         if (checkForVault()) {
             if (!Vault.setupChat()) {
                 ACLogger.severe("Vault could not be set up.");
             }
             ACLogger.info("Hooked into Vault.");
         }
-
+        
         AddonManager.loadAddons();
-
+        
         Updater u = new Updater(this, 31318, "admincmd", "admincmd", "admincmd");
         u.search();
-
+        
         try {
             Metrics metrics = new Metrics(this);
             metrics.start();
         } catch (IOException ex) {
             ACLogger.severe("Could not enable Metrics!", ex);
         }
-
+        
         long timeTook = System.currentTimeMillis() - start;
         ACLogger.info("Plugin start took " + timeTook + " milliseconds");
     }
-
+    
     @Override
     public void onDisable() {
         AddonManager.disableAddons();
-
+        
         PlayerManager.save();
         WorldManager.save();
         HomeManager.save();
-
+        
         try {
             DatabaseFactory.getDatabase().closeConnection();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-
+        
         System.gc();
     }
 
@@ -130,17 +139,17 @@ public class Main extends JavaPlugin {
     public static Main getInstance() {
         return INSTANCE;
     }
-
+    
     public boolean checkForProtocolLib() {
         Plugin pl = getServer().getPluginManager().getPlugin("ProtocolLib");
         return pl != null && pl.isEnabled();
     }
-
+    
     public boolean checkForVault() {
         Plugin pl = getServer().getPluginManager().getPlugin("Vault");
         return pl != null && pl.isEnabled();
     }
-
+    
     private void registerCommands() {
         manager.registerClass(ServerCommands.class);
         manager.registerClass(PlayerCommands.class);
@@ -151,7 +160,7 @@ public class Main extends JavaPlugin {
         manager.registerClass(MaintenanceCommands.class);
         manager.registerClass(TeleportCommands.class);
     }
-
+    
     private void registerEvents() {
         EventManager.registerEvent(PlayerJoinListener.class);
         EventManager.registerEvent(PlayerCommandListener.class);
@@ -161,5 +170,5 @@ public class Main extends JavaPlugin {
         EventManager.registerEvent(SignListener.class);
         EventManager.registerEvent(ChatListener.class);
     }
-
+    
 }
