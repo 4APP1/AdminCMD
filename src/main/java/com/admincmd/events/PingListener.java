@@ -1,6 +1,6 @@
 /*
  * This file is part of AdminCMD
- * Copyright (C) 2015 AdminCMD Team
+ * Copyright (C) 2017 AdminCMD Team
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
