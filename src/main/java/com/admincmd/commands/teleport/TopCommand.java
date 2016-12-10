@@ -34,7 +34,7 @@ import org.bukkit.entity.Player;
 @CommandHandler
 public class TopCommand {
 
-    private final HelpPage top = new HelpPage("top", "<-p player>");
+    private final HelpPage top = new HelpPage("top", "", "<-p player>");
 
     @BaseCommand(command = "up", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.tp.up", aliases = "top, tpup, tptop")
     public CommandResult executeUp(Player sender, CommandArgs args) {

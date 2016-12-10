@@ -34,7 +34,7 @@ import org.bukkit.entity.Player;
 @CommandHandler
 public class DownCommand {
 
-    private final HelpPage down = new HelpPage("down", "<-p player>");
+    private final HelpPage down = new HelpPage("down", "", "<-p player>");
 
     @BaseCommand(command = "down", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.tp.down", aliases = "tpdown")
     public CommandResult executeDown(Player sender, CommandArgs args) {

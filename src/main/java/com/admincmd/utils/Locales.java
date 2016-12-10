@@ -22,6 +22,7 @@ import com.admincmd.Main;
 import java.io.File;
 import java.io.IOException;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 
 public enum Locales {
 
@@ -83,6 +84,8 @@ public enum Locales {
     HELP_TELEPORT_DOWN_2("Help.Teleport.Down.2", "Teleports the given Player to the next free space under him"),
     HELP_TELEPORT_UP_1("Help.Teleport.Up.1", "Teleports you to the next free space above you"),
     HELP_TELEPORT_UP_2("Help.Teleport.Up.2", "Teleports the given Player to the next free space above him"),
+    HELP_TELEPORT_BACK_1("Help.Teleport.Back.1", "Teleports you to the last location you teleported from."),
+    HELP_TELEPORT_BACK_2("Help-Teleport.Back.2", "Teleports the given player to the last location he teleported from."),
     HELP_TPREQUEST_TPA_1("Help.Teleport.Tpa.1", "Accept or deny a teleport request."),
     HELP_TPREQUEST_TPA_2("Help.Teleport.Tpa.2", "Send a teleport request to the given player."),
     HELP_TPREQUEST_TPAHERE_1("Help.Teleport.Tpahere.1", "Accept or deny a teleport request."),
@@ -153,6 +156,9 @@ public enum Locales {
     TELEPORT_DOWN_OTHER("Teleport.Down.Other", "%player%&7 got teleported down!"),
     TELEPORT_UP("Teleport.Up.You", "Teleported up."),
     TELEPORT_UP_OTHER("Teleport.Up.Other", "%player%&7 got teleported up!"),
+    TELEPORT_BACK("Teleport.back", "You got teleported back to your last location."),
+    TELEPORT_BACK_OTHER("Teleport.back.other", "%player% &7got teleproted back to his last location."),
+    TELEPORT_BACK_NO_LOCATION("Teleport.back.error", "There is no last location saved!"),
     TELEPORT_TPA_ALREADY_HAS_REQUEST("Teleport.tpa.alreadyHasRequest", "%player%&7 already has a request from another player! Wait 120 seconds or until he accepted it."),
     TELEPORT_TPA_NO_REQUEST("Teleport.tpa.noRequest", "There is no request for you!"),
     TELEPORT_TPA_SENT_TARGET("Teleport.tpa.sent.target.to", "%player%&7 wants to teleport to your location. Type /tpa yes to accept it!"),
@@ -163,8 +169,7 @@ public enum Locales {
     TELEPORT_TPA_DENY_TARGET("Teleport.tpa.deny.target", "Denying teleport request from %player%&7!"),
     TELEPORT_TPA_DENY_REQUEST("Teleport.tpa.deny.requester", "Your teleport request to %player%&7 was denied!"),
     TELEPORT_TPA_TIMEOUT_TARGET("Teleport.tpa.timeout.target", "Teleport request from %player%&7 has timed out!"),
-    TELEPORT_TPA_TIMEOUT_REQUEST("Teleport.tpa.timeout.requester", "Your teleport request to %player%&7 has timed out!"),
-    ;
+    TELEPORT_TPA_TIMEOUT_REQUEST("Teleport.tpa.timeout.requester", "Your teleport request to %player%&7 has timed out!"),;
 
     private Locales(String path, Object val) {
         this.path = path;
@@ -186,6 +191,10 @@ public enum Locales {
 
     public String getString() {
         return Utils.replaceColors(cfg.getString(path));
+    }
+
+    public String replacePlayer(Player p) {
+        return getString().replaceAll("%player%", Utils.replacePlayerPlaceholders(p));
     }
 
     public static void load() {

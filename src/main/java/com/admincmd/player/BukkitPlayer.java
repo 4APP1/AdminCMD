@@ -21,10 +21,13 @@ package com.admincmd.player;
 import com.admincmd.database.Database;
 import java.util.UUID;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 public class BukkitPlayer extends SQLPlayer {
+
+    private Location lastLoc;
 
     public BukkitPlayer(OfflinePlayer p, Database db) {
         super(p.getUniqueId(), db);
@@ -44,6 +47,18 @@ public class BukkitPlayer extends SQLPlayer {
 
     public boolean isOnline() {
         return getPlayer() != null;
+    }
+
+    public Location getLastLocation() {
+        return lastLoc;
+    }
+
+    public void setLastLocation(Location lastLoc) {
+        this.lastLoc = lastLoc;
+    }
+
+    public boolean hasLastLoc() {
+        return lastLoc != null;
     }
 
 }

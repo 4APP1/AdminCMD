@@ -46,6 +46,7 @@ import com.admincmd.commands.server.ReloadCommand;
 import com.admincmd.commands.server.UuidCommand;
 import com.admincmd.commands.spawn.SetSpawnCommand;
 import com.admincmd.commands.spawn.SpawnCommand;
+import com.admincmd.commands.teleport.BackCommand;
 import com.admincmd.commands.teleport.DownCommand;
 import com.admincmd.commands.teleport.TopCommand;
 import com.admincmd.commands.teleport.TpaCommand;
@@ -211,6 +212,7 @@ public class Main extends JavaPlugin {
         manager.registerClass(TopCommand.class);
         manager.registerClass(TpaCommand.class);
         manager.registerClass(TpaHereCommand.class);
+        manager.registerClass(BackCommand.class);
     }
     
     private void registerEvents() {
