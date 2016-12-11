@@ -22,7 +22,6 @@ import com.admincmd.commandapi.BaseCommand;
 import com.admincmd.commandapi.CommandArgs;
 import com.admincmd.commandapi.CommandHandler;
 import com.admincmd.commandapi.CommandResult;
-import com.admincmd.commandapi.HelpPage;
 import com.admincmd.utils.Locales;
 import com.admincmd.utils.Messager;
 import com.admincmd.utils.Utils;
@@ -32,14 +31,8 @@ import org.bukkit.command.CommandSender;
 @CommandHandler
 public class UuidCommand {
 
-    private final HelpPage uuid = new HelpPage("uuid", "<-p player>");
-
-    @BaseCommand(command = "uuid", sender = BaseCommand.Sender.CONSOLE, permission = "admincmd.server.uuid")
+    @BaseCommand(command = "uuid", sender = BaseCommand.Sender.CONSOLE, permission = "admincmd.server.uuid", helpArguments = "<-p player>")
     public CommandResult executeUUID(CommandSender sender, CommandArgs args) {
-        if (uuid.sendHelp(sender, args)) {
-            return CommandResult.SUCCESS;
-        }
-
         if (!args.hasFlag("p")) {
             return CommandResult.ERROR;
         }
@@ -54,7 +47,7 @@ public class UuidCommand {
         return Messager.sendMessage(sender, msg, Messager.MessageType.INFO);
     }
 
-    @BaseCommand(command = "uuid", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.server.uuid")
+    @BaseCommand(command = "uuid", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.server.uuid", helpArguments = "<-p player>")
     public CommandResult executePlayerUUID(CommandSender sender, CommandArgs args) {
         return executeUUID(sender, args);
     }

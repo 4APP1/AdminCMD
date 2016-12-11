@@ -22,7 +22,6 @@ import com.admincmd.commandapi.BaseCommand;
 import com.admincmd.commandapi.CommandArgs;
 import com.admincmd.commandapi.CommandHandler;
 import com.admincmd.commandapi.CommandResult;
-import com.admincmd.commandapi.HelpPage;
 import com.admincmd.player.BukkitPlayer;
 import com.admincmd.player.PlayerManager;
 import com.admincmd.teleport.RequestManagerHere;
@@ -32,14 +31,8 @@ import org.bukkit.entity.Player;
 @CommandHandler
 public class TpaHereCommand {
 
-    private final HelpPage tpahere = new HelpPage("tpahere", "[yes|no]", "<player>");
-
-    @BaseCommand(command = "tpahere", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.teleport.requests.tpahere")
+    @BaseCommand(command = "tpahere", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.teleport.requests.tpahere", helpArguments = {"[yes|no]", "<player>"})
     public CommandResult executeTpaHere(Player sender, CommandArgs args) {
-        if (tpahere.sendHelp(sender, args)) {
-            return CommandResult.SUCCESS;
-        }
-
         if (args.getLength() != 1) {
             return CommandResult.ERROR;
         }

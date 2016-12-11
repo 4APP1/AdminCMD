@@ -22,20 +22,13 @@ import com.admincmd.commandapi.BaseCommand;
 import com.admincmd.commandapi.CommandArgs;
 import com.admincmd.commandapi.CommandHandler;
 import com.admincmd.commandapi.CommandResult;
-import com.admincmd.commandapi.HelpPage;
 import org.bukkit.entity.Player;
 
 @CommandHandler
 public class OpeninvCommand {
 
-    private final HelpPage openinv = new HelpPage("openinv", "", "<-p player>");
-
-    @BaseCommand(command = "openinv", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.player.openinv", aliases = "invsee,oi")
+    @BaseCommand(command = "openinv", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.player.openinv", aliases = "invsee,oi", helpArguments = {"", "<-p player>"})
     public CommandResult executeOpenInv(Player sender, CommandArgs args) {
-        if (openinv.sendHelp(sender, args)) {
-            return CommandResult.NO_PERMISSION_OTHER;
-        }
-
         if (args.isEmpty()) {
             sender.openInventory(sender.getInventory());
             return CommandResult.SUCCESS;

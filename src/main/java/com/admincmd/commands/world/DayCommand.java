@@ -22,7 +22,6 @@ import com.admincmd.commandapi.BaseCommand;
 import com.admincmd.commandapi.CommandArgs;
 import com.admincmd.commandapi.CommandHandler;
 import com.admincmd.commandapi.CommandResult;
-import com.admincmd.commandapi.HelpPage;
 import com.admincmd.utils.Locales;
 import com.admincmd.utils.Messager;
 import com.admincmd.world.ACWorld;
@@ -31,14 +30,8 @@ import org.bukkit.entity.Player;
 @CommandHandler
 public class DayCommand {
 
-    private final HelpPage day = new HelpPage("day", "", "<-w world>");
-
-    @BaseCommand(command = "day", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.world.day")
+    @BaseCommand(command = "day", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.world.day", helpArguments = {"", "<-w world>"})
     public CommandResult executeDay(Player sender, CommandArgs args) {
-        if (day.sendHelp(sender, args)) {
-            return CommandResult.SUCCESS;
-        }
-
         if (args.isEmpty()) {
             long time = 0;
             sender.getWorld().setTime(time);

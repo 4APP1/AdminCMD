@@ -22,7 +22,6 @@ import com.admincmd.commandapi.BaseCommand;
 import com.admincmd.commandapi.CommandArgs;
 import com.admincmd.commandapi.CommandHandler;
 import com.admincmd.commandapi.CommandResult;
-import com.admincmd.commandapi.HelpPage;
 import com.admincmd.spawn.SpawnManager;
 import com.admincmd.utils.Locales;
 import com.admincmd.utils.Messager;
@@ -32,14 +31,8 @@ import org.bukkit.entity.Player;
 @CommandHandler
 public class SpawnCommand {
 
-    private final HelpPage spawn = new HelpPage("spawn", "", "<-p player>");
-
-    @BaseCommand(command = "spawn", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.spawn.spawn")
+    @BaseCommand(command = "spawn", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.spawn.spawn", helpArguments = {"", "<-p player>"})
     public CommandResult executeSpawn(Player sender, CommandArgs args) {
-        if (spawn.sendHelp(sender, args)) {
-            return CommandResult.SUCCESS;
-        }
-
         if (args.isEmpty()) {
             sender.teleport(SpawnManager.getSpawn(sender));
             return Messager.sendMessage(sender, Locales.SPAWN_TP, Messager.MessageType.INFO);

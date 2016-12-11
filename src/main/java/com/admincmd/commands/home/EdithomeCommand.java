@@ -22,7 +22,6 @@ import com.admincmd.commandapi.BaseCommand;
 import com.admincmd.commandapi.CommandArgs;
 import com.admincmd.commandapi.CommandHandler;
 import com.admincmd.commandapi.CommandResult;
-import com.admincmd.commandapi.HelpPage;
 import com.admincmd.home.Home;
 import com.admincmd.home.HomeManager;
 import com.admincmd.utils.Locales;
@@ -32,14 +31,8 @@ import org.bukkit.entity.Player;
 @CommandHandler
 public class EdithomeCommand {
 
-    private final HelpPage edithome = new HelpPage("edithome", "<name>");
-
-    @BaseCommand(command = "edithome", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.home.tp")
+    @BaseCommand(command = "edithome", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.home.tp", helpArguments = "<name>")
     public CommandResult executeEdithome(Player sender, CommandArgs args) {
-        if (edithome.sendHelp(sender, args)) {
-            return CommandResult.SUCCESS;
-        }
-
         if (args.getLength() != 1) {
             return CommandResult.ERROR;
         }

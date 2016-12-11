@@ -22,7 +22,6 @@ import com.admincmd.commandapi.BaseCommand;
 import com.admincmd.commandapi.CommandArgs;
 import com.admincmd.commandapi.CommandHandler;
 import com.admincmd.commandapi.CommandResult;
-import com.admincmd.commandapi.HelpPage;
 import com.admincmd.utils.Locales;
 import com.admincmd.utils.Messager;
 import com.admincmd.utils.Utils;
@@ -33,14 +32,8 @@ import org.bukkit.entity.Player;
 @CommandHandler
 public class LocationCommand {
 
-    private final HelpPage loc = new HelpPage("loc", "", "<-p player>");
-
-    @BaseCommand(command = "loc", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.player.loc", aliases = "location,coords")
+    @BaseCommand(command = "loc", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.player.loc", aliases = "location,coords", helpArguments = {"", "<-p player>"})
     public CommandResult executeLocation(Player sender, CommandArgs args) {
-        if (loc.sendHelp(sender, args)) {
-            return CommandResult.SUCCESS;
-        }
-
         if (args.isEmpty()) {
             Location loc = sender.getLocation();
             DecimalFormat decimalFormat = new DecimalFormat("##.#");

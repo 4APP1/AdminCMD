@@ -22,7 +22,6 @@ import com.admincmd.commandapi.BaseCommand;
 import com.admincmd.commandapi.CommandArgs;
 import com.admincmd.commandapi.CommandHandler;
 import com.admincmd.commandapi.CommandResult;
-import com.admincmd.commandapi.HelpPage;
 import com.admincmd.player.BukkitPlayer;
 import com.admincmd.player.PlayerManager;
 import com.admincmd.utils.Locales;
@@ -33,13 +32,8 @@ import org.bukkit.entity.Player;
 @CommandHandler
 public class GodCommand {
 
-    private final HelpPage god = new HelpPage("god", "", "<-p player>");
-
-    @BaseCommand(command = "god", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.player.god", aliases = "g,gg")
+    @BaseCommand(command = "god", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.player.god", aliases = "g,gg", helpArguments = {"", "<-p player>"})
     public CommandResult executeGod(Player sender, CommandArgs args) {
-        if (god.sendHelp(sender, args)) {
-            return CommandResult.SUCCESS;
-        }
         if (args.isEmpty()) {
             BukkitPlayer p = PlayerManager.getPlayer(sender);
             p.setGod(!p.isGod());

@@ -22,7 +22,7 @@ import com.admincmd.commandapi.BaseCommand;
 import com.admincmd.commandapi.CommandArgs;
 import com.admincmd.commandapi.CommandHandler;
 import com.admincmd.commandapi.CommandResult;
-import com.admincmd.commandapi.HelpPage;
+
 import com.admincmd.player.BukkitPlayer;
 import com.admincmd.player.PlayerManager;
 import com.admincmd.teleport.RequestManagerTo;
@@ -32,14 +32,8 @@ import org.bukkit.entity.Player;
 @CommandHandler
 public class TpaCommand {
 
-    private final HelpPage tpa = new HelpPage("tpa", "[yes|no]", "<player>");
-
-    @BaseCommand(command = "tpa", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.teleport.requests.tpa")
+    @BaseCommand(command = "tpa", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.teleport.requests.tpa", helpArguments = {"[yes|no]", "<player>"})
     public CommandResult executeTpa(Player sender, CommandArgs args) {
-        if (tpa.sendHelp(sender, args)) {
-            return CommandResult.SUCCESS;
-        }
-
         if (args.getLength() != 1) {
             return CommandResult.ERROR;
         }

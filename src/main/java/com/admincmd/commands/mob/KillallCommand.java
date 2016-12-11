@@ -22,7 +22,6 @@ import com.admincmd.commandapi.BaseCommand;
 import com.admincmd.commandapi.CommandArgs;
 import com.admincmd.commandapi.CommandHandler;
 import com.admincmd.commandapi.CommandResult;
-import com.admincmd.commandapi.HelpPage;
 import com.admincmd.utils.Locales;
 import com.admincmd.utils.Messager;
 import org.bukkit.World;
@@ -33,14 +32,8 @@ import org.bukkit.entity.Player;
 @CommandHandler
 public class KillallCommand {
 
-    private final HelpPage killall = new HelpPage("killall", "<-w world>");
-
-    @BaseCommand(command = "killall", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.mob.killall")
+    @BaseCommand(command = "killall", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.mob.killall", helpArguments = "<-w world>")
     public CommandResult executeKillall(Player sender, CommandArgs args) {
-        if (killall.sendHelp(sender, args)) {
-            return CommandResult.SUCCESS;
-        }
-
         if (args.getLength() > 2) {
             return CommandResult.ERROR;
         }

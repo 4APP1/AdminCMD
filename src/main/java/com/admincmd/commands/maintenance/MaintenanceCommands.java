@@ -23,7 +23,6 @@ import com.admincmd.commandapi.BaseCommand;
 import com.admincmd.commandapi.CommandArgs;
 import com.admincmd.commandapi.CommandHandler;
 import com.admincmd.commandapi.CommandResult;
-import com.admincmd.commandapi.HelpPage;
 import com.admincmd.utils.Config;
 import com.admincmd.utils.Locales;
 import com.admincmd.utils.Messager;
@@ -34,19 +33,13 @@ import org.bukkit.entity.Player;
 @CommandHandler
 public class MaintenanceCommands {
 
-    private final HelpPage maintenance = new HelpPage("maintenance", "on", "off");
-
-    @BaseCommand(command = "maintenance", sender = BaseCommand.Sender.CONSOLE, permission = "admincmd.maintenance.enable")
+    @BaseCommand(command = "maintenance", sender = BaseCommand.Sender.CONSOLE, permission = "admincmd.maintenance.enable", helpArguments = {"on", "off"})
     public CommandResult executeConsole(CommandSender sender, CommandArgs args) {
         return executePlayer(sender, args);
     }
 
-    @BaseCommand(command = "maintenance", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.maintenance.enable")
+    @BaseCommand(command = "maintenance", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.maintenance.enable", helpArguments = {"on", "off"})
     public CommandResult executePlayer(CommandSender sender, CommandArgs args) {
-        if (maintenance.sendHelp(sender, args)) {
-            return CommandResult.SUCCESS;
-        }
-
         if (args.getLength() != 1) {
             return CommandResult.ERROR;
         }

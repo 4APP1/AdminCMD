@@ -22,7 +22,6 @@ import com.admincmd.commandapi.BaseCommand;
 import com.admincmd.commandapi.CommandArgs;
 import com.admincmd.commandapi.CommandHandler;
 import com.admincmd.commandapi.CommandResult;
-import com.admincmd.commandapi.HelpPage;
 import com.admincmd.player.BukkitPlayer;
 import com.admincmd.player.PlayerManager;
 import com.admincmd.utils.Locales;
@@ -33,14 +32,8 @@ import org.bukkit.entity.Player;
 @CommandHandler
 public class MuteCommand {
 
-    private final HelpPage mute = new HelpPage("mute", "", "<player>");
-
-    @BaseCommand(command = "mute", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.player.mute", aliases = "unmute")
+    @BaseCommand(command = "mute", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.player.mute", aliases = "unmute", helpArguments = {"", "<-p player>"})
     public CommandResult executeMute(Player sender, CommandArgs args) {
-        if (mute.sendHelp(sender, args)) {
-            return CommandResult.SUCCESS;
-        }
-
         if (args.getLength() == 1) {
             if (!args.isPlayer(0)) {
                 return CommandResult.NOT_ONLINE;

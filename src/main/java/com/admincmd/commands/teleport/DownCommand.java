@@ -22,7 +22,6 @@ import com.admincmd.commandapi.BaseCommand;
 import com.admincmd.commandapi.CommandArgs;
 import com.admincmd.commandapi.CommandHandler;
 import com.admincmd.commandapi.CommandResult;
-import com.admincmd.commandapi.HelpPage;
 import com.admincmd.utils.Locales;
 import com.admincmd.utils.Messager;
 import com.admincmd.utils.Utils;
@@ -34,14 +33,8 @@ import org.bukkit.entity.Player;
 @CommandHandler
 public class DownCommand {
 
-    private final HelpPage down = new HelpPage("down", "", "<-p player>");
-
-    @BaseCommand(command = "down", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.tp.down", aliases = "tpdown")
+    @BaseCommand(command = "down", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.tp.down", aliases = "tpdown", helpArguments = {"", "<-p player>"})
     public CommandResult executeDown(Player sender, CommandArgs args) {
-        if (down.sendHelp(sender, args)) {
-            return CommandResult.SUCCESS;
-        }
-
         if (args.isEmpty()) {
             Location loc = sender.getLocation();
             Location target = loc.clone();

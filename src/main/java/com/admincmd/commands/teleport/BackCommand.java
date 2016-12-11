@@ -23,7 +23,6 @@ import com.admincmd.commandapi.CommandArgs;
 import com.admincmd.commandapi.CommandArgs.Flag;
 import com.admincmd.commandapi.CommandHandler;
 import com.admincmd.commandapi.CommandResult;
-import com.admincmd.commandapi.HelpPage;
 import com.admincmd.player.BukkitPlayer;
 import com.admincmd.player.PlayerManager;
 import com.admincmd.utils.Locales;
@@ -33,14 +32,8 @@ import org.bukkit.entity.Player;
 @CommandHandler
 public class BackCommand {
 
-    private final HelpPage back = new HelpPage("back", "", "<-p player>");
-
-    @BaseCommand(command = "back", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.teleport.back")
+    @BaseCommand(command = "back", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.teleport.back", helpArguments = {"", "<-p player>"})
     public CommandResult executeIp(Player sender, CommandArgs args) {
-        if (back.sendHelp(sender, args)) {
-            return CommandResult.NO_PERMISSION_OTHER;
-        }
-
         if (args.isEmpty()) {
             BukkitPlayer p = PlayerManager.getPlayer(sender);
 

@@ -23,7 +23,6 @@ import com.admincmd.commandapi.BaseCommand;
 import com.admincmd.commandapi.CommandArgs;
 import com.admincmd.commandapi.CommandHandler;
 import com.admincmd.commandapi.CommandResult;
-import com.admincmd.commandapi.HelpPage;
 import com.admincmd.utils.Locales;
 import com.admincmd.utils.Messager;
 import org.bukkit.command.CommandSender;
@@ -32,13 +31,8 @@ import org.bukkit.plugin.Plugin;
 @CommandHandler
 public class ReloadCommand {
 
-    private final HelpPage reload = new HelpPage("acreload", "", "<plugin>");
-
-    @BaseCommand(command = "acreload", sender = BaseCommand.Sender.CONSOLE, aliases = "reload")
+    @BaseCommand(command = "acreload", sender = BaseCommand.Sender.CONSOLE, aliases = "reload", helpArguments = {"", "<plugin>"})
     public CommandResult executeConsole(CommandSender sender, CommandArgs args) {
-        if (reload.sendHelp(sender, args)) {
-            return CommandResult.SUCCESS;
-        }
         if (args.isEmpty()) {
             Main.getInstance().getServer().reload();
             return Messager.sendMessage(sender, Locales.SERVER_RELOAD_FULL, Messager.MessageType.INFO);
@@ -57,7 +51,7 @@ public class ReloadCommand {
         return Messager.sendMessage(sender, Locales.SERVER_RELOAD_SINGLE, Messager.MessageType.INFO);
     }
 
-    @BaseCommand(command = "acreload", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.server.reload", aliases = "reload")
+    @BaseCommand(command = "acreload", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.server.reload", aliases = "reload", helpArguments = {"", "<plugin>"})
     public CommandResult executePlayer(CommandSender sender, CommandArgs args) {
         return executeConsole(sender, args);
     }

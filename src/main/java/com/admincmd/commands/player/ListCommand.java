@@ -32,14 +32,8 @@ import org.bukkit.entity.Player;
 @CommandHandler
 public class ListCommand {
 
-    private final HelpPage list = new HelpPage("who", "");
-
-    @BaseCommand(command = "who", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.player.list", aliases = "plist,online,list")
+    @BaseCommand(command = "who", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.player.list", aliases = "plist,online,list", helpArguments = "")
     public CommandResult executeList(Player sender, CommandArgs args) {
-        if (list.sendHelp(sender, args)) {
-            return CommandResult.SUCCESS;
-        }
-
         if (args.isEmpty()) {
             String playerList = "";
             for (Player p : Bukkit.getOnlinePlayers()) {

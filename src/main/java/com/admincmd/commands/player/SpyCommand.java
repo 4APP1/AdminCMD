@@ -22,7 +22,6 @@ import com.admincmd.commandapi.BaseCommand;
 import com.admincmd.commandapi.CommandArgs;
 import com.admincmd.commandapi.CommandHandler;
 import com.admincmd.commandapi.CommandResult;
-import com.admincmd.commandapi.HelpPage;
 import com.admincmd.player.BukkitPlayer;
 import com.admincmd.player.PlayerManager;
 import com.admincmd.utils.Locales;
@@ -33,14 +32,8 @@ import org.bukkit.entity.Player;
 @CommandHandler
 public class SpyCommand {
 
-    private final HelpPage spy = new HelpPage("spy", "", "<-p player>");
-
-    @BaseCommand(command = "spy", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.player.spy", aliases = "spymsg")
+    @BaseCommand(command = "spy", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.player.spy", aliases = "spymsg", helpArguments = {"", "<-p player>"})
     public CommandResult executeSpy(Player sender, CommandArgs args) {
-        if (spy.sendHelp(sender, args)) {
-            return CommandResult.SUCCESS;
-        }
-
         if (args.isEmpty()) {
             BukkitPlayer p = PlayerManager.getPlayer(sender);
             p.setSpy(!p.isSpy());

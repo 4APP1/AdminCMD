@@ -22,7 +22,6 @@ import com.admincmd.commandapi.BaseCommand;
 import com.admincmd.commandapi.CommandArgs;
 import com.admincmd.commandapi.CommandHandler;
 import com.admincmd.commandapi.CommandResult;
-import com.admincmd.commandapi.HelpPage;
 import com.admincmd.home.Home;
 import com.admincmd.home.HomeManager;
 import com.admincmd.utils.Locales;
@@ -32,14 +31,8 @@ import org.bukkit.entity.Player;
 @CommandHandler
 public class DelhomeCommand {
 
-    private final HelpPage delhome = new HelpPage("delhome", "<name>");
-
-    @BaseCommand(command = "delhome", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.home.tp", aliases = "rmhome")
+    @BaseCommand(command = "delhome", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.home.tp", aliases = "rmhome", helpArguments = "<name>")
     public CommandResult executeRemovehome(Player sender, CommandArgs args) {
-        if (delhome.sendHelp(sender, args)) {
-            return CommandResult.SUCCESS;
-        }
-
         if (args.getLength() != 1) {
             return CommandResult.ERROR;
         }

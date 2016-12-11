@@ -22,7 +22,6 @@ import com.admincmd.commandapi.BaseCommand;
 import com.admincmd.commandapi.CommandArgs;
 import com.admincmd.commandapi.CommandHandler;
 import com.admincmd.commandapi.CommandResult;
-import com.admincmd.commandapi.HelpPage;
 import com.admincmd.player.BukkitPlayer;
 import com.admincmd.player.PlayerManager;
 import com.admincmd.utils.Locales;
@@ -33,13 +32,8 @@ import org.bukkit.entity.Player;
 @CommandHandler
 public class FlyCommand {
 
-    private final HelpPage fly = new HelpPage("fly", "", "<-p player>");
-
-    @BaseCommand(command = "fly", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.player.fly", aliases = "f")
+    @BaseCommand(command = "fly", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.player.fly", aliases = "f", helpArguments = {"", "<-p player>"})
     public CommandResult executeFly(Player sender, CommandArgs args) {
-        if (fly.sendHelp(sender, args)) {
-            return CommandResult.SUCCESS;
-        }
         if (args.isEmpty()) {
             BukkitPlayer p = PlayerManager.getPlayer(sender);
             p.setFly(!p.isFly());

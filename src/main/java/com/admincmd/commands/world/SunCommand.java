@@ -22,7 +22,6 @@ import com.admincmd.commandapi.BaseCommand;
 import com.admincmd.commandapi.CommandArgs;
 import com.admincmd.commandapi.CommandHandler;
 import com.admincmd.commandapi.CommandResult;
-import com.admincmd.commandapi.HelpPage;
 import com.admincmd.utils.Locales;
 import com.admincmd.utils.Messager;
 import com.admincmd.world.ACWorld;
@@ -31,14 +30,8 @@ import org.bukkit.entity.Player;
 @CommandHandler
 public class SunCommand {
 
-    private final HelpPage sun = new HelpPage("sun", "", "<-w world>");
-
-    @BaseCommand(command = "sun", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.world.sun")
+    @BaseCommand(command = "sun", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.world.sun", helpArguments = {"", "<-w world>"})
     public CommandResult executeSun(Player sender, CommandArgs args) {
-        if (sun.sendHelp(sender, args)) {
-            return CommandResult.SUCCESS;
-        }
-
         if (args.isEmpty()) {
             sender.getWorld().setStorm(false);
             sender.getWorld().setThundering(false);

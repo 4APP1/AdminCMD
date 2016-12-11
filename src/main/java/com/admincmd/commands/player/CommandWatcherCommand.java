@@ -22,7 +22,6 @@ import com.admincmd.commandapi.BaseCommand;
 import com.admincmd.commandapi.CommandArgs;
 import com.admincmd.commandapi.CommandHandler;
 import com.admincmd.commandapi.CommandResult;
-import com.admincmd.commandapi.HelpPage;
 import com.admincmd.player.BukkitPlayer;
 import com.admincmd.player.PlayerManager;
 import com.admincmd.utils.Locales;
@@ -33,13 +32,8 @@ import org.bukkit.entity.Player;
 @CommandHandler
 public class CommandWatcherCommand {
 
-    private final HelpPage cw = new HelpPage("cw", "", "<-p player>");
-
-    @BaseCommand(command = "cw", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.player.cw", aliases = "cmdwatcher,commandwatcher")
+    @BaseCommand(command = "cw", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.player.cw", aliases = "cmdwatcher,commandwatcher", helpArguments = {"", "<-p player>"})
     public CommandResult executeCW(Player sender, CommandArgs args) {
-        if (cw.sendHelp(sender, args)) {
-            return CommandResult.SUCCESS;
-        }
         if (args.isEmpty()) {
             BukkitPlayer p = PlayerManager.getPlayer(sender);
             p.setCmdwatcher(!p.isCmdwatcher());

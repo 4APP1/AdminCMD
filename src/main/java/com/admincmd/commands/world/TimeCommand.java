@@ -22,7 +22,6 @@ import com.admincmd.commandapi.BaseCommand;
 import com.admincmd.commandapi.CommandArgs;
 import com.admincmd.commandapi.CommandHandler;
 import com.admincmd.commandapi.CommandResult;
-import com.admincmd.commandapi.HelpPage;
 import com.admincmd.utils.Locales;
 import com.admincmd.utils.Messager;
 import com.admincmd.world.ACWorld;
@@ -33,14 +32,8 @@ import org.bukkit.entity.Player;
 @CommandHandler
 public class TimeCommand {
 
-    private final HelpPage time = new HelpPage("time", "day <-w world>", "night <-w world>", "time <-w world>", "pause <-w world>", "unpause <-w world>");
-
-    @BaseCommand(command = "time", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.world.time")
+    @BaseCommand(command = "time", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.world.time", helpArguments = {"day <-w world>", "night <-w world>", "<time> <-w world>", "pause <-w world>", "unpause <-w world>"})
     public CommandResult executeTime(Player sender, CommandArgs args) {
-        if (time.sendHelp(sender, args)) {
-            return CommandResult.SUCCESS;
-        }
-
         if (args.getLength() < 1) {
             return CommandResult.ERROR;
         }

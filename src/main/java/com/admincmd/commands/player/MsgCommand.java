@@ -22,57 +22,53 @@ import com.admincmd.commandapi.BaseCommand;
 import com.admincmd.commandapi.CommandArgs;
 import com.admincmd.commandapi.CommandHandler;
 import com.admincmd.commandapi.CommandResult;
-import com.admincmd.commandapi.HelpPage;
+import com.admincmd.player.BukkitPlayer;
 import com.admincmd.player.PlayerManager;
 import com.admincmd.utils.Locales;
 import com.admincmd.utils.Messager;
+import com.admincmd.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 @CommandHandler
 public class MsgCommand {
-
-    private final HelpPage msg = new HelpPage("msg", "", "<player> <message>");
-
-    @BaseCommand(command = "msg", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.player.msg", aliases = "pm,message")
+    
+    @BaseCommand(command = "msg", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.player.msg", aliases = "pm,message", helpArguments = {"<player> <message>"})
     public CommandResult executeMsg(Player sender, CommandArgs args) {
-        if (msg.sendHelp(sender, args)) {
-            return CommandResult.SUCCESS;
-        }
-
         if (args.getLength() >= 2) {
             if (!args.isPlayer(0)) {
                 return CommandResult.NOT_ONLINE;
             }
-
+            
             String message = "";
             for (int i = 1; i < args.getLength(); i++) {
                 message += args.getString(i) + " ";
             }
-
+            
             Player target = args.getPlayer(0);
-            PlayerManager.getPlayer(target).setLastMsg(sender.getName());
-            String msgSpy = Locales.PLAYER_MSG_FORMAT.getString().replaceAll("%sender%", sender.getDisplayName());
-            msgSpy = msgSpy.replaceAll("%target%", target.getDisplayName());
+            BukkitPlayer se = PlayerManager.getPlayer(sender);
+            PlayerManager.getPlayer(target).setLastMsg(se.getId());
+            String msgSpy = Locales.PLAYER_MSG_FORMAT.getString().replaceAll("%sender%", Utils.replacePlayerPlaceholders(sender));
+            msgSpy = msgSpy.replaceAll("%target%", Utils.replacePlayerPlaceholders(target));
             msgSpy = msgSpy.replaceAll("%message%", message);
             for (Player p : Bukkit.getOnlinePlayers()) {
                 if (PlayerManager.getPlayer(p).isSpy()) {
                     Messager.sendMessage(p, msgSpy, Messager.MessageType.NONE);
                 }
             }
-
-            String msgSender = Locales.PLAYER_MSG_FORMAT.getString().replaceAll("%sender%", "You");
-            msgSender = msgSender.replaceAll("%target%", target.getDisplayName());
+            
+            String msgSender = Locales.PLAYER_MSG_FORMAT.getString().replaceAll("%sender%", Utils.replacePlayerPlaceholders(sender));
+            msgSender = msgSender.replaceAll("%target%", Utils.replacePlayerPlaceholders(target));
             msgSender = msgSender.replaceAll("%message%", message);
-            String msgTarget = Locales.PLAYER_MSG_FORMAT.getString().replaceAll("%target%", "You");
-            msgTarget = msgTarget.replaceAll("%sender%", sender.getDisplayName());
+            String msgTarget = Locales.PLAYER_MSG_FORMAT.getString().replaceAll("%target%", Utils.replacePlayerPlaceholders(target));
+            msgTarget = msgTarget.replaceAll("%sender%", Utils.replacePlayerPlaceholders(sender));
             msgTarget = msgTarget.replaceAll("%message%", message);
             Messager.sendMessage(target, msgTarget, Messager.MessageType.NONE);
             return Messager.sendMessage(sender, msgSender, Messager.MessageType.NONE);
         }
-
+        
         return CommandResult.ERROR;
-
+        
     }
-
+    
 }

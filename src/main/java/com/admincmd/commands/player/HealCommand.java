@@ -22,7 +22,6 @@ import com.admincmd.commandapi.BaseCommand;
 import com.admincmd.commandapi.CommandArgs;
 import com.admincmd.commandapi.CommandHandler;
 import com.admincmd.commandapi.CommandResult;
-import com.admincmd.commandapi.HelpPage;
 import com.admincmd.utils.Locales;
 import com.admincmd.utils.Messager;
 import com.admincmd.utils.Utils;
@@ -31,14 +30,8 @@ import org.bukkit.entity.Player;
 @CommandHandler
 public class HealCommand {
 
-    private final HelpPage heal = new HelpPage("heal", "", "<-p player>");
-
-    @BaseCommand(command = "heal", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.player.heal", aliases = "pheal")
+    @BaseCommand(command = "heal", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.player.heal", aliases = "pheal", helpArguments = {"", "<-p player>"})
     public CommandResult executeHeal(Player sender, CommandArgs args) {
-        if (heal.sendHelp(sender, args)) {
-            return CommandResult.SUCCESS;
-        }
-
         if (args.isEmpty()) {
             sender.setHealth(sender.getMaxHealth());
             return Messager.sendMessage(sender, Locales.PLAYER_HEAL_SELF, Messager.MessageType.INFO);

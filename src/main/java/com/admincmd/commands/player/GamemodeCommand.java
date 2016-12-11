@@ -22,7 +22,6 @@ import com.admincmd.commandapi.BaseCommand;
 import com.admincmd.commandapi.CommandArgs;
 import com.admincmd.commandapi.CommandHandler;
 import com.admincmd.commandapi.CommandResult;
-import com.admincmd.commandapi.HelpPage;
 import com.admincmd.utils.Locales;
 import com.admincmd.utils.Messager;
 import com.admincmd.utils.Utils;
@@ -33,14 +32,8 @@ import org.bukkit.entity.Player;
 @CommandHandler
 public class GamemodeCommand {
 
-    private final HelpPage gm = new HelpPage("gamemode", "", "<-p player>", "<0|1|2|3>", "<-p player> <0|1|2|3>");
-
-    @BaseCommand(command = "gamemode", sender = BaseCommand.Sender.CONSOLE, aliases = "gm")
+    @BaseCommand(command = "gamemode", sender = BaseCommand.Sender.CONSOLE, aliases = "gm", helpArguments = {"", "<-p player>", "<0|1|2|3>", "<-p player> <0|1|2|3>"})
     public CommandResult executeGamemodeConsole(CommandSender sender, CommandArgs args) {
-        if (gm.sendHelp(sender, args)) {
-            return CommandResult.SUCCESS;
-        }
-
         if (args.isEmpty()) {
             return CommandResult.NOT_ONLINE;
         }
@@ -84,12 +77,8 @@ public class GamemodeCommand {
         return CommandResult.ERROR;
     }
 
-    @BaseCommand(command = "gamemode", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.player.gamemode", aliases = "gm")
+    @BaseCommand(command = "gamemode", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.player.gamemode", aliases = "gm", helpArguments = {"", "<-p player>", "<0|1|2|3>", "<-p player> <0|1|2|3>"})
     public CommandResult executeGamemode(Player sender, CommandArgs args) {
-        if (gm.sendHelp(sender, args)) {
-            return CommandResult.SUCCESS;
-        }
-
         if (args.isEmpty()) {
             GameMode gm = sender.getGameMode() == GameMode.SURVIVAL ? GameMode.CREATIVE : GameMode.SURVIVAL;
             sender.setGameMode(gm);

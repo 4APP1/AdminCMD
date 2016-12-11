@@ -70,5 +70,7 @@ public @interface BaseCommand {
      * @return the aliases
      */
     String aliases() default "";
+    
+    String[] helpArguments() default "addon";
 
 }

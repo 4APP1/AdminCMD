@@ -22,7 +22,6 @@ import com.admincmd.commandapi.BaseCommand;
 import com.admincmd.commandapi.CommandArgs;
 import com.admincmd.commandapi.CommandHandler;
 import com.admincmd.commandapi.CommandResult;
-import com.admincmd.commandapi.HelpPage;
 import com.admincmd.utils.Locales;
 import com.admincmd.utils.Messager;
 import com.admincmd.world.ACWorld;
@@ -31,14 +30,8 @@ import org.bukkit.entity.Player;
 @CommandHandler
 public class NightCommand {
 
-    private final HelpPage night = new HelpPage("night", "", "<-w world>");
-
-    @BaseCommand(command = "night", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.world.night")
+    @BaseCommand(command = "night", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.world.night", helpArguments = {"", "<-w world>"})
     public CommandResult executeNight(Player sender, CommandArgs args) {
-        if (night.sendHelp(sender, args)) {
-            return CommandResult.SUCCESS;
-        }
-
         if (args.isEmpty()) {
             long time = 13100;
             sender.getWorld().setTime(time);

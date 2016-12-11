@@ -28,6 +28,7 @@ import org.bukkit.entity.Player;
 public class BukkitPlayer extends SQLPlayer {
 
     private Location lastLoc;
+    private int lastMsg = -1;
 
     public BukkitPlayer(OfflinePlayer p, Database db) {
         super(p.getUniqueId(), db);
@@ -59,6 +60,14 @@ public class BukkitPlayer extends SQLPlayer {
 
     public boolean hasLastLoc() {
         return lastLoc != null;
+    }
+
+    public int getLastMsg() {
+        return lastMsg;
+    }
+
+    public void setLastMsg(int lastMsg) {
+        this.lastMsg = lastMsg;
     }
 
 }

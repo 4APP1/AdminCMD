@@ -22,7 +22,6 @@ import com.admincmd.commandapi.BaseCommand;
 import com.admincmd.commandapi.CommandArgs;
 import com.admincmd.commandapi.CommandHandler;
 import com.admincmd.commandapi.CommandResult;
-import com.admincmd.commandapi.HelpPage;
 import com.admincmd.utils.Locales;
 import com.admincmd.utils.Messager;
 import com.admincmd.utils.Utils;
@@ -32,14 +31,8 @@ import org.bukkit.entity.Player;
 @CommandHandler
 public class IpCommand {
 
-    private final HelpPage ip = new HelpPage("ip", "<-p player>");
-
-    @BaseCommand(command = "ip", sender = BaseCommand.Sender.CONSOLE, permission = "admincmd.server.ip")
+    @BaseCommand(command = "ip", sender = BaseCommand.Sender.CONSOLE, permission = "admincmd.server.ip", helpArguments = "<-p player>")
     public CommandResult executeIp(CommandSender sender, CommandArgs args) {
-        if (ip.sendHelp(sender, args)) {
-            return CommandResult.NO_PERMISSION_OTHER;
-        }
-
         if (args.hasFlag("p")) {
             CommandArgs.Flag flag = args.getFlag("p");
             if (!flag.isPlayer()) {
@@ -54,7 +47,7 @@ public class IpCommand {
         return CommandResult.ERROR;
     }
 
-    @BaseCommand(command = "ip", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.server.ip")
+    @BaseCommand(command = "ip", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.server.ip", helpArguments = "<-p player>")
     public CommandResult executeIpPlayer(CommandSender sender, CommandArgs args) {
         return executeIp(sender, args);
     }

@@ -200,6 +200,13 @@ public class CommandManager implements CommandExecutor {
                 a = new CommandArgs(args, 1);
             }
 
+            HelpPage help = new HelpPage(bc.command(), bc.helpArguments());
+            if (!bc.helpArguments()[0].equalsIgnoreCase("addon")) {
+                if (help.sendHelp(s, a)) {
+                    return true;
+                }
+            }
+
             CommandResult cr;
 
             try {

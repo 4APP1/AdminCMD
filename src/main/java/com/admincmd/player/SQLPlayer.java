@@ -28,7 +28,7 @@ public abstract class SQLPlayer {
 
     private final UUID uuid;
     private boolean fly, god, invisible, cmdwatcher, spy, muted;
-    private String nickname, lastMsg;
+    private String nickname;
     private int id;
     private Database db;
 
@@ -127,13 +127,7 @@ public abstract class SQLPlayer {
         this.nickname = nickname;
     }
 
-    public String getLastMsg() {
-        return lastMsg;
-    }
-
-    public void setLastMsg(String lastMsg) {
-        this.lastMsg = lastMsg;
-    }
+ 
 
     public void update() {
         try {

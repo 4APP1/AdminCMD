@@ -22,19 +22,13 @@ import com.admincmd.commandapi.BaseCommand;
 import com.admincmd.commandapi.CommandArgs;
 import com.admincmd.commandapi.CommandHandler;
 import com.admincmd.commandapi.CommandResult;
-import com.admincmd.commandapi.HelpPage;
 import org.bukkit.entity.Player;
 
 @CommandHandler
 public class EnderchestCommand {
 
-    private final HelpPage enderchest = new HelpPage("enderchest", "", "<-p player>");
-
-    @BaseCommand(command = "enderchest", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.player.enderchest", aliases = "ec")
+    @BaseCommand(command = "enderchest", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.player.enderchest", aliases = "ec", helpArguments = {"", "<-p player>"})
     public CommandResult executeEnderchest(Player sender, CommandArgs args) {
-        if (enderchest.sendHelp(sender, args)) {
-            return CommandResult.SUCCESS;
-        }
         if (args.isEmpty()) {
             sender.openInventory(sender.getEnderChest());
             return CommandResult.SUCCESS;

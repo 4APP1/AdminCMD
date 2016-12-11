@@ -22,7 +22,6 @@ import com.admincmd.commandapi.BaseCommand;
 import com.admincmd.commandapi.CommandArgs;
 import com.admincmd.commandapi.CommandHandler;
 import com.admincmd.commandapi.CommandResult;
-import com.admincmd.commandapi.HelpPage;
 import com.admincmd.utils.Locales;
 import com.admincmd.utils.LocationSerialization;
 import com.admincmd.utils.Messager;
@@ -33,14 +32,8 @@ import org.bukkit.entity.Player;
 @CommandHandler
 public class SpawnmobCommand {
 
-    private final HelpPage spawnmob = new HelpPage("spawnmob", "mobtype amount");
-
-    @BaseCommand(command = "spawnmob", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.mob.spawnmob")
+    @BaseCommand(command = "spawnmob", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.mob.spawnmob", helpArguments = "mobtype amount")
     public CommandResult executeSpawnmob(Player sender, CommandArgs args) {
-        if (spawnmob.sendHelp(sender, args)) {
-            return CommandResult.SUCCESS;
-        }
-
         if (args.getLength() != 2 || !args.isInteger(1)) {
             return CommandResult.ERROR;
         }
@@ -63,7 +56,7 @@ public class SpawnmobCommand {
             target.spawnEntity(LocationSerialization.getLocationLooking(sender, 10), type);
         }
 
-        String msg = Locales.MOB_SPAWNED.getString().replaceAll("%num%", spawnmob + "");
+        String msg = Locales.MOB_SPAWNED.getString().replaceAll("%num%", amount + "");
         return Messager.sendMessage(sender, msg, Messager.MessageType.INFO);
     }
 
