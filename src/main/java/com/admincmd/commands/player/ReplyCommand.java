@@ -35,7 +35,12 @@ public class ReplyCommand {
     @BaseCommand(command = "reply", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.player.reply", aliases = "", helpArguments = "<message>")
     public CommandResult executeReply(Player sender, CommandArgs args) {
         int lastMsg = PlayerManager.getPlayer(sender).getLastMsg();
-        if (lastMsg != -1 && args.getLength() >= 1) {
+
+        if (lastMsg == -1) {
+            return Messager.sendMessage(sender, Locales.PLAYER_REPLY_NO_LAST_MESSAGE, Messager.MessageType.ERROR);
+        }
+
+        if (args.getLength() >= 1) {
 
             if (!PlayerManager.getPlayer(lastMsg).isOnline()) {
                 return CommandResult.NOT_ONLINE;
