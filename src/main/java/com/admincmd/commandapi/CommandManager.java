@@ -120,7 +120,11 @@ public class CommandManager implements CommandExecutor {
                     ACLogger.debug(m.getName() + " in class " + clazz.getName() + " has the @ignore annotation and does not get loaded.");
                     continue;
                 }
+
                 BaseCommand bc = m.getAnnotation(BaseCommand.class);
+
+                ACLogger.debug("Registering command " + bc.command() + " in class " + clazz.getName() + " method: " + m.getName());
+
                 List<String> aliases = new ArrayList<>();
                 if (bc.aliases().contains(",")) {
                     aliases.addAll(Arrays.asList(bc.aliases().split(",")));

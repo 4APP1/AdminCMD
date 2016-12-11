@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.admincmd</groupId>
     <artifactId>AdminCMD</artifactId>
-    <version>8.0.0-Alpha.3</version>
+    <version>8.0.0-Alpha.4</version>
     <packaging>jar</packaging>
     <inceptionYear>2017</inceptionYear>
     

@@ -16,34 +16,34 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package com.admincmd.commands.home;
+package com.admincmd.commands.warps;
 
 import com.admincmd.commandapi.BaseCommand;
 import com.admincmd.commandapi.CommandArgs;
 import com.admincmd.commandapi.CommandHandler;
 import com.admincmd.commandapi.CommandResult;
-import com.admincmd.home.Home;
-import com.admincmd.home.HomeManager;
 import com.admincmd.utils.Locales;
 import com.admincmd.utils.Messager;
+import com.admincmd.warp.Warp;
+import com.admincmd.warp.WarpManager;
 import org.bukkit.entity.Player;
 
 @CommandHandler
-public class SethomeCommand {
+public class DelWarpCommand {
 
-    @BaseCommand(command = "sethome", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.home.set", aliases = "sh", helpArguments = "<name>")
-    public CommandResult executeSethome(Player sender, CommandArgs args) {
+    @BaseCommand(command = "delwarp", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.warp.delete", aliases = "rmwarp", helpArguments = "<name>")
+    public CommandResult executeRemovewarp(Player sender, CommandArgs args) {
         if (args.getLength() != 1) {
             return CommandResult.ERROR;
         }
 
-        Home h = HomeManager.getHome(sender, args.getString(0));
-        if (h != null) {
-            return Messager.sendMessage(sender, Locales.HOME_ALREADY_EXISTING, Messager.MessageType.ERROR);
+        Warp w = WarpManager.getWarp(args.getString(0));
+        if (w == null) {
+            return Messager.sendMessage(sender, Locales.WARP_NO_SUCH_WARP, Messager.MessageType.ERROR);
         }
-
-        HomeManager.createHome(sender, args.getString(0));
-        return Messager.sendMessage(sender, Locales.HOME_SET, Messager.MessageType.INFO);
+        WarpManager.deleteWarp(w);
+        String msg = Locales.WARP_DELETED.getString().replaceAll("%warp%", w.getName());
+        return Messager.sendMessage(sender, msg, Messager.MessageType.INFO);
     }
 
 }

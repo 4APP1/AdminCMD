@@ -18,10 +18,7 @@
  */
 package com.admincmd.warp;
 
-import com.admincmd.home.*;
 import com.admincmd.database.DatabaseFactory;
-import com.admincmd.player.BukkitPlayer;
-import com.admincmd.player.PlayerManager;
 import com.admincmd.utils.ACLogger;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -125,7 +122,7 @@ public class WarpManager {
             }
         }
         warps.clear();
-        ACLogger.info("Saved " + saved + " homes!");
+        ACLogger.info("Saved " + saved + " warps!");
     }
     
 }

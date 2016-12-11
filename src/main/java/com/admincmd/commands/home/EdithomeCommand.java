@@ -31,7 +31,7 @@ import org.bukkit.entity.Player;
 @CommandHandler
 public class EdithomeCommand {
 
-    @BaseCommand(command = "edithome", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.home.tp", helpArguments = "<name>")
+    @BaseCommand(command = "edithome", sender = BaseCommand.Sender.PLAYER, permission = "admincmd.home.edit", helpArguments = "<name>")
     public CommandResult executeEdithome(Player sender, CommandArgs args) {
         if (args.getLength() != 1) {
             return CommandResult.ERROR;
