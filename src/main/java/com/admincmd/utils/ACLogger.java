@@ -70,7 +70,7 @@ public class ACLogger {
         logger.log(Level.SEVERE, PREFIX + message, ex);
         printError(message, ex);
     }
-    
+
     public static void severe(final Throwable ex) {
         logger.log(Level.SEVERE, "", ex);
         printError("", ex);
@@ -85,7 +85,6 @@ public class ACLogger {
         if (!Config.DEBUG.getBoolean()) {
             return;
         }
-        logger.log(Level.INFO, PREFIX + message);
         writeToDebug(message);
     }
 
@@ -99,7 +98,6 @@ public class ACLogger {
         if (!Config.DEBUG.getBoolean()) {
             return;
         }
-        logger.log(Level.INFO, PREFIX + message, ex);
         writeToDebug(message, ex);
     }
 
@@ -109,90 +107,114 @@ public class ACLogger {
         return date.format(cal.getTime());
     }
 
-    private static void writeToDebug(String message) {
-        BufferedWriter bw = null;
-        File file = new File(Main.getInstance().getDataFolder(), "logs");
-        file.mkdirs();
-        try {
-            bw = new BufferedWriter(new FileWriter(file + File.separator + "debug.log", true));
-            bw.write(prefix() + ":" + message);
-            bw.newLine();
-        } catch (Exception ex) {
-        } finally {
-            try {
-                if (bw != null) {
-                    bw.flush();
-                    bw.close();
+    private static void writeToDebug(final String message) {
+        Main.getInstance().getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
+            @Override
+            public void run() {
+                BufferedWriter bw = null;
+                File file = new File(Main.getInstance().getDataFolder(), "logs" + File.separator + "debugs");
+                file.mkdirs();
+                try {
+                    DateFormat date = new SimpleDateFormat("dd-MM-yyyy");
+                    Calendar cal = Calendar.getInstance();
+                    String d = "Debug - " + date.format(cal.getTime());
+
+                    bw = new BufferedWriter(new FileWriter(file + File.separator + d + ".log", true));
+                    bw.write(prefix() + ":" + message);
+                    bw.newLine();
+                } catch (Exception ex) {
+                } finally {
+                    try {
+                        if (bw != null) {
+                            bw.flush();
+                            bw.close();
+                        }
+                    } catch (Exception ex) {
+                    }
                 }
-            } catch (Exception ex) {
             }
-        }
+        }, 0);
     }
 
-    private static void writeToDebug(String message, Throwable t) {
-        BufferedWriter bw = null;
-        File file = new File(Main.getInstance().getDataFolder(), "logs");
-        file.mkdirs();
-        try {
-            bw = new BufferedWriter(new FileWriter(file + File.separator + "debug.log", true));
-            bw.newLine();
-            bw.newLine();
-            bw.write("///////////////////////////////////////////////////////////////////////////////");
-            bw.newLine();
-            bw.newLine();
-            bw.write(prefix() + ": An Exception happened!");
-            bw.newLine();
-            bw.write(prefix() + message);
-            bw.newLine();
-            bw.write(getStackTrace(t));
-            bw.newLine();
-            bw.newLine();
-            bw.write("///////////////////////////////////////////////////////////////////////////////");
-            bw.newLine();
-            bw.newLine();
-        } catch (Exception ex) {
-        } finally {
-            try {
-                if (bw != null) {
-                    bw.flush();
-                    bw.close();
+    private static void writeToDebug(final String message, final Throwable t) {
+        Main.getInstance().getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
+            @Override
+            public void run() {
+                BufferedWriter bw = null;
+                File file = new File(Main.getInstance().getDataFolder(), "logs" + File.separator + "debugs");
+                file.mkdirs();
+                try {
+                    DateFormat date = new SimpleDateFormat("dd-MM-yyyy");
+                    Calendar cal = Calendar.getInstance();
+                    String d = "Debug - " + date.format(cal.getTime());
+
+                    bw = new BufferedWriter(new FileWriter(file + File.separator + d + ".log", true));
+                    bw.newLine();
+                    bw.newLine();
+                    bw.write("///////////////////////////////////////////////////////////////////////////////");
+                    bw.newLine();
+                    bw.newLine();
+                    bw.write(prefix() + ": An Exception happened!");
+                    bw.newLine();
+                    bw.write(prefix() + message);
+                    bw.newLine();
+                    bw.write(getStackTrace(t));
+                    bw.newLine();
+                    bw.newLine();
+                    bw.write("///////////////////////////////////////////////////////////////////////////////");
+                    bw.newLine();
+                    bw.newLine();
+                } catch (Exception ex) {
+                } finally {
+                    try {
+                        if (bw != null) {
+                            bw.flush();
+                            bw.close();
+                        }
+                    } catch (Exception ex) {
+                    }
                 }
-            } catch (Exception ex) {
             }
-        }
+        }, 0);
     }
 
-    private static void printError(String message, Throwable t) {
-        BufferedWriter bw = null;
-        File file = new File(Main.getInstance().getDataFolder(), "logs" + File.separator + "errors");
-        file.mkdirs();
-        try {
+    private static void printError(final String message, final Throwable t) {
+        Main.getInstance().getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
+            @Override
+            public void run() {
+                BufferedWriter bw = null;
+                File file = new File(Main.getInstance().getDataFolder(), "logs" + File.separator + "errors");
+                file.mkdirs();
+                try {
 
-            DateFormat date = new SimpleDateFormat("dd-MM-yyyy");
-            Calendar cal = Calendar.getInstance();
-            String d = date.format(cal.getTime());
+                    DateFormat date = new SimpleDateFormat("dd-MM-yyyy");
+                    Calendar cal = Calendar.getInstance();
+                    String d = "Errors - " + date.format(cal.getTime());
 
-            bw = new BufferedWriter(new FileWriter(file + File.separator + d + ".log", true));
-            bw.write(prefix() + ": An Exception happened!");
-            bw.newLine();
-            bw.write(prefix() + message);
-            bw.newLine();
-            bw.write(getStackTrace(t));
-            bw.newLine();
-            bw.newLine();
-            bw.write("///////////////////////////////////////////////////////////////////////////////");
-            bw.newLine();
-            bw.newLine();
-        } catch (Exception ex) {
-        } finally {
-            try {
-                if (bw != null) {
-                    bw.flush();
-                    bw.close();
+                    bw = new BufferedWriter(new FileWriter(file + File.separator + d + ".log", true));
+                    bw.write(prefix() + ": An Exception happened!");
+                    bw.newLine();
+                    bw.write(prefix() + message);
+                    bw.newLine();
+                    bw.write(getStackTrace(t));
+                    bw.newLine();
+                    bw.newLine();
+                    bw.write("///////////////////////////////////////////////////////////////////////////////");
+                    bw.newLine();
+                    bw.newLine();
+                } catch (Exception ex) {
+                } finally {
+                    try {
+                        if (bw != null) {
+                            bw.flush();
+                            bw.close();
+                        }
+                    } catch (Exception ex) {
+                    }
                 }
-            } catch (Exception ex) {
             }
-        }
+        }, 0);
+
     }
 
     private static String getStackTrace(Throwable t) {
