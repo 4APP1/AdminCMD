@@ -25,31 +25,32 @@ import java.io.File;
 import java.sql.SQLException;
 
 public class DatabaseFactory {
-
+    
     private static Database db = null;
-
+    
     public static void init() {
         if (Config.MYSQL_USE.getBoolean()) {
             db = new MySQL(Config.MYSQL_IP.getString(), Config.MYSQL_USER.getString(), Config.MYSQL_PASSWORD.getString(), Config.MYSQL_DATABASE.getString(), Config.MYSQL_PORT.getInteger());
         } else {
             db = new SQLite(new File(Main.getInstance().getDataFolder(), "Database.db"));
         }
-
+        
         if (db.testConnection()) {
             ACLogger.info("The connection was successful!");
             createTables();
         } else {
             ACLogger.severe("Could not connect to the Database!");
         }
-
+        
     }
-
+    
     private static void createTables() {
         try {
             String PLAYER_TABLE;
             String HOME_TABLE;
             String SPAWN_TABLE;
             String WORLD_TABLE;
+            String WARP_TABLE;
             if (db.getType() == Database.Type.SQLITE) {
                 PLAYER_TABLE = "CREATE TABLE IF NOT EXISTS `ac_player` ("
                         + "`ID` INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -71,11 +72,17 @@ public class DatabaseFactory {
                 SPAWN_TABLE = "CREATE TABLE IF NOT EXISTS `ac_spawn` ("
                         + "`location` TEXT NOT NULL"
                         + ");";
-
+                
                 WORLD_TABLE = "CREATE TABLE IF NOT EXISTS `ac_worlds` ("
                         + "`name` varchar(64) PRIMARY KEY NOT NULL,"
                         + "`paused` BOOLEAN NOT NULL,"
                         + "`time` varchar(128) NOT NULL"
+                        + ");";
+                
+                WARP_TABLE = "CREATE TABLE IF NOT EXISTS `ac_warps` ("
+                        + "`id` INTEGER PRIMARY KEY AUTOINCREMENT,"
+                        + "`location` varchar(320) NOT NULL,"
+                        + "`name` varchar(64) NOT NULL"
                         + ");";
             } else {
                 PLAYER_TABLE = "CREATE TABLE IF NOT EXISTS `ac_player` ("
@@ -98,24 +105,30 @@ public class DatabaseFactory {
                 SPAWN_TABLE = "CREATE TABLE IF NOT EXISTS `ac_spawn` ("
                         + "`location` TEXT NOT NULL"
                         + ");";
-
+                
                 WORLD_TABLE = "CREATE TABLE IF NOT EXISTS `ac_worlds` ("
                         + "`name` varchar(64) PRIMARY KEY NOT NULL,"
                         + "`paused` BOOLEAN NOT NULL,"
                         + "`time` varchar(128) NOT NULL"
+                        + ");";
+                WARP_TABLE = "CREATE TABLE IF NOT EXISTS `ac_warps` ("
+                        + "`id` INTEGER PRIMARY KEY AUTO_INCREMENT,"
+                        + "`location` varchar(320) NOT NULL,"
+                        + "`name` varchar(64) NOT NULL"
                         + ");";
             }
             db.executeStatement(PLAYER_TABLE);
             db.executeStatement(HOME_TABLE);
             db.executeStatement(SPAWN_TABLE);
             db.executeStatement(WORLD_TABLE);
+            db.executeStatement(WARP_TABLE);
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            ACLogger.severe("Error creating database!", ex);
         }
     }
-
+    
     public static Database getDatabase() {
         return db;
     }
-
+    
 }
