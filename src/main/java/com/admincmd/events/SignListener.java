@@ -102,12 +102,13 @@ public class SignListener extends BukkitListener {
         if (lines.size() < 2) {
             return;
         }
-        if (!e.getPlayer().hasPermission("admincmd.commandsign.use")) {
-            Messager.sendMessage(e.getPlayer(), Locales.COMMAND_MESSAGES_NO_PERMISSION.getString().replaceAll("%perm%", "admincmd.commandsign.use"), Messager.MessageType.NONE);
+
+        if (!lines.get(0).equalsIgnoreCase("[command]")) {
             return;
         }
 
-        if (!lines.get(0).equalsIgnoreCase("[command]")) {
+        if (!e.getPlayer().hasPermission("admincmd.commandsign.use")) {
+            Messager.sendMessage(e.getPlayer(), Locales.COMMAND_MESSAGES_NO_PERMISSION.getString().replaceAll("%perm%", "admincmd.commandsign.use"), Messager.MessageType.NONE);
             return;
         }
 
