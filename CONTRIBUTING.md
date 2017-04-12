@@ -1,8 +1,9 @@
-![Logo](https://www.admincmd.com/static/2016/02/10/admincmd-logo-big.png)
+[![AdminCMD](https://www.admincmd.com/static/2016/02/10/admincmd-logo-big.png)](https://admincmd.com)
 
-![Build Status](https://travis-ci.org/AdminCMD/AdminCMD.svg)
+[![Build Status](https://travis-ci.org/AdminCMD/AdminCMD.png?branch=master)](https://travis-ci.org/AdminCMD/AdminCMD)
 
 Unleash the power of Bukkit!
+============================
 
 Developer requirements
 ------------
