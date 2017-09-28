@@ -16,3 +16,21 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
+package com.admincmd.utils;
+
+import com.admincmd.Main;
+import com.admincmd.addon.Addon;
+import org.bukkit.Bukkit;
+import org.bukkit.event.Listener;
+
+public class BukkitListener implements Listener {
+
+    public void register() {
+        Bukkit.getPluginManager().registerEvents(this, Main.getInstance());
+    }
+    
+    public void register(Addon a) {
+        a.getServer().getPluginManager().registerEvents(this, a);
+    }
+
+}

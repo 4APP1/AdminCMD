@@ -16,3 +16,25 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
+package com.admincmd.events;
+
+import com.admincmd.player.BukkitPlayer;
+import com.admincmd.player.PlayerManager;
+import com.admincmd.utils.BukkitListener;
+import com.admincmd.utils.Locales;
+import com.admincmd.utils.Messager;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
+
+public class ChatListener extends BukkitListener {
+
+    @EventHandler(ignoreCancelled = true)
+    public void onPlayerChat(final AsyncPlayerChatEvent e) {
+        BukkitPlayer p = PlayerManager.getPlayer(e.getPlayer());
+        if (p.isMuted()) {
+            Messager.sendMessage(e.getPlayer(), Locales.PLAYER_MUTED, Messager.MessageType.ERROR);
+            e.setCancelled(true);
+        }
+    }
+
+}

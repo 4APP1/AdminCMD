@@ -16,3 +16,20 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
+package com.admincmd.events;
+
+import com.admincmd.player.BukkitPlayer;
+import com.admincmd.player.PlayerManager;
+import com.admincmd.utils.BukkitListener;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.player.PlayerTeleportEvent;
+
+public class TeleportListener extends BukkitListener {
+    
+    @EventHandler(ignoreCancelled = true)
+    public void onTeleport(final PlayerTeleportEvent e) {
+        BukkitPlayer p = PlayerManager.getPlayer(e.getPlayer());
+        p.setLastLocation(e.getFrom());
+    }
+    
+}

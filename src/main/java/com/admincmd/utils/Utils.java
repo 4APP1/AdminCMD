@@ -16,3 +16,28 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
+package com.admincmd.utils;
+
+import org.bukkit.entity.Player;
+
+public class Utils {
+
+    public static String replaceColors(String string) {
+        return string.replaceAll("&((?i)[0-9a-fk-or])", "§$1");
+    }
+
+    public static String removeColors(String string) {
+        return string.replaceAll("§((?i)[0-9a-fk-or])", "");
+    }
+    
+    public static String replacePlayerPlaceholders(Player player) {
+        String result = Config.MESSAGE_FORMAT.getString();
+               
+        result = result.replace("%prefix", Vault.getPrefix(player));
+        result = result.replace("%suffix", Vault.getSuffix(player));
+        result = result.replace("%name", player.getDisplayName());        
+        result = replaceColors(result);
+        return result;
+    }
+
+}

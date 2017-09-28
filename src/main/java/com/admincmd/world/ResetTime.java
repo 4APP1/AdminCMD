@@ -16,3 +16,22 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
+package com.admincmd.world;
+
+
+public class ResetTime implements Runnable {
+    
+    private final ACWorld w;
+    
+    public ResetTime(ACWorld w) {
+        this.w = w;
+    }
+    
+    @Override
+    public void run() {
+        if (w.isTimePaused()) {
+            w.getWorld().setTime(w.getTimePauseMoment());
+        }
+    }
+    
+}
