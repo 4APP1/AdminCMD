@@ -80,7 +80,6 @@ import com.admincmd.utils.EventManager;
 import com.admincmd.utils.Vault;
 import com.admincmd.warp.WarpManager;
 import com.admincmd.world.WorldManager;
-import de.thejeterlp.bukkit.updater.Updater;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -133,9 +132,6 @@ public class Main extends JavaPlugin {
         }
         
         AddonManager.loadAddons();
-        
-        Updater u = new Updater(this, 31318, "admincmd", "admincmd", "admincmd");
-        u.search();
         
         try {
             Metrics metrics = new Metrics(this);
